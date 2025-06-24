@@ -5,3 +5,7 @@ struct ContentView: View {
         TabBarView()
     }
 }
+
+#Preview {
+    ContentView()
+}
