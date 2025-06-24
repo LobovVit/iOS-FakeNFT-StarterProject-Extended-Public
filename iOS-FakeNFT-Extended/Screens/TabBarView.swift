@@ -2,21 +2,21 @@ import SwiftUI
 
 struct TabBarView: View {
     var body: some View {
-        // TODO: Далее заменить иконки для таба, локализованный текст и цвет обводки
+        // TODO: Далее заменить иконки для таба и цвет обводки
         TabView {
-            Text("Профиль")
+            Text(String(localized: "Profile"))
                 .tabItem {
-                    Label("Профиль", systemImage: "person.circle")
+                    Label(String(localized: "Profile"), systemImage: "person.circle")
                 }
             
-            Text("Каталог")
+            Text(String(localized: "Catalog"))
                 .tabItem {
-                    Label("Каталог", systemImage: "square.grid.2x2")
+                    Label(String(localized: "Catalog"), systemImage: "square.grid.2x2")
                 }
             
-            Text("Корзина")
+            Text(String(localized: "Cart"))
                 .tabItem {
-                    Label("Корзина", systemImage: "cart")
+                    Label(String(localized: "Cart"), systemImage: "cart")
                 }
         }
     }
