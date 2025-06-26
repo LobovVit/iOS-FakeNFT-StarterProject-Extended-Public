@@ -22,3 +22,9 @@ struct WebView: UIViewRepresentable {
         webView.load(request)
     }
 }
+
+//MARK: - Preview
+#Preview {
+    WebView(url: URL(string: "https://www.apple.com"))
+        .edgesIgnoringSafeArea(.all)
+}
