@@ -33,6 +33,8 @@
           }
         }
       }
+    "Invalid URL" : {
+
     },
     "Profile" : {
       "extractionState" : "manual",
