@@ -14,7 +14,10 @@ struct SplashView: View {
         ZStack {
             Color(.systemBackground).ignoresSafeArea()
 
-            if let logo = UIImage(named: "logo") {
+            let isDark = UITraitCollection.current.userInterfaceStyle == .dark
+            let logoName = isDark ? "logo-dark" : "logo-light"
+
+            if let logo = UIImage(named: logoName) {
                 Image(uiImage: logo)
                     .resizable()
                     .scaledToFit()
