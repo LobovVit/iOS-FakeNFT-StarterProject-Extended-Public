@@ -23,6 +23,17 @@
         }
       }
     },
+    "Price" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Цена"
+          }
+        }
+      }
+    },
     "Profile" : {
       "extractionState" : "manual",
       "localizations" : {
