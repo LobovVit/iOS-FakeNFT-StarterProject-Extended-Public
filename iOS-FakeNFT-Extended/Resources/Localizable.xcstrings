@@ -40,8 +40,27 @@
         }
       }
     },
-    "example.com" : {
-
+    "Change photo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сменить фото"
+          }
+        }
+      }
+    },
+    "Description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Описание"
+          }
+        }
+      }
     },
     "Featured NFTs" : {
       "extractionState" : "manual",
@@ -61,6 +80,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Мои NFT"
+          }
+        }
+      }
+    },
+    "Name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя"
           }
         }
       }
@@ -105,8 +135,16 @@
     "Сайт" : {
 
     },
-    "Сменить фото" : {
-
+    "Site" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сайт"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
