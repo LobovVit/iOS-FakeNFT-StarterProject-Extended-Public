@@ -19,7 +19,7 @@ struct ProfileView: View {
                         avatarView
 
                         VStack(alignment: .leading, spacing: 8) {
-                            Text(viewModel.name.isEmpty ? "Имя не указано" : viewModel.name)
+                            Text(viewModel.name.isEmpty ? String(localized: "Name not specified") : viewModel.name)
                                 .font(.title3)
                                 .bold()
 
@@ -41,9 +41,9 @@ struct ProfileView: View {
                     }
 
                     VStack(spacing: 1) {
-                        NavigationLink(destination: Text("Мои NFT")) {
+                        NavigationLink(destination: Text(String(localized: "My NFTs"))) {
                             HStack {
-                                Text("Мои NFT")
+                                Text(String(localized: "My NFTs"))
                                     .foregroundColor(.primary)
                                 Spacer()
                                 Text("(112)")
@@ -56,9 +56,9 @@ struct ProfileView: View {
 
                         Divider()
 
-                        NavigationLink(destination: Text("Избранные NFT")) {
+                        NavigationLink(destination: Text(String(localized: "Featured NFTs"))) {
                             HStack {
-                                Text("Избранные NFT")
+                                Text(String(localized: "Featured NFTs"))
                                     .foregroundColor(.primary)
                                 Spacer()
                                 Text("(11)")
@@ -71,9 +71,9 @@ struct ProfileView: View {
 
                         Divider()
 
-                        NavigationLink(destination: Text("О разработчике")) {
+                        NavigationLink(destination: Text(String(localized: "About the developer"))) {
                             HStack {
-                                Text("О разработчике")
+                                Text(String(localized: "About the developer"))
                                     .foregroundColor(.primary)
                                 Spacer()
                                 Image(systemName: "chevron.right")
@@ -88,7 +88,7 @@ struct ProfileView: View {
                 }
                 .padding(.top)
             }
-            .navigationTitle("Профиль")
+            .navigationTitle(String(localized: "Profile"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {

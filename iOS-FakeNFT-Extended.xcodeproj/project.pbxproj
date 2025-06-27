@@ -112,7 +112,6 @@
 				55914DF42E0AD07600E9B71F /* Screens */,
 				55914DF32E0AD04700E9B71F /* Resources */,
 				ABC5E1A92C31FABA002B4068 /* Services */,
-				ABC5E1B32C31FC03002B4068 /* UIElements */,
 			);
 			path = "iOS-FakeNFT-Extended";
 			sourceTree = "<group>";
@@ -160,13 +159,6 @@
 				ABC5E1AF2C31FB90002B4068 /* RequestConstants.swift */,
 			);
 			path = Requests;
-			sourceTree = "<group>";
-		};
-		ABC5E1B32C31FC03002B4068 /* UIElements */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UIElements;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

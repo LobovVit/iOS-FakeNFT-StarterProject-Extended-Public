@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "(11)" : {
+
+    },
+    "(112)" : {
+
+    },
+    "About the developer" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "О разработчике"
+          }
+        }
+      }
+    },
     "Cart" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -23,8 +40,41 @@
         }
       }
     },
-    "Invalid URL" : {
+    "example.com" : {
 
+    },
+    "Featured NFTs" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Избранные NFT"
+          }
+        }
+      }
+    },
+    "My NFTs" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мои NFT"
+          }
+        }
+      }
+    },
+    "Name not specified" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Имя не указано"
+          }
+        }
+      }
     },
     "Profile" : {
       "extractionState" : "manual",
@@ -36,6 +86,27 @@
           }
         }
       }
+    },
+    "Готово" : {
+
+    },
+    "Имя" : {
+
+    },
+    "Описание" : {
+
+    },
+    "Отмена" : {
+
+    },
+    "Редактировать" : {
+
+    },
+    "Сайт" : {
+
+    },
+    "Сменить фото" : {
+
     }
   },
   "version" : "1.0"
