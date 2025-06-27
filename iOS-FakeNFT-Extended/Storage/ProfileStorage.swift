@@ -8,15 +8,24 @@
 import Foundation
 
 final class ProfileStorage {
-    private let defaults = UserDefaults.standard
-
     var name: String {
-        get { defaults.string(forKey: UserDefaults.Keys.userProfileName) ?? "" }
-        set { defaults.set(newValue, forKey: UserDefaults.Keys.userProfileName) }
+        get { UserDefaults.standard.string(forKey: "profile_name") ?? "" }
+        set { UserDefaults.standard.set(newValue, forKey: "profile_name") }
     }
 
     var description: String {
-        get { defaults.string(forKey: UserDefaults.Keys.userProfileDescription) ?? "" }
-        set { defaults.set(newValue, forKey: UserDefaults.Keys.userProfileDescription) }
+        get { UserDefaults.standard.string(forKey: "profile_description") ?? "" }
+        set { UserDefaults.standard.set(newValue, forKey: "profile_description") }
+    }
+
+    var website: String {
+        get { UserDefaults.standard.string(forKey: "profile_website") ?? "" }
+        set { UserDefaults.standard.set(newValue, forKey: "profile_website") }
+    }
+
+    var avatarImageData: Data? {
+        get { UserDefaults.standard.data(forKey: "profile_avatarImageData") }
+        set { UserDefaults.standard.set(newValue, forKey: "profile_avatarImageData") }
     }
 }
+
