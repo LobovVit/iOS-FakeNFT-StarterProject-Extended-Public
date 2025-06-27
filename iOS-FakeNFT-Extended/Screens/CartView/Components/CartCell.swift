@@ -8,11 +8,8 @@ struct CartCell: View {
         HStack(spacing: 20) {
             image
             infoSection
-            
             Spacer()
-            // TODO: Добавить кастомную иконку
-            Image(systemName: "trash")
-                .foregroundColor(.gray)
+            Image("CartActive")
         }
     }
     
@@ -29,29 +26,26 @@ struct CartCell: View {
     }
     
     private var infoSection: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             Text(item.name)
                 .font(.system(size: 17, weight: .bold))
-                .padding(.bottom, 4)
+                .padding(.bottom, 6)
             
             HStack(spacing: 2) {
                 ForEach(0..<5) { index in
-                    // TODO: Добавить кастомные иконки
-                    Image(systemName: index < item.rating ? "star.fill" : "star")
-                        .foregroundColor(index < item.rating ? .yellow : .gray)
+                    Image(index < item.rating ? "StarsActive" : "StarsNoActive")
                 }
             }
-            .padding(.bottom, 12)
+            .padding(.bottom, 14)
             
             Text(String(localized: "Price"))
                 .font(.system(size: 13, weight: .regular))
-                .padding(.bottom, 2)
+                .padding(.bottom, 4)
             
             Text("\(item.price, specifier: "%.2f") ETH")
                 .font(.system(size: 17, weight: .bold))
         }
-        // TODO: Добавить кастомный цвет
-        .foregroundColor(.black)
+        .foregroundColor(.blackDynamicYP)
     }
 }
 

@@ -23,6 +23,9 @@
         }
       }
     },
+    "Invalid URL" : {
+
+    },
     "Price" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -33,8 +36,6 @@
           }
         }
       }
-    "Invalid URL" : {
-
     },
     "Profile" : {
       "extractionState" : "manual",

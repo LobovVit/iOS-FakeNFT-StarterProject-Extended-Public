@@ -24,8 +24,6 @@ struct CartView: View {
             }
         }
         .listStyle(PlainListStyle())
-        // TODO: поменять цвет
-        .background(.white)
     }
     
     private var priceSection: some View {
