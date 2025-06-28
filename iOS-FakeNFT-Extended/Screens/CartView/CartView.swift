@@ -6,24 +6,38 @@ struct CartView: View {
     // MARK: - Body
     
     var body: some View {
-        VStack {
-            sorting
-            nftList
-            priceSection
-        }
-        .confirmationDialog(
-            String(localized: "Sorting"),
-            isPresented: $viewModel.isShowingSortDialog,
-            titleVisibility: .visible
-        ) {
-            ForEach(CartSortType.allCases) { type in
-                Button(type.rawValue) {
-                    viewModel.selectSort(type)
+        ZStack {
+            VStack {
+                sorting
+                nftList
+                priceSection
+            }
+            .blur(radius: viewModel.isShowingRemoveModal ? 40 : 0)
+            
+            .confirmationDialog(
+                String(localized: "Sorting"),
+                isPresented: $viewModel.isShowingSortDialog,
+                titleVisibility: .visible
+            ) {
+                ForEach(CartSortType.allCases) { type in
+                    Button(type.rawValue) {
+                        viewModel.selectSort(type)
+                    }
                 }
+                
+                Button(String(localized: "Close"), role: .cancel) {}
             }
             
-            Button(String(localized: "Close"), role: .cancel) {}
+            if viewModel.isShowingRemoveModal {
+                Color.whiteDynamicYP.opacity(0.05)
+                    .ignoresSafeArea()
+                    .transition(.opacity)
+                
+                CartModalView(viewModel: viewModel)
+                    .transition(.scale.combined(with: .opacity))
+            }
         }
+        .animation(.easeInOut, value: viewModel.isShowingRemoveModal)
     }
     
     // MARK: - Content
@@ -48,7 +62,7 @@ struct CartView: View {
     private var nftList: some View {
         List {
             ForEach(viewModel.items) { nft in
-                CartCell(item: nft)
+                CartCell(item: nft, viewModel: viewModel)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets())
                     .padding(16)

@@ -4,7 +4,9 @@ import Observation
 @Observable
 class CartViewModel {
     var isShowingSortDialog = false
+    var isShowingRemoveModal = false
     var selectedSort: CartSortType
+    var selectedNft: CartItem? = nil
     var items: [CartItem] = CartItemMock.data
     
     private let sortStorage = CartSortStorage()
@@ -19,6 +21,10 @@ class CartViewModel {
         isShowingSortDialog = false
         sortStorage.selectedSort = type
         applySort(type)
+    }
+    
+    func tapRemoveNft(_ item: CartItem) {
+        selectedNft = item
     }
     
     private func applySort(_ type: CartSortType) {

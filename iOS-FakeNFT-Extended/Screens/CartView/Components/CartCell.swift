@@ -3,6 +3,7 @@ import Kingfisher
 
 struct CartCell: View {
     let item: CartItem
+    @Bindable var viewModel: CartViewModel
     
     // MARK: - Body
     
@@ -12,6 +13,10 @@ struct CartCell: View {
             infoSection
             Spacer()
             Image("CartActive")
+                .onTapGesture {
+                    viewModel.tapRemoveNft(item)
+                    viewModel.isShowingRemoveModal = true
+                }
         }
     }
     
@@ -32,7 +37,7 @@ struct CartCell: View {
     private var infoSection: some View {
         VStack(alignment: .leading, spacing: 0) {
             Text(item.name)
-                .font(.system(size: 17, weight: .bold))
+                .font(Fonts.bodyBold)
                 .padding(.bottom, 6)
             
             HStack(spacing: 2) {
@@ -43,16 +48,16 @@ struct CartCell: View {
             .padding(.bottom, 14)
             
             Text(String(localized: "Price"))
-                .font(.system(size: 13, weight: .regular))
+                .font(Fonts.smallRegular)
                 .padding(.bottom, 4)
             
             Text("\(item.price, specifier: "%.2f") ETH")
-                .font(.system(size: 17, weight: .bold))
+                .font(Fonts.bodyBold)
         }
         .foregroundColor(.blackDynamicYP)
     }
 }
 
 #Preview {
-    CartCell(item: CartItemMock.data[0])
+    CartCell(item: CartItemMock.data[0], viewModel: CartViewModel())
 }
