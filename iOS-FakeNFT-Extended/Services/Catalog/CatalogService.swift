@@ -7,27 +7,20 @@
 
 import Foundation
 
-class CatalogService {
+final class CatalogService {
     static let shared = CatalogService()
+    private let client: NetworkClient
 
-    private let baseURL = RequestConstants.baseURL
-    private let token = RequestConstants.token
+    private init(client: NetworkClient = DefaultNetworkClient()) {
+        self.client = client
+    }
 
     func fetchCollections() async throws -> [CollectionDTO] {
-        let url = URL(string: "\(baseURL)/collections")!
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-
-        let (data, _) = try await URLSession.shared.data(for: request)
-        return try JSONDecoder().decode([CollectionDTO].self, from: data)
+        try await client.send(request: CollectionsRequest())
     }
 
     func fetchNFTs() async throws -> [NFTItem] {
-        let url = URL(string: "\(baseURL)/nfts")!
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-
-        let (data, _) = try await URLSession.shared.data(for: request)
-        return try JSONDecoder().decode([NFTItem].self, from: data)
+        try await client.send(request: NFTsRequest())
     }
 }
+
