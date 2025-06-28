@@ -10,66 +10,45 @@ import SwiftUI
 struct ProfileView: View {
     @StateObject var viewModel = ProfileViewModel()
     @State private var isEditing = false
-    
+
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    
-                    // MARK: - Header
-                    HStack(alignment: .top, spacing: 16) {
-                        avatarView
-                            .frame(width: 72, height: 72)
-                        
-                        VStack(alignment: .leading) {
-                            Text(viewModel.name.isEmpty
-                                 ? String(localized: "Name not specified")
-                                 : viewModel.name)
-                            .font(.title3)
-                            .bold()
-                            .padding(.vertical)
-                        }
-                    }
-                    .padding(.horizontal)
-                    
-                    // MARK: - Description
+                VStack(alignment: .leading, spacing: 24) {
+                    avatarAndNameView
+                        .padding(.top, 24)
+
                     if !viewModel.description.isEmpty {
                         Text(viewModel.description)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
-                            .padding(.horizontal)
+                            .font(Fonts.smallRegular)
+                            .foregroundColor(.primary)
+                            .multilineTextAlignment(.leading)
+                            .padding(.horizontal, 20)
                     }
-                    
-                    // MARK: - Site
-                    if !viewModel.website.isEmpty,
-                       let url = URL(string: viewModel.website) {
+
+                    if let url = URL(string: viewModel.website), !viewModel.website.isEmpty {
                         Link(viewModel.website, destination: url)
-                            .font(.footnote)
+                            .font(Fonts.mediumRegular)
                             .foregroundColor(.blue)
-                            .padding(.horizontal)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.horizontal, 20)
                     }
                     
-                    // MARK: - Options
-                    VStack(spacing: 1) {
-                        profileRow(title: "My NFTs", value: "(112)")
-                        Divider()
-                        profileRow(title: "Featured NFTs", value: "(11)")
-                        Divider()
-                        profileRow(title: "About the developer", value: nil)
+                    VStack(spacing: 0) {
+                        profileRow(title: "Мои NFT", value: "(112)")
+                        profileRow(title: "Избранные NFT", value: "(11)")
+                        profileRow(title: "О разработчике", value: nil)
                     }
-                    .background(Color(.systemBackground))
-                    .cornerRadius(10)
-                    .padding(.horizontal)
+                    .padding(.top, 32)
                 }
-                .padding(.top)
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        isEditing = true
-                    }) {
+                    Button(action: { isEditing = true }) {
                         Image(systemName: "square.and.pencil")
-                            .foregroundColor(.primary)
+                            .resizable()
+                            .frame(width: 26, height: 26)
+                            .foregroundStyle(Color.primary)
                     }
                 }
             }
@@ -78,44 +57,61 @@ struct ProfileView: View {
             }
         }
     }
-    
-    // MARK: - Avatar
+
+    private var avatarAndNameView: some View {
+        HStack(alignment: .center, spacing: 16) {
+            avatarView
+
+            VStack(alignment: .leading, spacing: 4) {
+                Text(viewModel.name.isEmpty ? String(localized: "Name not specified") : viewModel.name)
+                    .font(Fonts.titleBold)
+                    .foregroundColor(.primary)
+            }
+
+            Spacer()
+        }
+        .padding(.horizontal, 20)
+    }
+
     private var avatarView: some View {
         Group {
-            if let data = viewModel.avatarImageData,
-               let image = UIImage(data: data) {
+            if let data = viewModel.avatarImageData, let image = UIImage(data: data) {
                 Image(uiImage: image)
                     .resizable()
+                    .aspectRatio(contentMode: .fill)
             } else {
                 Image(systemName: "person.crop.circle")
                     .resizable()
+                    .aspectRatio(contentMode: .fit)
             }
         }
-        .aspectRatio(contentMode: .fill)
+        .frame(width: 70, height: 70)
         .clipShape(Circle())
     }
-    
-    // MARK: - Row Builder
+
     @ViewBuilder
     private func profileRow(title: String, value: String?) -> some View {
         NavigationLink(destination: Text(LocalizedStringKey(title))) {
             HStack {
                 Text(LocalizedStringKey(title))
+                    .font(Fonts.bodyBold)
                     .foregroundColor(.primary)
+
                 if let value = value {
                     Text(value)
+                        .font(Fonts.bodyBold)
                         .foregroundColor(.primary)
                 }
                 Spacer()
                 Image(systemName: "chevron.right")
                     .foregroundColor(.primary)
             }
-            .padding()
+            .padding(.vertical, 14)
+            .padding(.horizontal, 20)
         }
     }
 }
 
-// MARK: - Preview
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         let viewModel = ProfileViewModel()

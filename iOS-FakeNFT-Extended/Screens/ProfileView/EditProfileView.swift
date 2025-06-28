@@ -12,47 +12,51 @@ struct EditProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: ProfileViewModel
     @State private var selectedPhoto: PhotosPickerItem?
-    
+
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 24) {
                     // MARK: - Avatar
                     avatarView
-                        .frame(width: 100, height: 100)
+                        .frame(width: 70, height: 70)
                         .clipShape(Circle())
                         .frame(maxWidth: .infinity)
-                        .padding(.top, 32)
-                    
+                        .padding(.top, 24)
+
                     // MARK: - Имя
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Name"))
-                            .font(.headline)
+                            .font(Fonts.titleBold)
                         TextField("", text: $viewModel.name)
+                            .font(Fonts.bodyRegular)
                             .padding(12)
                             .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(10)
                     }
-                    
+
                     // MARK: - Описание
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Description"))
-                            .font(.headline)
-                        
+                            .font(Fonts.titleBold)
+
                         MultilineTextField(text: $viewModel.description)
-                            .frame(height: 100)
+                            .font(Fonts.bodyRegular)
+                            .multilineTextAlignment(.leading)
+                            .frame(height: 120)
                     }
-                    
+
                     // MARK: - Сайт
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Site"))
-                            .font(.headline)
+                            .font(Fonts.titleBold)
                         TextField("", text: $viewModel.website)
+                            .font(Fonts.bodyRegular)
                             .padding(12)
                             .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(10)
                     }
-                    
+
                     Spacer()
                 }
                 .padding()
@@ -62,13 +66,16 @@ struct EditProfileView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: dismiss.callAsFunction) {
                         Image(systemName: "xmark")
+                            .resizable()
+                            .frame(width: 14, height: 14)
                             .foregroundColor(.primary)
                     }
+                    .padding(.top, 32)
                 }
             }
         }
     }
-    
+
     @ViewBuilder
     private var avatarView: some View {
         ZStack {
@@ -82,18 +89,19 @@ struct EditProfileView: View {
                     .scaledToFit()
                     .foregroundColor(.gray.opacity(0.5))
             }
-            
+
             Rectangle()
                 .foregroundColor(.black)
                 .opacity(0.3)
                 .clipShape(Circle())
-            
+
             Text(LocalizedStringKey("Change photo"))
-                .font(.caption)
+                .font(Fonts.tinyMedium)
                 .foregroundColor(.white)
-                .bold()
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
         }
-        .frame(width: 100, height: 100)
+        .frame(width: 70, height: 70)
         .clipShape(Circle())
     }
 }
