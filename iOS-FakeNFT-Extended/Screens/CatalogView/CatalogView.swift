@@ -10,6 +10,7 @@ import Kingfisher
 
 struct CatalogView: View {
     @ObservedObject var viewModel: CatalogViewModel
+    @State private var showSortDialog = false
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
@@ -40,15 +41,22 @@ struct CatalogView: View {
 
             // Кнопка сортировки
             Button(action: {
-                // Действие при нажатии на кнопку сортировки
-                //TODO: - Next time
-                print("Sort button tapped")
+                showSortDialog = true
             }) {
                 Image("SortIcon")
             }
             .frame(width: 42, height: 42)
             .padding(.top, 0)
             .padding(.trailing, 9)
+        }
+        .confirmationDialog("Сортировка", isPresented: $showSortDialog, titleVisibility: .visible) {
+            Button("По названию") {
+                viewModel.sortCollections(by: .name)
+            }
+            Button("По количеству NFT") {
+                viewModel.sortCollections(by: .nftCount)
+            }
+            Button("Закрыть", role: .cancel) {}
         }
         .navigationBarTitleDisplayMode(.inline)
         .task {
@@ -57,8 +65,8 @@ struct CatalogView: View {
     }
 }
 
+// MARK: - Preview
 
-//MARK: - Preview
 struct CatalogView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
@@ -107,4 +115,3 @@ struct CatalogView_Previews: PreviewProvider {
         }
     }
 }
-

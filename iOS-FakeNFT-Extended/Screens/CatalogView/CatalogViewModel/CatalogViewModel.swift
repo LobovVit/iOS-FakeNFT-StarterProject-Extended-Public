@@ -35,5 +35,18 @@ class CatalogViewModel: ObservableObject {
         }
         return nfts.filter { collection.nfts.contains($0.id) }
     }
-}
 
+    enum SortOption {
+        case name
+        case nftCount
+    }
+
+    func sortCollections(by option: SortOption) {
+        switch option {
+        case .name:
+            collections.sort { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        case .nftCount:
+            collections.sort { $0.nfts.count > $1.nfts.count }
+        }
+    }
+}
