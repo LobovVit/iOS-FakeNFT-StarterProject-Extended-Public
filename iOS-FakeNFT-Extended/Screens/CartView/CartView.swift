@@ -60,16 +60,26 @@ struct CartView: View {
     }
     
     private var nftList: some View {
-        List {
-            ForEach(viewModel.items) { nft in
-                CartCell(item: nft, viewModel: viewModel)
-                    .listRowSeparator(.hidden)
-                    .listRowInsets(EdgeInsets())
-                    .padding(16)
+        Group {
+            if viewModel.loadingState == .loading {
+                VStack {
+                    Spacer()
+                    ProgressView()
+                    Spacer()
+                }
+            } else {
+                List {
+                    ForEach(viewModel.items) { nft in
+                        CartCell(item: nft, viewModel: viewModel)
+                            .listRowSeparator(.hidden)
+                            .listRowInsets(EdgeInsets())
+                            .padding(16)
+                    }
+                }
+                .listStyle(PlainListStyle())
+                .padding(.top, 20)
             }
         }
-        .listStyle(PlainListStyle())
-        .padding(.top, 20)
     }
     
     private var priceSection: some View {

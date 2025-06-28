@@ -1,7 +1,11 @@
-//
-//  CartService.swift
-//  iOS-FakeNFT-Extended
-//
-//  Created by Vitaly Lobov on 26.06.2025.
-//
+protocol CartServiceProtocol {
+    func fetchCartItems() async -> [CartItem]
+}
 
+final class CartService: CartServiceProtocol {
+    // TODO: заменить моковый вызов
+    func fetchCartItems() async -> [CartItem] {
+        try? await Task.sleep(for: .seconds(3))
+        return CartItemMock.data
+    }
+}

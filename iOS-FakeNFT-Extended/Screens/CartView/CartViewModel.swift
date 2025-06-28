@@ -7,12 +7,16 @@ class CartViewModel {
     var isShowingRemoveModal = false
     var selectedSort: CartSortType
     var selectedNft: CartItem? = nil
-    var items: [CartItem] = CartItemMock.data
+    var items: [CartItem] = []
+    var loadingState: LoadingState = .default
     
     private let sortStorage = CartSortStorage()
+    private let service: CartServiceProtocol
     
-    init() {
-        selectedSort = sortStorage.selectedSort
+    init(service: CartServiceProtocol = CartService()) {
+        self.service = service
+        self.selectedSort = sortStorage.selectedSort
+        fetchItems()
         applySort(selectedSort)
     }
     
@@ -25,6 +29,15 @@ class CartViewModel {
     
     func tapRemoveNft(_ item: CartItem) {
         selectedNft = item
+    }
+    
+    private func fetchItems() {
+        loadingState = .loading
+        Task {
+            let result = await service.fetchCartItems()
+            self.items = result
+            self.loadingState = .success
+        }
     }
     
     private func applySort(_ type: CartSortType) {
