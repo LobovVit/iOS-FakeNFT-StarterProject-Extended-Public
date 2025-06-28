@@ -9,36 +9,102 @@ import SwiftUI
 import Kingfisher
 
 struct CatalogView: View {
-    @StateObject private var viewModel = CatalogViewModel()
+    @ObservedObject var viewModel: CatalogViewModel
 
     var body: some View {
-        NavigationView {
-            Group {
-                if viewModel.isLoading {
-                    ProgressView("Загрузка...")
-                } else if let errorMessage = viewModel.errorMessage {
-                    Text(errorMessage)
-                        .foregroundColor(.red)
-                } else {
-                    List(viewModel.collections) { collection in
-                        NavigationLink(destination: CollectionDetailView(collection: collection, nfts: viewModel.nfts(for: collection.id))) {
-                            HStack {
-                                KFImage(URL(string: collection.cover))
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 60, height: 60)
-                                    .cornerRadius(8)
-                                Text(collection.name)
-                                    .font(.headline)
+        ZStack(alignment: .topTrailing) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 0) {
+                    // Отступ сверху
+                    Spacer().frame(height: 62) // 42 (высота кнопки) + 20 (отступ до коллекции)
+
+                    // Ячейки коллекций
+                    LazyVStack(spacing: 21) {
+                        ForEach(viewModel.collections) { collection in
+                            NavigationLink(
+                                destination: CollectionRowView(
+                                    collection: collection,
+                                    nfts: viewModel.nfts(for: collection.id)
+                                )
+                            ) {
+                                CollectionRowView(
+                                    collection: collection,
+                                    nfts: viewModel.nfts(for: collection.id)
+                                )
                             }
+                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                 }
             }
-            .navigationTitle("Каталог")
+
+            // Кнопка сортировки
+            Button(action: {
+                // Действие при нажатии на кнопку сортировки
+                //TODO: - Next time
+                print("Sort button tapped")
+            }) {
+                Image("SortIcon")
+            }
+            .frame(width: 42, height: 42)
+            .padding(.top, 0)
+            .padding(.trailing, 9)
         }
+        .navigationBarTitleDisplayMode(.inline)
         .task {
             await viewModel.loadData()
         }
     }
 }
+
+
+//MARK: - Preview
+struct CatalogView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            CatalogViewPreviewWrapper()
+        }
+    }
+
+    struct CatalogViewPreviewWrapper: View {
+        @StateObject private var viewModel = CatalogViewModel()
+
+        var body: some View {
+            CatalogView(viewModel: viewModel)
+                .onAppear {
+                    viewModel.collections = (1...8).map { index in
+                        CollectionDTO(
+                            id: "\(index)",
+                            name: "Коллекция \(index)",
+                            cover: "https://www.fund4dogs.ru/wp-content/uploads/2024/06/1000097411-1.jpg",
+                            description: "Описание коллекции \(index)",
+                            author: "Автор \(index)",
+                            nfts: ["1", "2"]
+                        )
+                    }
+
+                    viewModel.nfts = [
+                        NFTItem(
+                            id: "1",
+                            name: "NFT #1",
+                            images: ["https://example.com/nft1.png"],
+                            rating: 4,
+                            description: "Описание NFT",
+                            price: 1.5,
+                            author: "Автор"
+                        ),
+                        NFTItem(
+                            id: "2",
+                            name: "NFT #2",
+                            images: ["https://example.com/nft2.png"],
+                            rating: 5,
+                            description: "Описание NFT",
+                            price: 2.0,
+                            author: "Автор"
+                        )
+                    ]
+                }
+        }
+    }
+}
+
