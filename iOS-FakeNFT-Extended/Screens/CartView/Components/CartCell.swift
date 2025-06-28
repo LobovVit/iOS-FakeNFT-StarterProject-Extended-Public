@@ -4,6 +4,8 @@ import Kingfisher
 struct CartCell: View {
     let item: CartItem
     
+    // MARK: - Body
+    
     var body: some View {
         HStack(spacing: 20) {
             image
@@ -12,6 +14,8 @@ struct CartCell: View {
             Image("CartActive")
         }
     }
+    
+    // MARK: - Content
     
     private var image: some View {
         KFImage(URL(string: item.imageURL))
