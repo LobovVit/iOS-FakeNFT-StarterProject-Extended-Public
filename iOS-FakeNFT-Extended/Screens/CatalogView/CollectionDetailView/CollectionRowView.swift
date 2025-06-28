@@ -17,15 +17,16 @@ struct CollectionRowView: View {
             if let url = URL(string: collection.cover) {
                 KFImage(url)
                     .resizable()
-                    .aspectRatio(3 / 1, contentMode: .fill)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(height: 140)
                     .frame(maxWidth: .infinity)
-                    .frame(height: 120)
                     .clipped()
                     .cornerRadius(12)
             } else {
                 Rectangle()
                     .fill(Color.gray.opacity(0.3))
-                    .frame(height: 120)
+                    .frame(height: 140)
+                    .frame(maxWidth: .infinity)
                     .cornerRadius(12)
             }
 
