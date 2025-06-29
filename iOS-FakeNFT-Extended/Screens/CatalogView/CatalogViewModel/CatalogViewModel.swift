@@ -22,8 +22,13 @@ class CatalogViewModel: ObservableObject {
         defer { isLoading = false }
 
         do {
-            collections = try await service.fetchCollections()
-            nfts = try await service.fetchNFTs()
+            async let collectionsTask = service.fetchCollections()
+            async let nftsTask = service.fetchNFTs()
+
+            let (fetchedCollections, fetchedNFTs) = try await (collectionsTask, nftsTask)
+
+            self.collections = fetchedCollections
+            self.nfts = fetchedNFTs
             sortCollections()
             errorMessage = nil
         } catch {
