@@ -10,6 +10,7 @@ import Foundation
 extension UserDefaults {
     enum Keys {
         static let selectedSortOption = "selectedSortOption"
+        static let selectedCartSortType = "selectedCartSortType"
         static let isOnboardingCompleted = "isOnboardingCompleted"
         static let userProfileName = "userProfileName"
         static let userProfileDescription = "userProfileDescription"
