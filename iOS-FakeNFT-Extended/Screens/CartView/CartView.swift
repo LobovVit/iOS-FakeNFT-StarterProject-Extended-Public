@@ -1,43 +1,30 @@
 import SwiftUI
 
 struct CartView: View {
-    @State private var viewModel = CartViewModel()
+    @Bindable var viewModel: CartViewModel
     
     // MARK: - Body
     
     var body: some View {
-        ZStack {
-            VStack {
-                sorting
-                nftList
-                priceSection
-            }
-            .blur(radius: viewModel.isShowingRemoveModal ? 40 : 0)
-            
-            .confirmationDialog(
-                String(localized: "Sorting"),
-                isPresented: $viewModel.isShowingSortDialog,
-                titleVisibility: .visible
-            ) {
-                ForEach(CartSortType.allCases) { type in
-                    Button(type.rawValue) {
-                        viewModel.selectSort(type)
-                    }
-                }
-                
-                Button(String(localized: "Close"), role: .cancel) {}
-            }
-            
-            if viewModel.isShowingRemoveModal {
-                Color.whiteDynamicYP.opacity(0.05)
-                    .ignoresSafeArea()
-                    .transition(.opacity)
-                
-                CartModalView(viewModel: viewModel)
-                    .transition(.scale.combined(with: .opacity))
-            }
+        VStack {
+            sorting
+            nftList
+            priceSection
         }
-        .animation(.easeInOut, value: viewModel.isShowingRemoveModal)
+        
+        .confirmationDialog(
+            String(localized: "Sorting"),
+            isPresented: $viewModel.isShowingSortDialog,
+            titleVisibility: .visible
+        ) {
+            ForEach(CartSortType.allCases) { type in
+                Button(type.rawValue) {
+                    viewModel.selectSort(type)
+                }
+            }
+            
+            Button(String(localized: "Close"), role: .cancel) {}
+        }
     }
     
     // MARK: - Content
@@ -89,5 +76,5 @@ struct CartView: View {
 }
 
 #Preview {
-    CartView()
+    CartView(viewModel: CartViewModel())
 }
