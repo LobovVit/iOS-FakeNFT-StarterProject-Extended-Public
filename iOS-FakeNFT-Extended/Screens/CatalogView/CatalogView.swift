@@ -14,26 +14,34 @@ struct CatalogView: View {
 
     var body: some View {
         ZStack(alignment: .topTrailing) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 0) {
-                    // Отступ сверху
-                    Spacer().frame(height: 62) // 42 (высота кнопки) + 20 (отступ до коллекции)
+            if viewModel.isLoading {
+                VStack {
+                    Spacer()
+                    ProgressView("Загрузка...")
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .padding()
+                    Spacer()
+                }
+            } else {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 0) {
+                        Spacer().frame(height: 62)
 
-                    // Ячейки коллекций
-                    LazyVStack(spacing: 21) {
-                        ForEach(viewModel.collections) { collection in
-                            NavigationLink(
-                                destination: CollectionRowView(
-                                    collection: collection,
-                                    nfts: viewModel.nfts(for: collection.id)
-                                )
-                            ) {
-                                CollectionRowView(
-                                    collection: collection,
-                                    nfts: viewModel.nfts(for: collection.id)
-                                )
+                        LazyVStack(spacing: 21) {
+                            ForEach(viewModel.collections) { collection in
+                                NavigationLink(
+                                    destination: CollectionRowView(
+                                        collection: collection,
+                                        nfts: viewModel.nfts(for: collection.id)
+                                    )
+                                ) {
+                                    CollectionRowView(
+                                        collection: collection,
+                                        nfts: viewModel.nfts(for: collection.id)
+                                    )
+                                }
+                                .buttonStyle(PlainButtonStyle())
                             }
-                            .buttonStyle(PlainButtonStyle())
                         }
                     }
                 }
@@ -63,6 +71,7 @@ struct CatalogView: View {
             await viewModel.loadData()
         }
     }
+
 }
 
 // MARK: - Preview
