@@ -59,10 +59,10 @@ struct CatalogView: View {
         }
         .confirmationDialog("Сортировка", isPresented: $showSortDialog, titleVisibility: .visible) {
             Button("По названию") {
-                viewModel.sortCollections(by: .name)
+                viewModel.sortCollections(by: .byName)
             }
             Button("По количеству NFT") {
-                viewModel.sortCollections(by: .nftCount)
+                viewModel.sortCollections(by: .byCount)
             }
             Button("Закрыть", role: .cancel) {}
         }
@@ -75,7 +75,6 @@ struct CatalogView: View {
 }
 
 // MARK: - Preview
-
 struct CatalogView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
@@ -85,41 +84,64 @@ struct CatalogView_Previews: PreviewProvider {
 
     struct CatalogViewPreviewWrapper: View {
         @StateObject private var viewModel = CatalogViewModel()
+        private let sortStorage = SortStorage()
 
         var body: some View {
             CatalogView(viewModel: viewModel)
                 .onAppear {
-                    viewModel.collections = (1...8).map { index in
-                        CollectionDTO(
-                            id: "\(index)",
-                            name: "Коллекция \(index)",
-                            cover: "https://www.fund4dogs.ru/wp-content/uploads/2024/06/1000097411-1.jpg",
-                            description: "Описание коллекции \(index)",
-                            author: "Автор \(index)",
-                            nfts: ["1", "2"]
-                        )
-                    }
+                    sortStorage.selectedSortOption = .byCount
+                    
+                    viewModel.collections = [
+                        CollectionDTO(id: "1",
+                                      name: "Zeta",
+                                      cover: "https://img.goodfon.ru/wallpaper/big/3/32/kotenok-mordochka-lapki-usy.webp",
+                                      description: "",
+                                      author: "",
+                                      nfts: ["1", "2"]
+                                     ),
+                        CollectionDTO(id: "2",
+                                      name: "Alpha",
+                                      cover: "https://images.wallpaperscraft.ru/image/single/kotenok_milyj_lezhat_71887_1920x1080.jpg",
+                                      description: "",
+                                      author: "",
+                                      nfts: ["1"]
+                                     ),
+                        CollectionDTO(id: "3",
+                                      name: "Beta",
+                                      cover: "https://img.freepik.com/free-photo/view-beautiful-persian-domestic-cat_23-2151773947.jpg?semt=ais_items_boosted&w=740",
+                                      description: "",
+                                      author: "",
+                                      nfts: ["1", "2", "3"]
+                                     )
+                    ]
 
                     viewModel.nfts = [
-                        NFTItem(
-                            id: "1",
-                            name: "NFT #1",
-                            images: ["https://example.com/nft1.png"],
-                            rating: 4,
-                            description: "Описание NFT",
-                            price: 1.5,
-                            author: "Автор"
-                        ),
-                        NFTItem(
-                            id: "2",
-                            name: "NFT #2",
-                            images: ["https://example.com/nft2.png"],
-                            rating: 5,
-                            description: "Описание NFT",
-                            price: 2.0,
-                            author: "Автор"
-                        )
+                        NFTItem(id: "1",
+                                name: "NFT #1",
+                                images: [""],
+                                rating: 4,
+                                description: "",
+                                price: 1.5,
+                                author: ""
+                               ),
+                        NFTItem(id: "2",
+                                name: "NFT #2",
+                                images: [""],
+                                rating: 5,
+                                description: "",
+                                price: 2.0,
+                                author: ""
+                               ),
+                        NFTItem(id: "3",
+                                name: "NFT #3",
+                                images: [""],
+                                rating: 3,
+                                description: "",
+                                price: 0.9,
+                                author: ""
+                               )
                     ]
+                    viewModel.sortCollections()
                 }
         }
     }
