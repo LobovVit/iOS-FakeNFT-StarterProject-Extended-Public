@@ -8,7 +8,7 @@
 import SwiftUI
 
 @MainActor
-class CatalogViewModel: ObservableObject {
+final class CatalogViewModel: ObservableObject {
     @Published var collections: [CollectionDTO] = []
     @Published var nfts: [NFTItem] = []
     @Published var isLoading = false
