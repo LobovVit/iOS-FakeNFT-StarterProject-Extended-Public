@@ -5,7 +5,7 @@ protocol CartServiceProtocol {
 final class CartService: CartServiceProtocol {
     // TODO: заменить моковый вызов
     func fetchCartItems() async -> [CartItem] {
-        try? await Task.sleep(for: .seconds(3))
+        try? await Task.sleep(for: .seconds(1))
         return CartItemMock.data
     }
 }
