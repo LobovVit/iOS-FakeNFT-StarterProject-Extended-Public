@@ -3,7 +3,7 @@ import Kingfisher
 
 struct CartCell: View {
     let item: CartItem
-    @Bindable var viewModel: CartViewModel
+    @ObservedObject var viewModel: CartViewModel
     
     // MARK: - Body
     

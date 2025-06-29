@@ -1,14 +1,13 @@
 import SwiftUI
-import Observation
 
-@Observable
-class CartViewModel {
-    var isShowingSortDialog = false
-    var isShowingRemoveModal = false
-    var selectedSort: CartSortType
-    var selectedNft: CartItem? = nil
-    var items: [CartItem] = []
-    var loadingState: LoadingState = .default
+@MainActor
+class CartViewModel: ObservableObject {
+    @Published var isShowingSortDialog = false
+    @Published var isShowingRemoveModal = false
+    @Published var selectedSort: CartSortType
+    @Published var selectedNft: CartItem? = nil
+    @Published var items: [CartItem] = []
+    @Published var loadingState: LoadingState = .default
     
     private let sortStorage = CartSortStorage()
     private let service: CartServiceProtocol
@@ -16,8 +15,11 @@ class CartViewModel {
     init(service: CartServiceProtocol = CartService()) {
         self.service = service
         self.selectedSort = sortStorage.selectedSort
-        fetchItems()
-        applySort(selectedSort)
+        
+        Task {
+            await fetchItems()
+            applySort(selectedSort)
+        }
     }
     
     func selectSort(_ type: CartSortType) {
@@ -31,13 +33,11 @@ class CartViewModel {
         selectedNft = item
     }
     
-    private func fetchItems() {
+    private func fetchItems() async {
         loadingState = .loading
-        Task {
-            let result = await service.fetchCartItems()
-            self.items = result
-            self.loadingState = .success
-        }
+        let result = await service.fetchCartItems()
+        self.items = result
+        loadingState = .success
     }
     
     private func applySort(_ type: CartSortType) {

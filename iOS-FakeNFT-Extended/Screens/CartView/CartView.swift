@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct CartView: View {
-    @Bindable var viewModel: CartViewModel
+    @ObservedObject var viewModel: CartViewModel
     
     // MARK: - Body
     

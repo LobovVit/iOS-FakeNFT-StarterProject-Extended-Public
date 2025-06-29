@@ -2,7 +2,7 @@ import SwiftUI
 import Kingfisher
 
 struct CartModalView: View {
-    @Bindable var viewModel: CartViewModel
+    @ObservedObject var viewModel: CartViewModel
     
     // MARK: - Body
     

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct TabBarView: View {
-    @State var cartViewModel = CartViewModel()
+    @StateObject var cartViewModel = CartViewModel()
     
     var body: some View {
         // TODO: Далее заменить иконки для таба и цвет обводки
