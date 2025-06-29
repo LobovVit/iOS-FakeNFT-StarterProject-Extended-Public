@@ -9,13 +9,13 @@ import Foundation
 
 struct CollectionsRequest: NetworkRequest {
     var endpoint: URL? {
-        URL(string: "\(RequestConstants.baseURL)/collections")
+        URL(string: "\(RequestConstants.baseURL)/api/v1/collections")
     }
 }
 
 struct NFTsRequest: NetworkRequest {
     var endpoint: URL? {
-        URL(string: "\(RequestConstants.baseURL)/nfts")
+        URL(string: "\(RequestConstants.baseURL)/api/v1/nft")
     }
 }
 
