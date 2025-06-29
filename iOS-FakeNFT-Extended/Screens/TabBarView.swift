@@ -25,12 +25,16 @@ struct TabBarView: View {
             .blur(radius: cartViewModel.isShowingRemoveModal ? 40 : 0)
             .animation(.easeInOut, value: cartViewModel.isShowingRemoveModal)
             
+            // Модальное окно удаления nft из корзины
             if cartViewModel.isShowingRemoveModal {
                 Color.whiteDynamicYP.opacity(0.05)
                     .ignoresSafeArea()
                     .transition(.opacity)
                 
-                CartModalView(viewModel: cartViewModel)
+                CartModalView(
+                    imageURL: cartViewModel.selectedNft?.imageURL,
+                    onTapButtonAction: cartViewModel.closeRemoveModal
+                )
                     .transition(.scale.combined(with: .opacity))
             }
         }

@@ -2,7 +2,14 @@ import SwiftUI
 import Kingfisher
 
 struct CartModalView: View {
-    @ObservedObject var viewModel: CartViewModel
+    private enum Constants {
+        static let imageSize: CGFloat = 108
+        static let imageCornerRadius: CGFloat = 12
+        static let bodyWidth: CGFloat = 262
+    }
+    
+    let imageURL: String?
+    let onTapButtonAction: () -> Void
     
     // MARK: - Body
     
@@ -12,25 +19,26 @@ struct CartModalView: View {
             modalTitle
             modalButtons
         }
-        .frame(maxWidth: 262)
+        .frame(maxWidth: Constants.bodyWidth)
     }
     
     // MARK: - Content
     
     private var nftImage: some View {
-        KFImage(URL(string: viewModel.selectedNft?.imageURL ?? ""))
-            .placeholder {
-                ProgressView()
-            }
-            .resizable()
-            .scaledToFill()
-            .frame(width: 108, height: 108)
-            .clipped()
-            .cornerRadius(12)
+        AsyncImage(url: URL(string: imageURL ?? "")) { image in
+            image
+                .resizable()
+                .scaledToFill()
+        } placeholder: {
+            ProgressView()
+        }
+        .frame(width: Constants.imageSize, height: Constants.imageSize)
+        .clipped()
+        .cornerRadius(Constants.imageCornerRadius)
     }
     
     private var modalTitle: some View {
-        Text("Вы уверены, что хотите\nудалить объект из корзины?")
+        Text(String(localized: "Are you sure you want to\nremove this item from your cart? "))
             .font(Fonts.smallRegular)
             .foregroundColor(.blackDynamicYP)
             .multilineTextAlignment(.center)
@@ -43,7 +51,7 @@ struct CartModalView: View {
                 title: String(localized: "Remove"),
                 titleColor: .redUniversalYP
             ) {
-                viewModel.isShowingRemoveModal = false
+                onTapButtonAction()
                 // TODO: добавить логику удаления nft
             }
             
@@ -51,12 +59,15 @@ struct CartModalView: View {
                 title: String(localized: "Return"),
                 titleColor: .whiteDynamicYP
             ) {
-                viewModel.isShowingRemoveModal = false
+                onTapButtonAction()
             }
         }
     }
 }
 
 #Preview {
-    CartModalView(viewModel: CartViewModel())
+    CartModalView(
+        imageURL: "https://loremflickr.com/600/600",
+        onTapButtonAction: {}
+    )
 }

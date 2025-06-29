@@ -2,8 +2,13 @@ import SwiftUI
 import Kingfisher
 
 struct CartCell: View {
+    private enum Constants {
+        static let imageSize: CGFloat = 108
+        static let imageCornerRadius: CGFloat = 12
+    }
+    
     let item: CartItem
-    @ObservedObject var viewModel: CartViewModel
+    let onRemove: () -> Void
     
     // MARK: - Body
     
@@ -12,26 +17,23 @@ struct CartCell: View {
             image
             infoSection
             Spacer()
-            Image("CartActive")
-                .onTapGesture {
-                    viewModel.tapRemoveNft(item)
-                    viewModel.isShowingRemoveModal = true
-                }
+            removeIcon
         }
     }
     
     // MARK: - Content
     
     private var image: some View {
-        KFImage(URL(string: item.imageURL))
-            .placeholder {
-                ProgressView()
-            }
-            .resizable()
-            .scaledToFill()
-            .frame(width: 108, height: 108)
-            .clipped()
-            .cornerRadius(12)
+        AsyncImage(url: URL(string: item.imageURL)) { image in
+            image
+                .resizable()
+                .scaledToFill()
+        } placeholder: {
+            ProgressView()
+        }
+        .frame(width: Constants.imageSize, height: Constants.imageSize)
+        .clipped()
+        .cornerRadius(Constants.imageCornerRadius)
     }
     
     private var infoSection: some View {
@@ -56,8 +58,15 @@ struct CartCell: View {
         }
         .foregroundColor(.blackDynamicYP)
     }
+    
+    private var removeIcon: some View {
+        Image("CartActive")
+            .onTapGesture {
+                onRemove()
+            }
+    }
 }
 
 #Preview {
-    CartCell(item: CartItemMock.data[0], viewModel: CartViewModel())
+    CartCell(item: CartItemMock.data[0], onRemove: {})
 }

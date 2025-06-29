@@ -1,7 +1,7 @@
 enum CartSortType: String, CaseIterable, Identifiable {
-    case price = "По цене"
-    case rating = "По рейтингу"
-    case name = "По названию"
+    case price = "By price"
+    case rating = "By rating"
+    case name = "By name"
     
     var id: String { self.rawValue }
 }

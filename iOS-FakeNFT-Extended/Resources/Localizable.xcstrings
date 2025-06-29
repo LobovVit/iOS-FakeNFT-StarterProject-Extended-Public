@@ -2,7 +2,50 @@
   "sourceLanguage" : "en",
   "strings" : {
     "%.2f ETH" : {
-
+      "shouldTranslate" : false
+    },
+    "Are you sure you want to\nremove this item from your cart? " : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы уверены, что хотите\nудалить объект из корзины?"
+          }
+        }
+      }
+    },
+    "By name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По названию"
+          }
+        }
+      }
+    },
+    "By price" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По цене"
+          }
+        }
+      }
+    },
+    "By rating" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По рейтингу"
+          }
+        }
+      }
     },
     "Cart" : {
       "extractionState" : "manual",
@@ -91,9 +134,6 @@
           }
         }
       }
-    },
-    "Вы уверены, что хотите\nудалить объект из корзины?" : {
-
     }
   },
   "version" : "1.0"

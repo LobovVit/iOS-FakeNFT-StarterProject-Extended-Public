@@ -1,12 +1,14 @@
 import SwiftUI
 
 @MainActor
-class CartViewModel: ObservableObject {
-    @Published var isShowingSortDialog = false
-    @Published var isShowingRemoveModal = false
+final class CartViewModel: ObservableObject {
+    
+    // MARK: - UI Binding
+    
+    @Published var items: [CartItem] = []
     @Published var selectedSort: CartSortType
     @Published var selectedNft: CartItem? = nil
-    @Published var items: [CartItem] = []
+    @Published var isShowingRemoveModal: Bool = false
     @Published var loadingState: LoadingState = .default
     
     private let sortStorage = CartSortStorage()
@@ -24,13 +26,20 @@ class CartViewModel: ObservableObject {
     
     func selectSort(_ type: CartSortType) {
         selectedSort = type
-        isShowingSortDialog = false
         sortStorage.selectedSort = type
         applySort(type)
     }
     
     func tapRemoveNft(_ item: CartItem) {
         selectedNft = item
+    }
+    
+    func openRemoveModal() {
+        isShowingRemoveModal = true
+    }
+    
+    func closeRemoveModal() {
+        isShowingRemoveModal = false
     }
     
     private func fetchItems() async {

@@ -1,7 +1,14 @@
 import SwiftUI
 
 struct CartView: View {
+    private enum Constants {
+        static let sortIconSize: CGFloat = 42
+    }
+    
+    // MARK: - Properties
+    
     @ObservedObject var viewModel: CartViewModel
+    @State private var isShowingSortDialog = false
     
     // MARK: - Body
     
@@ -14,12 +21,13 @@ struct CartView: View {
         
         .confirmationDialog(
             String(localized: "Sorting"),
-            isPresented: $viewModel.isShowingSortDialog,
+            isPresented: $isShowingSortDialog,
             titleVisibility: .visible
         ) {
             ForEach(CartSortType.allCases) { type in
-                Button(type.rawValue) {
+                Button(LocalizedStringKey(type.rawValue)) {
                     viewModel.selectSort(type)
+                    isShowingSortDialog = false
                 }
             }
             
@@ -34,15 +42,15 @@ struct CartView: View {
             Spacer()
             
             Button(action: {
-                viewModel.isShowingSortDialog = true
+                isShowingSortDialog = true
             }) {
                 Image("SortIcon")
                     .resizable()
-                    .frame(width: 42, height: 42)
+                    .frame(width: Constants.sortIconSize, height: Constants.sortIconSize)
                     .padding(.trailing, 9)
             }
         }
-        .frame(height: 42)
+        .frame(height: Constants.sortIconSize)
         .background(Color.whiteDynamicYP)
     }
     
@@ -57,10 +65,13 @@ struct CartView: View {
             } else {
                 List {
                     ForEach(viewModel.items) { nft in
-                        CartCell(item: nft, viewModel: viewModel)
-                            .listRowSeparator(.hidden)
-                            .listRowInsets(EdgeInsets())
-                            .padding(16)
+                        CartCell(
+                            item: nft,
+                            onRemove: { onTapRemove(nft) }
+                        )
+                        .listRowSeparator(.hidden)
+                        .listRowInsets(EdgeInsets())
+                        .padding(16)
                     }
                 }
                 .listStyle(PlainListStyle())
@@ -72,6 +83,11 @@ struct CartView: View {
     private var priceSection: some View {
         // TODO: добавить секцию с ценой
         EmptyView()
+    }
+    
+    private func onTapRemove(_ item: CartItem) {
+        viewModel.tapRemoveNft(item)
+        viewModel.openRemoveModal()
     }
 }
 
