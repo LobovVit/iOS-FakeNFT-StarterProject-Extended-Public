@@ -48,14 +48,16 @@ struct CatalogView: View {
             }
 
             // Кнопка сортировки
-            Button(action: {
-                showSortDialog = true
-            }) {
-                Image("SortIcon")
+            if !viewModel.isLoading {
+                Button(action: {
+                    showSortDialog = true
+                }) {
+                    Image("SortIcon")
+                }
+                .frame(width: 42, height: 42)
+                .padding(.top, 0)
+                .padding(.trailing, 9)
             }
-            .frame(width: 42, height: 42)
-            .padding(.top, 0)
-            .padding(.trailing, 9)
         }
         .confirmationDialog("Сортировка", isPresented: $showSortDialog, titleVisibility: .visible) {
             Button("По названию") {

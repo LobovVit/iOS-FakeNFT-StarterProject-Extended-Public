@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		553771912E1058E50061283A /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553771902E1058E50061283A /* LoadingState.swift */; };
 		ABC5E16C2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E16B2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift */; };
 		ABC5E17D2C31F5B0002B4068 /* iOS_FakeNFT_ExtendedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E17C2C31F5B0002B4068 /* iOS_FakeNFT_ExtendedTests.swift */; };
 		ABC5E1872C31F5B0002B4068 /* iOS_FakeNFT_ExtendedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC5E1862C31F5B0002B4068 /* iOS_FakeNFT_ExtendedUITests.swift */; };
@@ -36,7 +35,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		553771902E1058E50061283A /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 		ABC5E1682C31F5AF002B4068 /* iOS-FakeNFT-Extended.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-FakeNFT-Extended.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABC5E16B2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS_FakeNFT_ExtendedApp.swift; sourceTree = "<group>"; };
 		ABC5E1782C31F5B0002B4068 /* iOS-FakeNFT-ExtendedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS-FakeNFT-ExtendedTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,7 +47,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		30E593112E12D0470039CA0C /* UIElements */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UIElements; sourceTree = "<group>"; };
 		55914DF32E0AD04700E9B71F /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
 		55914DF42E0AD07600E9B71F /* Screens */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Screens; sourceTree = "<group>"; };
 		982A36442E0D1B5E00CE86F9 /* Profile */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Profile; sourceTree = "<group>"; };
@@ -110,12 +107,12 @@
 		ABC5E16A2C31F5AF002B4068 /* iOS-FakeNFT-Extended */ = {
 			isa = PBXGroup;
 			children = (
-				30E593112E12D0470039CA0C /* UIElements */,
 				982A36632E0D1EA300CE86F9 /* Storage */,
 				982A36502E0D1DA900CE86F9 /* Models */,
 				55914DF42E0AD07600E9B71F /* Screens */,
 				55914DF32E0AD04700E9B71F /* Resources */,
 				ABC5E1A92C31FABA002B4068 /* Services */,
+				ABC5E1B32C31FC03002B4068 /* UIElements */,
 			);
 			path = "iOS-FakeNFT-Extended";
 			sourceTree = "<group>";
@@ -141,7 +138,6 @@
 			children = (
 				ABC5E1A32C31F800002B4068 /* NetworkClient.swift */,
 				ABC5E1A52C31F815002B4068 /* NetworkRequest.swift */,
-				553771902E1058E50061283A /* LoadingState.swift */,
 			);
 			path = NetworkClient;
 			sourceTree = "<group>";
@@ -166,6 +162,13 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
+		ABC5E1B32C31FC03002B4068 /* UIElements */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UIElements;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -183,7 +186,6 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				30E593112E12D0470039CA0C /* UIElements */,
 				55914DF32E0AD04700E9B71F /* Resources */,
 				55914DF42E0AD07600E9B71F /* Screens */,
 				982A36442E0D1B5E00CE86F9 /* Profile */,
@@ -341,7 +343,6 @@
 				ABC5E1A42C31F800002B4068 /* NetworkClient.swift in Sources */,
 				ABC5E16C2C31F5AF002B4068 /* iOS_FakeNFT_ExtendedApp.swift in Sources */,
 				ABC5E1B02C31FB90002B4068 /* RequestConstants.swift in Sources */,
-				553771912E1058E50061283A /* LoadingState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
