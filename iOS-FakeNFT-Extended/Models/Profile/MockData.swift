@@ -9,7 +9,7 @@ import Foundation
 
 struct MockData {
     static let nfts: [NFTModel] = [
-        NFTModel(id: "1", name: "Lilo", author: "John Doe", price: 1.78, rating: 4, imageUrl: URL(string: "https://example.com/image1.png")!),
-        NFTModel(id: "2", name: "Spring", author: "John Doe", price: 1.78, rating: 3, imageUrl: URL(string: "https://example.com/image2.png")!)
+        NFTModel(id: 1, name: "Lilo", author: "John Doe", price: 1.78, rating: 4, imageURL: URL(string: "https://example.com/image1.png")!, isFavorite: true),
+        NFTModel(id: 2, name: "Spring", author: "John Doe", price: 1.78, rating: 3, imageURL: URL(string: "https://example.com/image2.png")!, isFavorite: false)
     ]
 }

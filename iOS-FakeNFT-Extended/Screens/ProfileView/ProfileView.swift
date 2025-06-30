@@ -43,7 +43,9 @@ struct ProfileView: View {
                             profileRow(title: "Мои NFT", value: "(112)")
                         }
 
-                        profileRow(title: "Избранные NFT", value: "(11)")
+                        NavigationLink(destination: FavoritesNFTView()) {
+                            profileRow(title: "Избранные NFT", value: "(\(viewModel.favoritesCount))")
+                        }
 
                         Button {
                             showWebView = true

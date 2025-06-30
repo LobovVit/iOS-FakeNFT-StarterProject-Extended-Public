@@ -16,6 +16,10 @@ final class ProfileViewModel: ObservableObject {
     var displayName: String {
         name.isEmpty ? NSLocalizedString("Name not specified", comment: "") : name
     }
+    
+    var favoritesCount: Int {
+        MockData.nfts.filter { $0.isFavorite }.count
+    }
 
     var validWebsiteURL: URL? {
         if website.lowercased().hasPrefix("http") {

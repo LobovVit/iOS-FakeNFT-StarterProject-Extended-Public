@@ -21,6 +21,11 @@ final class MyNFTViewModel: ObservableObject {
             return nfts.sorted { $0.rating > $1.rating }
         }
     }
+    
+    func loadNFTs() {
+        // пока мок
+        self.nfts = MockData.nfts
+    }
 }
 
 enum SortOption: CaseIterable {

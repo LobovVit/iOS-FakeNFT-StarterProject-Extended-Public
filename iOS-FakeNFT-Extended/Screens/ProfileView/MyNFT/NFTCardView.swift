@@ -12,7 +12,7 @@ struct NFTCardView: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            AsyncImage(url: nft.imageUrl) { image in
+            AsyncImage(url: nft.imageURL) { image in
                 image.resizable().aspectRatio(contentMode: .fill)
             } placeholder: {
                 Color.gray

@@ -45,6 +45,9 @@ struct MyNFTView: View {
             }
             Button("Закрыть", role: .cancel) {}
         }
+        .onAppear {
+            viewModel.loadNFTs()
+        }
     }
 }
 
