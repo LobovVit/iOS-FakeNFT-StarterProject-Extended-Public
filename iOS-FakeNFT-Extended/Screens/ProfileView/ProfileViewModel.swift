@@ -20,6 +20,10 @@ final class ProfileViewModel: ObservableObject {
     var favoritesCount: Int {
         MockData.nfts.filter { $0.isFavorite }.count
     }
+    
+    var myCount: Int {
+        MockData.nfts.count
+    }
 
     var validWebsiteURL: URL? {
         if website.lowercased().hasPrefix("http") {

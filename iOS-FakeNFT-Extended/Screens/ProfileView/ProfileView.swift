@@ -40,7 +40,7 @@ struct ProfileView: View {
 
                     VStack(spacing: 0) {
                         NavigationLink(destination: MyNFTView()) {
-                            profileRow(title: "Мои NFT", value: "(112)")
+                            profileRow(title: "Мои NFT", value: "(\(viewModel.myCount))")
                         }
 
                         NavigationLink(destination: FavoritesNFTView()) {

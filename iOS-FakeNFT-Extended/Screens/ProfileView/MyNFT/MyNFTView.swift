@@ -8,45 +8,65 @@
 import SwiftUI
 
 struct MyNFTView: View {
+    @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = MyNFTViewModel()
-    @State private var showSortSheet = false
+    @State private var showSortDialog = false
 
     var body: some View {
-        VStack {
-            if viewModel.nfts.isEmpty {
-                Text("У Вас ещё нет NFT")
-                    .font(Fonts.bodyBold)
-                    .foregroundColor(.primary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                List {
-                    ForEach(viewModel.sortedNFTs) { nft in
-                        NFTCardView(nft: nft)
+        NavigationStack {
+            VStack {
+                if viewModel.sortedNFTs.isEmpty {
+                    Text("У Вас ещё нет NFT")
+                        .font(Fonts.bodyBold)
+                        .padding()
+                } else {
+                    ScrollView {
+                        VStack(spacing: 12) {
+                            ForEach(viewModel.sortedNFTs) { nft in
+                                NFTCardView(nft: nft)
+                            }
+                        }
+                        .padding(.horizontal)
                     }
                 }
-                .listStyle(.plain)
             }
-        }
-        .navigationTitle("Мои NFT")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    showSortSheet.toggle()
-                } label: {
-                    Image(systemName: "line.3.horizontal.decrease")
+            .navigationTitle("Мои NFT")
+            .navigationBarBackButtonHidden(true)
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(.primary)
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button(action: {
+                        showSortDialog = true
+                    }) {
+                        Image("SortIcon")
+                            .foregroundColor(.primary)
+                    }
                 }
             }
-        }
-        .confirmationDialog("Сортировка", isPresented: $showSortSheet) {
-            ForEach(SortOption.allCases, id: \.self) { option in
-                Button(option.title) {
-                    viewModel.sortOption = option
+            .confirmationDialog("Сортировка", isPresented: $showSortDialog, titleVisibility: .visible) {
+                ForEach(SortStorage.SortOption.allCases, id: \.self) { option in
+                    Button(sortTitle(for: option)) {
+                        viewModel.selectedSortOption = option
+                    }
                 }
+                Button("Закрыть", role: .cancel) {}
             }
-            Button("Закрыть", role: .cancel) {}
         }
-        .onAppear {
-            viewModel.loadNFTs()
+    }
+
+    private func sortTitle(for option: SortStorage.SortOption) -> String {
+        switch option {
+        case .byPrice: return "По цене"
+        case .byRating: return "По рейтингу"
+        case .byName: return "По названию"
         }
     }
 }
