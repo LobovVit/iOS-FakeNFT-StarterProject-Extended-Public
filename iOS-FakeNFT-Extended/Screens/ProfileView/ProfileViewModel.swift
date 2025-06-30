@@ -18,7 +18,18 @@ final class ProfileViewModel: ObservableObject {
     @Published var error: String? = nil
 
     private let storage = ProfileStorage()
+    
+    var normalizedWebsiteURL: URL? {
+        var urlString = website.trimmingCharacters(in: .whitespacesAndNewlines)
 
+        if !urlString.lowercased().hasPrefix("http://") &&
+           !urlString.lowercased().hasPrefix("https://") {
+            urlString = "https://" + urlString
+        }
+
+        return URL(string: urlString)
+    }
+    
     init() {
         loadProfile()
     }

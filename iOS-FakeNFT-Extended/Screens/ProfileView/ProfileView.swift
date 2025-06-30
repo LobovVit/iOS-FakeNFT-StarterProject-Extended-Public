@@ -1,15 +1,9 @@
-//
-//  MockProfileView.swift
-//  iOS-FakeNFT-Extended
-//
-//  Created by Vitaly Lobov on 26.06.2025.
-//
-
 import SwiftUI
 
 struct ProfileView: View {
     @StateObject var viewModel = ProfileViewModel()
     @State private var isEditing = false
+    @State private var showWebView = false
 
     var body: some View {
         NavigationStack {
@@ -26,18 +20,20 @@ struct ProfileView: View {
                             .padding(.horizontal, 20)
                     }
 
-                    if let url = URL(string: viewModel.website), !viewModel.website.isEmpty {
-                        Link(viewModel.website, destination: url)
-                            .font(Fonts.mediumRegular)
-                            .foregroundColor(.blue)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, 20)
+                    if viewModel.normalizedWebsiteURL != nil {
+                        Button(action: { showWebView = true }) {
+                            Text(viewModel.website)
+                                .font(Fonts.mediumRegular)
+                                .foregroundColor(.blue)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 20)
+                        }
                     }
-                    
+
                     VStack(spacing: 0) {
                         profileRow(title: "Мои NFT", value: "(112)")
                         profileRow(title: "Избранные NFT", value: "(11)")
-                        profileRow(title: "О разработчике", value: nil)
+                        developerRow(title: "О разработчике")
                     }
                     .padding(.top, 32)
                 }
@@ -54,6 +50,15 @@ struct ProfileView: View {
             }
             .sheet(isPresented: $isEditing) {
                 EditProfileView(viewModel: viewModel)
+            }
+            .sheet(isPresented: $showWebView) {
+                if let url = viewModel.normalizedWebsiteURL {
+                    WebViewScreen(url: url)
+                } else {
+                    Text("Invalid URL")
+                        .font(.caption)
+                        .padding()
+                }
             }
         }
     }
@@ -110,6 +115,22 @@ struct ProfileView: View {
             .padding(.horizontal, 20)
         }
     }
+
+    @ViewBuilder
+    private func developerRow(title: String) -> some View {
+        Button(action: { showWebView = true }) {
+            HStack {
+                Text(LocalizedStringKey(title))
+                    .font(Fonts.bodyBold)
+                    .foregroundColor(.primary)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.primary)
+            }
+            .padding(.vertical, 14)
+            .padding(.horizontal, 20)
+        }
+    }
 }
 
 struct ProfileView_Previews: PreviewProvider {
@@ -117,7 +138,7 @@ struct ProfileView_Previews: PreviewProvider {
         let viewModel = ProfileViewModel()
         viewModel.name = "Joaquin Phoenix"
         viewModel.description = "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям."
-        viewModel.website = "JoaquinPhoenix.com"
+        viewModel.website = "https://apple.com"
         return ProfileView(viewModel: viewModel)
     }
 }
