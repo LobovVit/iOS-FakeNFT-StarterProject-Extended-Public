@@ -49,6 +49,7 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		30E593112E12D0470039CA0C /* UIElements */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = UIElements; sourceTree = "<group>"; };
 		55914DF32E0AD04700E9B71F /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
 		55914DF42E0AD07600E9B71F /* Screens */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Screens; sourceTree = "<group>"; };
 		982A36442E0D1B5E00CE86F9 /* Profile */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Profile; sourceTree = "<group>"; };
@@ -109,12 +110,12 @@
 		ABC5E16A2C31F5AF002B4068 /* iOS-FakeNFT-Extended */ = {
 			isa = PBXGroup;
 			children = (
+				30E593112E12D0470039CA0C /* UIElements */,
 				982A36632E0D1EA300CE86F9 /* Storage */,
 				982A36502E0D1DA900CE86F9 /* Models */,
 				55914DF42E0AD07600E9B71F /* Screens */,
 				55914DF32E0AD04700E9B71F /* Resources */,
 				ABC5E1A92C31FABA002B4068 /* Services */,
-				ABC5E1B32C31FC03002B4068 /* UIElements */,
 			);
 			path = "iOS-FakeNFT-Extended";
 			sourceTree = "<group>";
@@ -165,13 +166,6 @@
 			path = Requests;
 			sourceTree = "<group>";
 		};
-		ABC5E1B32C31FC03002B4068 /* UIElements */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = UIElements;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -189,6 +183,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				30E593112E12D0470039CA0C /* UIElements */,
 				55914DF32E0AD04700E9B71F /* Resources */,
 				55914DF42E0AD07600E9B71F /* Screens */,
 				982A36442E0D1B5E00CE86F9 /* Profile */,

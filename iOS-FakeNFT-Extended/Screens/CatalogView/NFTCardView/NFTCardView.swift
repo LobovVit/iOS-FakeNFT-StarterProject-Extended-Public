@@ -32,22 +32,17 @@ struct NFTCardView: View {
                 Image("FavouritesActive")
                     .resizable()
                     .frame(width: 40, height: 40)
-                    .foregroundColor(.red)
-                    .offset(x: 0, y: 0)
             }
 
             VStack(alignment: .leading, spacing: 0) {
-                //Рейтинг
                 HStack(spacing: 2) {
                     ForEach(0..<5) { index in
                         Image(index < nft.rating ? "StarsActive" : "StarsNoActive")
                             .resizable()
                             .frame(width: 12, height: 12)
-                            .foregroundColor(index < nft.rating ? .yellow : .gray)
                     }
                 }
 
-                //Название + Цена + Корзина
                 HStack(alignment: .center) {
                     VStack(alignment: .leading, spacing: 2) {
                         Text(nft.name)
