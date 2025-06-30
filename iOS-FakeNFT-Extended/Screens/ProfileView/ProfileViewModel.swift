@@ -1,50 +1,35 @@
-//
-//  ProfileViewModel.swift
-//  iOS-FakeNFT-Extended
-//
-//  Created by Vitaly Lobov on 27.06.2025.
-//
-
 import Foundation
 import SwiftUI
 
-@MainActor
 final class ProfileViewModel: ObservableObject {
     @Published var name: String = ""
     @Published var description: String = ""
     @Published var website: String = ""
-    @Published var avatarImageData: Data? = nil
-    @Published var isLoading = false
-    @Published var error: String? = nil
+    @Published var avatarImageData: Data?
 
-    private let storage = ProfileStorage()
-    
-    var normalizedWebsiteURL: URL? {
-        var urlString = website.trimmingCharacters(in: .whitespacesAndNewlines)
+    // Навигационное состояние
+    @Published var isEditing: Bool = false
+    @Published var showWebView: Bool = false
+    @Published var navigateToMyNFT: Bool = false
+    @Published var navigateToAbout: Bool = false
 
-        if !urlString.lowercased().hasPrefix("http://") &&
-           !urlString.lowercased().hasPrefix("https://") {
-            urlString = "https://" + urlString
+    var displayName: String {
+        name.isEmpty ? NSLocalizedString("Name not specified", comment: "") : name
+    }
+
+    var validWebsiteURL: URL? {
+        if website.lowercased().hasPrefix("http") {
+            return URL(string: website)
+        } else {
+            return URL(string: "https://\(website)")
         }
-
-        return URL(string: urlString)
-    }
-    
-    init() {
-        loadProfile()
     }
 
-    func loadProfile() {
-        name = storage.name
-        description = storage.description
-        website = storage.website
-        avatarImageData = storage.avatarImageData
+    var hasWebsite: Bool {
+        !website.isEmpty && validWebsiteURL != nil
     }
 
-    func saveProfile() {
-        storage.name = name
-        storage.description = description
-        storage.website = website
-        storage.avatarImageData = avatarImageData
+    var hasDescription: Bool {
+        !description.isEmpty
     }
 }

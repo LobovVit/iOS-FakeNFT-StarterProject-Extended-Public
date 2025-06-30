@@ -1,3 +1,11 @@
+//
+//  ProfileView.swift
+//
+//  iOS-FakeNFT-Extended
+//
+//  Created by Vitaly Lobov on 26.06.2025.
+//
+
 import SwiftUI
 
 struct ProfileView: View {
@@ -20,7 +28,7 @@ struct ProfileView: View {
                             .padding(.horizontal, 20)
                     }
 
-                    if viewModel.normalizedWebsiteURL != nil {
+                    if !viewModel.website.isEmpty {
                         Button(action: { showWebView = true }) {
                             Text(viewModel.website)
                                 .font(Fonts.mediumRegular)
@@ -31,9 +39,17 @@ struct ProfileView: View {
                     }
 
                     VStack(spacing: 0) {
-                        profileRow(title: "Мои NFT", value: "(112)")
+                        NavigationLink(destination: MyNFTView()) {
+                            profileRow(title: "Мои NFT", value: "(112)")
+                        }
+
                         profileRow(title: "Избранные NFT", value: "(11)")
-                        developerRow(title: "О разработчике")
+
+                        Button {
+                            showWebView = true
+                        } label: {
+                            profileRow(title: "О разработчике", value: nil)
+                        }
                     }
                     .padding(.top, 32)
                 }
@@ -52,12 +68,8 @@ struct ProfileView: View {
                 EditProfileView(viewModel: viewModel)
             }
             .sheet(isPresented: $showWebView) {
-                if let url = viewModel.normalizedWebsiteURL {
+                if let url = viewModel.validWebsiteURL {
                     WebViewScreen(url: url)
-                } else {
-                    Text("Invalid URL")
-                        .font(.caption)
-                        .padding()
                 }
             }
         }
@@ -96,40 +108,22 @@ struct ProfileView: View {
 
     @ViewBuilder
     private func profileRow(title: String, value: String?) -> some View {
-        NavigationLink(destination: Text(LocalizedStringKey(title))) {
-            HStack {
-                Text(LocalizedStringKey(title))
+        HStack {
+            Text(LocalizedStringKey(title))
+                .font(Fonts.bodyBold)
+                .foregroundColor(.primary)
+
+            if let value = value {
+                Text(value)
                     .font(Fonts.bodyBold)
                     .foregroundColor(.primary)
-
-                if let value = value {
-                    Text(value)
-                        .font(Fonts.bodyBold)
-                        .foregroundColor(.primary)
-                }
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.primary)
             }
-            .padding(.vertical, 14)
-            .padding(.horizontal, 20)
+            Spacer()
+            Image(systemName: "chevron.right")
+                .foregroundColor(.primary)
         }
-    }
-
-    @ViewBuilder
-    private func developerRow(title: String) -> some View {
-        Button(action: { showWebView = true }) {
-            HStack {
-                Text(LocalizedStringKey(title))
-                    .font(Fonts.bodyBold)
-                    .foregroundColor(.primary)
-                Spacer()
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.primary)
-            }
-            .padding(.vertical, 14)
-            .padding(.horizontal, 20)
-        }
+        .padding(.vertical, 14)
+        .padding(.horizontal, 20)
     }
 }
 
