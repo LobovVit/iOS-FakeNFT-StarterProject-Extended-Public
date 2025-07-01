@@ -10,7 +10,8 @@ import Kingfisher
 
 struct CollectionDetailView: View {
     let collection: CollectionDTO
-    let nfts: [NFTItem]
+    @StateObject var viewModel: CollectionDetailViewModel
+
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
@@ -46,7 +47,7 @@ struct CollectionDetailView: View {
                 HStack(spacing: 4) {
                     Text("Автор коллекции:")
                         .font(.subheadline)
-                        .foregroundColor(.blackDynamicYP)
+                        .foregroundColor(.black)
 
                     Text(collection.author)
                         .font(.subheadline)
@@ -55,7 +56,7 @@ struct CollectionDetailView: View {
 
                 Text(collection.description)
                     .font(.body)
-                    .foregroundColor(.blackDynamicYP)
+                    .foregroundColor(.black)
             }
             .padding(.horizontal, 16)
 
@@ -65,9 +66,19 @@ struct CollectionDetailView: View {
                     columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 3),
                     spacing: 0
                 ) {
-                    ForEach(nfts) { nft in
-                        NFTCardView(nft: nft)
-                            .padding(.bottom, 28)
+                    ForEach(viewModel.displayedNFTs) { nft in
+                        NFTCardView(
+                            nft: nft,
+                            isFavorite: viewModel.isFavorite(for: nft.id),
+                            isInCart: viewModel.isInCart(for: nft.id),
+                            onFavoriteTap: {
+                                viewModel.toggleFavorite(for: nft.id)
+                            },
+                            onCartTap: {
+                                viewModel.toggleCart(for: nft.id)
+                            }
+                        )
+                        .padding(.bottom, 28)
                     }
                 }
                 .padding(.horizontal, 16)
@@ -130,6 +141,9 @@ struct CollectionDetailView_Previews: PreviewProvider {
             nfts: ["1", "2", "3", "4"]
         )
 
-        CollectionDetailView(collection: mockCollection, nfts: mockNFTs)
+        CollectionDetailView(
+            collection: mockCollection,
+            viewModel: CollectionDetailViewModel(nfts: mockNFTs)
+        )
     }
 }

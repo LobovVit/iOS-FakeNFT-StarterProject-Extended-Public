@@ -10,6 +10,10 @@ import Kingfisher
 
 struct NFTCardView: View {
     let nft: NFTItem
+    let isFavorite: Bool
+    let isInCart: Bool
+    let onFavoriteTap: () -> Void
+    let onCartTap: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -29,9 +33,11 @@ struct NFTCardView: View {
                         .cornerRadius(12)
                 }
 
-                Image("FavouritesActive")
-                    .resizable()
-                    .frame(width: 40, height: 40)
+                Button(action: onFavoriteTap) {
+                    Image(isFavorite ? "FavouritesActive" : "FavouritesNoActive")
+                        .resizable()
+                        .frame(width: 40, height: 40)
+                }
             }
 
             VStack(alignment: .leading, spacing: 0) {
@@ -55,9 +61,11 @@ struct NFTCardView: View {
 
                     Spacer()
 
-                    Image("CartNoActive")
-                        .resizable()
-                        .frame(width: 40, height: 40)
+                    Button(action: onCartTap) {
+                        Image(isInCart ? "CartActive" : "CartNoActive")
+                            .resizable()
+                            .frame(width: 40, height: 40)
+                    }
                 }
                 .padding(.top, 5)
             }
@@ -80,8 +88,14 @@ struct NFTCardView_Previews: PreviewProvider {
             author: "Author"
         )
 
-        return NFTCardView(nft: mockNFT)
-            .previewLayout(.sizeThatFits)
-            .padding()
+        return NFTCardView(
+            nft: mockNFT,
+            isFavorite: true,
+            isInCart: false,
+            onFavoriteTap: { print("Tapped favorite") },
+            onCartTap: { print("Tapped cart") }
+        )
+        .previewLayout(.sizeThatFits)
+        .padding()
     }
 }

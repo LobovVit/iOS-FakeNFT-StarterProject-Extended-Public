@@ -71,7 +71,10 @@ struct CatalogView: View {
             .navigationDestination(for: CollectionNavigationRoute.self) { route in
                 switch route {
                 case .detail(let collection, let nfts):
-                    CollectionDetailView(collection: collection, nfts: nfts)
+                    CollectionDetailView(
+                        collection: collection,
+                        viewModel: CollectionDetailViewModel(nfts: nfts)
+                    )
                 }
             }
             .task {
