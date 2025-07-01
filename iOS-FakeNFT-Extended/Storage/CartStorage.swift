@@ -9,14 +9,13 @@ import SwiftUI
 
 final class CartStorage {
     private let defaults = UserDefaults.standard
-    private let key = "cartNFTIDs"
 
     var cartNFTIDs: [String] {
         get {
-            defaults.stringArray(forKey: key) ?? []
+            defaults.stringArray(forKey: UserDefaults.Keys.cartNFTIDs) ?? []
         }
         set {
-            defaults.set(newValue, forKey: key)
+            defaults.set(newValue, forKey: UserDefaults.Keys.cartNFTIDs)
         }
     }
 
@@ -28,5 +27,9 @@ final class CartStorage {
             current.insert(id)
         }
         cartNFTIDs = Array(current)
+    }
+
+    func isInCart(id: String) -> Bool {
+        cartNFTIDs.contains(id)
     }
 }

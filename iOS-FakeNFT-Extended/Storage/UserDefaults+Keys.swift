@@ -14,5 +14,7 @@ extension UserDefaults {
         static let userProfileName = "userProfileName"
         static let userProfileDescription = "userProfileDescription"
         static let favoriteNFTIDs = "favoriteNFTIDs"
+        static let cartNFTIDs = "cartNFTIDs"
+
     }
 }

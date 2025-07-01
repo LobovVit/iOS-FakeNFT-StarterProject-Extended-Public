@@ -11,7 +11,7 @@ final class CollectionDetailViewModel: ObservableObject {
     @Published var displayedNFTs: [NFTItem]
 
     private let favoritesStorage = FavoritesStorage()
-    private var cartItems: Set<String> = []
+    private let cartStorage = CartStorage()
 
     init(nfts: [NFTItem]) {
         self.displayedNFTs = nfts
@@ -24,26 +24,20 @@ final class CollectionDetailViewModel: ObservableObject {
     func toggleFavorite(for id: String) {
         favoritesStorage.toggleFavorite(id: id)
         objectWillChange.send()
-        
-        if isFavorite(for: id) {
-            print("✅ NFT добавлено в избранное: \(id)")
-        } else {
-            print("❌ NFT удалено из избранного: \(id)")
-        }
+        print(isFavorite(for: id)
+              ? "✅ NFT добавлено в избранное: \(id)"
+              : "❌ NFT удалено из избранного: \(id)")
     }
 
     func isInCart(for id: String) -> Bool {
-        cartItems.contains(id)
+        cartStorage.isInCart(id: id)
     }
 
     func toggleCart(for id: String) {
-        if cartItems.contains(id) {
-            cartItems.remove(id)
-            print("🛒 NFT удалено из корзины: \(id)")
-        } else {
-            cartItems.insert(id)
-            print("🛒 NFT добавлено в корзину: \(id)")
-        }
+        cartStorage.toggleCart(id: id)
         objectWillChange.send()
+        print(isInCart(for: id)
+              ? "🛒 NFT добавлено в корзину: \(id)"
+              : "🛒 NFT удалено из корзины: \(id)")
     }
 }
