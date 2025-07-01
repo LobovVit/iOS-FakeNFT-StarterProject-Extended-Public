@@ -36,7 +36,7 @@ struct CollectionDetailView: View {
                 .padding(.leading, 0)
                 .padding(.top, 0)
             }
-            .padding(.bottom, -46)
+            .padding(.bottom, -36)
 
             // MARK: - Информация о коллекции
             VStack(alignment: .leading, spacing: 8) {
@@ -75,6 +75,7 @@ struct CollectionDetailView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
     }
 }
 

@@ -11,69 +11,78 @@ import Kingfisher
 struct CatalogView: View {
     @ObservedObject var viewModel: CatalogViewModel
     @State private var showSortDialog = false
+    @State private var path = NavigationPath()
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
-            if viewModel.isLoading {
-                VStack {
-                    Spacer()
-                    ProgressView("Загрузка...")
-                        .progressViewStyle(CircularProgressViewStyle())
-                        .padding()
-                    Spacer()
-                }
-            } else {
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Spacer().frame(height: 62)
+        NavigationStack(path: $path) {
+            ZStack(alignment: .topTrailing) {
+                if viewModel.isLoading {
+                    VStack {
+                        Spacer()
+                        ProgressView("Загрузка...")
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .padding()
+                        Spacer()
+                    }
+                } else {
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Spacer().frame(height: 62)
 
-                        LazyVStack(spacing: 21) {
-                            ForEach(viewModel.collections) { collection in
-                                NavigationLink(
-                                    destination: CollectionRowView(
-                                        collection: collection,
-                                        nfts: viewModel.nfts(for: collection.id)
-                                    )
-                                ) {
-                                    CollectionRowView(
-                                        collection: collection,
-                                        nfts: viewModel.nfts(for: collection.id)
-                                    )
+                            LazyVStack(spacing: 21) {
+                                ForEach(viewModel.collections) { collection in
+                                    Button(action: {
+                                        let nfts = viewModel.nfts(for: collection.id)
+                                        path.append(CollectionNavigationRoute.detail(collection: collection, nfts: nfts))
+                                    }) {
+                                        CollectionRowView(
+                                            collection: collection,
+                                            nfts: viewModel.nfts(for: collection.id)
+                                        )
+                                    }
+                                    .buttonStyle(PlainButtonStyle())
                                 }
-                                .buttonStyle(PlainButtonStyle())
                             }
                         }
                     }
                 }
-            }
 
-            // Кнопка сортировки
-            if !viewModel.isLoading {
-                Button(action: {
-                    showSortDialog = true
-                }) {
-                    Image("SortIcon")
+                if !viewModel.isLoading {
+                    Button(action: {
+                        showSortDialog = true
+                    }) {
+                        Image("SortIcon")
+                    }
+                    .frame(width: 42, height: 42)
+                    .padding(.top, 0)
+                    .padding(.trailing, 9)
                 }
-                .frame(width: 42, height: 42)
-                .padding(.top, 0)
-                .padding(.trailing, 9)
             }
-        }
-        .confirmationDialog("Сортировка", isPresented: $showSortDialog, titleVisibility: .visible) {
-            Button("По названию") {
-                viewModel.sortCollections(by: .byName)
+            .navigationBarTitleDisplayMode(.inline)
+            .confirmationDialog("Сортировка", isPresented: $showSortDialog, titleVisibility: .visible) {
+                Button("По названию") {
+                    viewModel.sortCollections(by: .byName)
+                }
+                Button("По количеству NFT") {
+                    viewModel.sortCollections(by: .byCount)
+                }
+                Button("Закрыть", role: .cancel) {}
             }
-            Button("По количеству NFT") {
-                viewModel.sortCollections(by: .byCount)
+            .navigationDestination(for: CollectionNavigationRoute.self) { route in
+                switch route {
+                case .detail(let collection, let nfts):
+                    CollectionDetailView(collection: collection, nfts: nfts)
+                }
             }
-            Button("Закрыть", role: .cancel) {}
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .task {
-            await viewModel.loadData()
+            .task {
+                await viewModel.loadData()
+            }
         }
     }
+}
 
+enum CollectionNavigationRoute: Hashable {
+    case detail(collection: CollectionDTO, nfts: [NFTItem])
 }
 
 // MARK: - Preview

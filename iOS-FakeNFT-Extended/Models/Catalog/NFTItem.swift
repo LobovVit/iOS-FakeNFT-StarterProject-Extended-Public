@@ -5,7 +5,7 @@
 //  Created by Vitaly Lobov on 26.06.2025.
 //
 
-struct NFTItem: Identifiable, Codable {
+struct NFTItem: Identifiable, Codable, Hashable {
     let id: String
     let name: String
     let images: [String]

@@ -5,7 +5,7 @@
 //  Created by Vitaly Lobov on 26.06.2025.
 //
 
-struct CollectionDTO: Identifiable, Codable {
+struct CollectionDTO: Identifiable, Codable, Hashable {
     let id: String
     let name: String
     let cover: String
