@@ -8,7 +8,7 @@
 import Foundation
 
 struct NFTModel: Identifiable {
-    let id: Int
+    let id: String
     let name: String
     let author: String
     let price: Double

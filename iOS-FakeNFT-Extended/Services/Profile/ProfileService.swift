@@ -14,11 +14,21 @@ protocol ProfileServiceProtocol {
 
 final class ProfileService: ProfileServiceProtocol {
     func fetchProfile() async throws -> UserProfile {
-        // TODO: fetch from API
-        return UserProfile(id: "1", name: "Имя", description: "О себе", website: "https://example.com")
+        let request = BasicRequest<UserProfile>(
+            endpoint: ProfileRequestConstants.URL,
+            httpMethod: .get
+        )
+
+        return try await DefaultNetworkClient.shared.send(request: request)
     }
 
     func updateProfile(_ profile: UserProfile) async throws {
-        // TODO: send update to API
+        let request = BasicRequest<UserProfile>(
+            endpoint: ProfileRequestConstants.URL,
+            httpMethod: .put,
+            dto: profile
+        )
+
+        _ = try await DefaultNetworkClient.shared.send(request: request) as UserProfile
     }
 }

@@ -75,6 +75,9 @@ struct ProfileView: View {
                 }
             }
         }
+        .task {
+            await viewModel.loadProfile()
+        }
     }
 
     private var avatarAndNameView: some View {
