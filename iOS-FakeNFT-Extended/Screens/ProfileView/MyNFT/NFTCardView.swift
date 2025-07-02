@@ -34,8 +34,8 @@ struct NFTCardView: View {
             Spacer()
 
             VStack(alignment: .trailing) {
-                Text("Цена")
-                    .font(Fonts.tinyMedium)
+                Text(String(localized: "Price"))
+                    .font(Fonts.smallRegular)
                     .foregroundColor(.gray)
                 Text("\(String(format: "%.2f", nft.price)) ETH")
                     .font(Fonts.bodyBold)

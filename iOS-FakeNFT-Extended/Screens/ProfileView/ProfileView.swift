@@ -73,9 +73,6 @@ struct ProfileView: View {
                     WebViewScreen(url: url)
                 }
             }
-            .task {
-                await viewModel.loadProfile()
-            }
         }
     }
     

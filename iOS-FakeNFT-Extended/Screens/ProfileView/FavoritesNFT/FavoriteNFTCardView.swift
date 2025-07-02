@@ -38,7 +38,7 @@ struct FavoriteNFTCardView: View {
                 RatingView(rating: nft.rating)
 
                 Text("\(String(format: "%.2f", nft.price)) ETH")
-                    .font(Fonts.bodyRegular)
+                    .font(Fonts.mediumRegular)
             }
 
             Spacer()

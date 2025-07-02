@@ -18,7 +18,7 @@ struct FavoritesNFTView: View {
         NavigationStack {
             VStack {
                 if viewModel.sortedNFTs.isEmpty {
-                    Text("У Вас ещё нет избранных NFT")
+                    Text(String(localized: "You don't have any featured NFTs yet"))
                         .font(Fonts.bodyBold)
                         .multilineTextAlignment(.center)
                         .padding()
@@ -33,7 +33,7 @@ struct FavoritesNFTView: View {
                     }
                 }
             }
-            .navigationTitle("Избранные NFT")
+            .navigationTitle(String(localized: "NFeatured NFTs"))
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -54,22 +54,22 @@ struct FavoritesNFTView: View {
                     }
                 }
             }
-            .confirmationDialog("Сортировка", isPresented: $showSortDialog, titleVisibility: .visible) {
+            .confirmationDialog(String(localized: "Sorting"), isPresented: $showSortDialog, titleVisibility: .visible) {
                 ForEach(SortStorage.SortOption.allCases, id: \.self) { option in
                     Button(sortTitle(for: option)) {
                         viewModel.selectedSortOption = option
                     }
                 }
-                Button("Закрыть", role: .cancel) {}
+                Button(String(localized: "Close"), role: .cancel) {}
             }
         }
     }
 
     private func sortTitle(for option: SortStorage.SortOption) -> String {
         switch option {
-        case .byPrice: return "По цене"
-        case .byRating: return "По рейтингу"
-        case .byName: return "По названию"
+        case .byPrice: return String(localized: "By price")
+        case .byRating: return String(localized: "By rating")
+        case .byName: return String(localized: "By name")
         }
     }
 }
