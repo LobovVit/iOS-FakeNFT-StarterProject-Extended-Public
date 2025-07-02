@@ -13,15 +13,17 @@ struct FavoriteNFTCardView: View {
     var body: some View {
         HStack(spacing: 12) {
             ZStack(alignment: .topTrailing) {
-                AsyncImage(url: nft.imageURL) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fill)
-                } placeholder: {
-                    Color.gray.opacity(0.2)
+                if let url = URL(string: nft.images.first ?? "") {
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(1, contentMode: .fill)
+                    } placeholder: {
+                        Color.gray.opacity(0.2)
+                    }
+                    .frame(width: 80, height: 80)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
-                .frame(width: 80, height: 80)
-                .clipShape(RoundedRectangle(cornerRadius: 12))
 
                 Image(systemName: "heart.fill")
                     .foregroundColor(.red)

@@ -15,7 +15,7 @@ protocol ProfileServiceProtocol {
 final class ProfileService: ProfileServiceProtocol {
     func fetchProfile() async throws -> UserProfile {
         let request = BasicRequest<UserProfile>(
-            endpoint: ProfileRequestConstants.URL,
+            endpoint: ProfileRequestConstants.profileURL,
             httpMethod: .get
         )
 
@@ -24,7 +24,7 @@ final class ProfileService: ProfileServiceProtocol {
 
     func updateProfile(_ profile: UserProfile) async throws {
         let request = BasicRequest<UserProfile>(
-            endpoint: ProfileRequestConstants.URL,
+            endpoint: ProfileRequestConstants.profileURL,
             httpMethod: .put,
             dto: profile
         )

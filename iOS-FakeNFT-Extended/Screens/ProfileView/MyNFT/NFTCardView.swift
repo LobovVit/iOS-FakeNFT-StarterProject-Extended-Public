@@ -12,13 +12,15 @@ struct NFTCardView: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            AsyncImage(url: nft.imageURL) { image in
-                image.resizable().aspectRatio(contentMode: .fill)
-            } placeholder: {
-                Color.gray
+            if let url = URL(string: nft.images.first ?? "") {
+                AsyncImage(url: url) { image in
+                    image.resizable().aspectRatio(contentMode: .fill)
+                } placeholder: {
+                    Color.gray
+                }
+                .frame(width: 108, height: 108)
+                .cornerRadius(12)
             }
-            .frame(width: 108, height: 108)
-            .cornerRadius(12)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(nft.name)
@@ -45,7 +47,7 @@ struct NFTCardView: View {
 
 struct NFTCardView_Previews: PreviewProvider {
     static var previews: some View {
-        NFTCardView(nft: MockData.nfts[0])
+        NFTCardView(nft: MockData.nfts.first!)
             .previewLayout(.sizeThatFits)
             .padding()
     }

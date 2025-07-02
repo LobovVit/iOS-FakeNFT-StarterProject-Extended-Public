@@ -28,7 +28,7 @@ final class FavoritesNFTViewModel: ObservableObject {
 
     func loadNFTs() {
         // Загружаем только избранные
-        self.allNFTs = MockData.nfts.filter { $0.isFavorite }
+        self.allNFTs = MockData.nfts
         sortAndUpdateNFTs()
     }
 

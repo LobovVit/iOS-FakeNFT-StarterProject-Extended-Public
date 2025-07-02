@@ -7,12 +7,13 @@
 
 import Foundation
 
-struct NFTModel: Identifiable {
+struct NFTModel: Decodable, Identifiable, Sendable {
     let id: String
+    let createdAt: String
     let name: String
-    let author: String
-    let price: Double
+    let images: [String]
     let rating: Int
-    let imageURL: URL
-    let isFavorite: Bool
+    let description: String
+    let price: Double
+    let author: String
 }

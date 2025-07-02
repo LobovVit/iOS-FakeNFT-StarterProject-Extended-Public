@@ -6,5 +6,6 @@
 //
 
 enum ProfileRequestConstants {
-    static let URL = "\(RequestConstants.baseURL)/api/v1/profile/1"
+    static let profileURL = "\(RequestConstants.baseURL)/api/v1/profile/1"
+    static let nftBase = "\(RequestConstants.baseURL)/api/v1/nft"
 }
