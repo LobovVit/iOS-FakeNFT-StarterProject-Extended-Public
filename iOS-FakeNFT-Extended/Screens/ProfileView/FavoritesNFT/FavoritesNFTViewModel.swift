@@ -20,16 +20,48 @@ final class FavoritesNFTViewModel: ObservableObject {
     }
 
     private let sortStorage = SortStorage()
+    private let nftService: NFTServiceProtocol
+    private let profileStorage: ProfileStorage
 
-    init() {
+    init(
+        nftService: NFTServiceProtocol = NFTService(),
+        profileStorage: ProfileStorage = .shared
+    ) {
+        self.nftService = nftService
+        self.profileStorage = profileStorage
         self.selectedSortOption = sortStorage.selectedSortOption
-        loadNFTs()
+
+        Task {
+            await loadNFTs()
+        }
     }
 
-    func loadNFTs() {
-        // Загружаем только избранные
-        self.allNFTs = MockData.nfts
-        sortAndUpdateNFTs()
+    func loadNFTs() async {
+        guard let profile = profileStorage.load() else {
+            print("⚠️ Профиль не найден в сторедже")
+            return
+        }
+
+        do {
+            let loadedNFTs = try await withThrowingTaskGroup(of: NFTModel.self) { group in
+                for nftID in profile.likes {
+                    group.addTask {
+                        try await self.nftService.fetchNFT(by: nftID)
+                    }
+                }
+
+                var results: [NFTModel] = []
+                for try await nft in group {
+                    results.append(nft)
+                }
+                return results
+            }
+
+            self.allNFTs = loadedNFTs
+            sortAndUpdateNFTs()
+        } catch {
+            print("🚨 Ошибка загрузки избранных NFT: \(error)")
+        }
     }
 
     func sortAndUpdateNFTs() {

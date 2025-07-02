@@ -20,9 +20,15 @@ final class ProfileViewModel: ObservableObject {
     @Published var loadingState: LoadingState = .default
 
     private let profileService: ProfileServiceProtocol
+    private let profileStorage: ProfileStorage
 
-        init(profileService: ProfileServiceProtocol = ProfileService()) {
+        init(profileService: ProfileServiceProtocol = ProfileService(),
+             profileStorage: ProfileStorage = .shared) {
             self.profileService = profileService
+            self.profileStorage = profileStorage
+            Task {
+                await loadProfile()
+            }
         }
 
     func loadProfile() async {
@@ -31,6 +37,7 @@ final class ProfileViewModel: ObservableObject {
             let profile = try await profileService.fetchProfile()
             self.profile = profile
             loadingState = .success
+            profileStorage.save(profile)
         } catch {
             loadingState = .failure
         }
