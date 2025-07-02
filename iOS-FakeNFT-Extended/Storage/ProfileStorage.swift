@@ -8,24 +8,25 @@
 import Foundation
 
 final class ProfileStorage {
-    var name: String {
-        get { UserDefaults.standard.string(forKey: "profile_name") ?? "" }
-        set { UserDefaults.standard.set(newValue, forKey: "profile_name") }
+    private let defaults = UserDefaults.standard
+    private let key = UserDefaults.Keys.userProfile
+
+    func save(_ profile: UserProfile) {
+        if let data = try? JSONEncoder().encode(profile) {
+            defaults.set(data, forKey: key)
+        }
     }
 
-    var description: String {
-        get { UserDefaults.standard.string(forKey: "profile_description") ?? "" }
-        set { UserDefaults.standard.set(newValue, forKey: "profile_description") }
+    func load() -> UserProfile? {
+        guard let data = defaults.data(forKey: key),
+              let profile = try? JSONDecoder().decode(UserProfile.self, from: data) else {
+            return nil
+        }
+        return profile
     }
 
-    var website: String {
-        get { UserDefaults.standard.string(forKey: "profile_website") ?? "" }
-        set { UserDefaults.standard.set(newValue, forKey: "profile_website") }
-    }
-
-    var avatarImageData: Data? {
-        get { UserDefaults.standard.data(forKey: "profile_avatarImageData") }
-        set { UserDefaults.standard.set(newValue, forKey: "profile_avatarImageData") }
+    func clear() {
+        defaults.removeObject(forKey: key)
     }
 }
 

@@ -7,10 +7,12 @@
 
 import Foundation
 
-struct UserProfile: Codable, Identifiable {
+struct UserProfile: Codable, Identifiable, Sendable {
     let id: String
     var name: String
     var description: String
     var website: String
-    var avatarImageData: Data?
+    var avatar: String?
+    var nfts: [String]
+    var likes: [String]
 }

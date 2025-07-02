@@ -10,11 +10,7 @@ import SwiftUI
 
 @MainActor
 final class ProfileViewModel: ObservableObject {
-    @Published var id: String = ""
-    @Published var name: String = ""
-    @Published var description: String = ""
-    @Published var website: String = ""
-    @Published var avatarImageData: Data?
+    @Published var profile: UserProfile = .init(id: "", name: "", description: "", website: "", avatar: nil, nfts: [],likes: [])
 
     // Навигационное состояние
     @Published var isEditing: Bool = false
@@ -33,10 +29,7 @@ final class ProfileViewModel: ObservableObject {
         loadingState = .loading
         do {
             let profile = try await profileService.fetchProfile()
-            self.name = profile.name
-            self.description = profile.description
-            self.website = profile.website
-            self.avatarImageData = profile.avatarImageData
+            self.profile = profile
             loadingState = .success
         } catch {
             loadingState = .failure
@@ -44,14 +37,7 @@ final class ProfileViewModel: ObservableObject {
     }
 
     func saveProfile() async {
-        let updated = UserProfile(
-            id: id,
-            name: name,
-            description: description,
-            website: website,
-            avatarImageData: avatarImageData
-        )
-
+        let updated = profile
         do {
             try await profileService.updateProfile(updated)
         } catch {
@@ -60,30 +46,30 @@ final class ProfileViewModel: ObservableObject {
     }
 
     var displayName: String {
-        name.isEmpty ? NSLocalizedString("Name not specified", comment: "") : name
+        profile.name.isEmpty ? NSLocalizedString("Name not specified", comment: "") : profile.name
     }
 
     var favoritesCount: Int {
-        MockData.nfts.filter { $0.isFavorite }.count
+        profile.likes.count
     }
 
     var myCount: Int {
-        MockData.nfts.count
+        profile.nfts.count
     }
 
     var validWebsiteURL: URL? {
-        if website.lowercased().hasPrefix("http") {
-            return URL(string: website)
+        if profile.website.lowercased().hasPrefix("http") {
+            return URL(string: profile.website)
         } else {
-            return URL(string: "https://\(website)")
+            return URL(string: "https://\(profile.website)")
         }
     }
 
     var hasWebsite: Bool {
-        !website.isEmpty && validWebsiteURL != nil
+        !profile.website.isEmpty && validWebsiteURL != nil
     }
 
     var hasDescription: Bool {
-        !description.isEmpty
+        !profile.description.isEmpty
     }
 }

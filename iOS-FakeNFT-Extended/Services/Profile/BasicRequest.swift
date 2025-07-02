@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct BasicRequest<Response: Decodable>: NetworkRequest {
+struct BasicRequest<Response: Decodable>: NetworkRequest, Sendable {
     let endpoint: URL?
     let httpMethod: HttpMethod
-    let dto: (any Encodable)?
+    let dto: (any Encodable & Sendable)?
     let queryItems: [URLQueryItem]
     let headers: [String: String]
 
