@@ -4,6 +4,9 @@
     "%.2f ETH" : {
       "shouldTranslate" : false
     },
+    "%lld NFT" : {
+      "shouldTranslate" : false
+    },
     "Are you sure you want to\nremove this item from your cart? " : {
       "localizations" : {
         "ru" : {
@@ -131,6 +134,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сортировка"
+          }
+        }
+      }
+    },
+    "To payment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "К оплате"
           }
         }
       }

@@ -14,6 +14,10 @@ final class CartViewModel: ObservableObject {
     private let sortStorage = CartSortStorage()
     private let service: CartServiceProtocol
     
+    var totalPrice: Double {
+        items.reduce(0) { $0 + $1.price }
+    }
+    
     init(service: CartServiceProtocol = CartService()) {
         self.service = service
         self.selectedSort = sortStorage.selectedSort

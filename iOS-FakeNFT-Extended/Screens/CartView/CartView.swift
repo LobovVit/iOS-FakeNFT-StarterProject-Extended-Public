@@ -3,6 +3,11 @@ import SwiftUI
 struct CartView: View {
     private enum Constants {
         static let sortIconSize: CGFloat = 42
+        static let buttonWidth: CGFloat = 240
+        static let buttonHeight: CGFloat = 44
+        static let buttonCornerRadius: CGFloat = 16
+        static let priceSectionHeight: CGFloat = 76
+        static let priceSectionRadius: CGFloat = 20
     }
     
     // MARK: - Properties
@@ -81,8 +86,34 @@ struct CartView: View {
     }
     
     private var priceSection: some View {
-        // TODO: добавить секцию с ценой
-        EmptyView()
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("\(viewModel.items.count) NFT")
+                    .font(Fonts.mediumRegular)
+                    .foregroundColor(.blackDynamicYP)
+                
+                Text("\(viewModel.totalPrice, specifier: "%.2f") ETH")
+                    .font(Fonts.bodyBold)
+                    .foregroundColor(.greenUniversalYP)
+            }
+            
+            Spacer()
+            
+            Button(action: {
+                // TODO: Действие при нажатии на кнопку "К оплате"
+            }) {
+                Text(String(localized: "To payment"))
+                    .font(Fonts.bodyBold)
+                    .foregroundColor(.whiteDynamicYP)
+                    .frame(width: Constants.buttonWidth, height: Constants.buttonHeight)
+                    .background(.blackDynamicYP)
+                    .cornerRadius(Constants.buttonCornerRadius)
+            }
+        }
+        .padding(.horizontal, 16)
+        .frame(height: Constants.priceSectionHeight)
+        .background(.lightGreyDynamicYP)
+        .cornerRadius(Constants.priceSectionRadius, corners: [.topLeft, .topRight])
     }
     
     private func onTapRemove(_ item: CartItem) {
