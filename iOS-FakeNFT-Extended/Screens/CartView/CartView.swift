@@ -18,26 +18,29 @@ struct CartView: View {
     // MARK: - Body
     
     var body: some View {
-        VStack {
-            sorting
-            nftList
-            priceSection
-        }
-        
-        .confirmationDialog(
-            String(localized: "Sorting"),
-            isPresented: $isShowingSortDialog,
-            titleVisibility: .visible
-        ) {
-            ForEach(CartSortType.allCases) { type in
-                Button(LocalizedStringKey(type.rawValue)) {
-                    viewModel.selectSort(type)
-                    isShowingSortDialog = false
-                }
+        NavigationStack {
+            VStack {
+                sorting
+                nftList
+                priceSection
             }
             
-            Button(String(localized: "Close"), role: .cancel) {}
+            .confirmationDialog(
+                String(localized: "Sorting"),
+                isPresented: $isShowingSortDialog,
+                titleVisibility: .visible
+            ) {
+                ForEach(CartSortType.allCases) { type in
+                    Button(LocalizedStringKey(type.rawValue)) {
+                        viewModel.selectSort(type)
+                        isShowingSortDialog = false
+                    }
+                }
+                
+                Button(String(localized: "Close"), role: .cancel) {}
+            }
         }
+        .modifier(CustomNavStyleModifier())
     }
     
     // MARK: - Content
@@ -99,9 +102,7 @@ struct CartView: View {
             
             Spacer()
             
-            Button(action: {
-                // TODO: Действие при нажатии на кнопку "К оплате"
-            }) {
+            NavigationLink(destination: PaymentView()) {
                 Text(String(localized: "To payment"))
                     .font(Fonts.bodyBold)
                     .foregroundColor(.whiteDynamicYP)

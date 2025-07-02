@@ -127,6 +127,17 @@
         }
       }
     },
+    "Select payment method" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите способ оплаты"
+          }
+        }
+      }
+    },
     "Sorting" : {
       "extractionState" : "manual",
       "localizations" : {
