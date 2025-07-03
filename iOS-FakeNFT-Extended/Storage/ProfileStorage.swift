@@ -8,24 +8,38 @@
 import Foundation
 
 final class ProfileStorage {
-    var name: String {
-        get { UserDefaults.standard.string(forKey: "profile_name") ?? "" }
-        set { UserDefaults.standard.set(newValue, forKey: "profile_name") }
+    static let shared = ProfileStorage()
+
+    private let defaults = UserDefaults.standard
+    private let key = UserDefaults.Keys.userProfile
+
+    // In-memory кеш
+    private var cachedProfile: UserProfile?
+
+    private init() {}
+
+    func save(_ profile: UserProfile) {
+        cachedProfile = profile
+        if let data = try? JSONEncoder().encode(profile) {
+            defaults.set(data, forKey: key)
+        }
     }
 
-    var description: String {
-        get { UserDefaults.standard.string(forKey: "profile_description") ?? "" }
-        set { UserDefaults.standard.set(newValue, forKey: "profile_description") }
+    func load() -> UserProfile? {
+        if let cachedProfile = cachedProfile {
+            return cachedProfile
+        }
+        guard let data = defaults.data(forKey: key),
+              let profile = try? JSONDecoder().decode(UserProfile.self, from: data) else {
+            return nil
+        }
+        cachedProfile = profile
+        return profile
     }
 
-    var website: String {
-        get { UserDefaults.standard.string(forKey: "profile_website") ?? "" }
-        set { UserDefaults.standard.set(newValue, forKey: "profile_website") }
-    }
-
-    var avatarImageData: Data? {
-        get { UserDefaults.standard.data(forKey: "profile_avatarImageData") }
-        set { UserDefaults.standard.set(newValue, forKey: "profile_avatarImageData") }
+    func clear() {
+        cachedProfile = nil
+        defaults.removeObject(forKey: key)
     }
 }
 

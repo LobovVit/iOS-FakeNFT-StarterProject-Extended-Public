@@ -1,8 +1,8 @@
 //
-//  Untitled.swift
+//  Fonts.swift
 //  iOS-FakeNFT-Extended
 //
-//  Created by Vitaly Lobov on 27.06.2025.
+//  Created by Vitaly Lobov on 28.06.2025.
 //
 
 import SwiftUI

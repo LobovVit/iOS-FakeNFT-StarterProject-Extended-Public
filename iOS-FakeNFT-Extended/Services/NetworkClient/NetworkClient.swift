@@ -14,6 +14,8 @@ protocol NetworkClient {
 }
 
 actor DefaultNetworkClient: NetworkClient {
+    static let shared = DefaultNetworkClient()
+    
     private let session: URLSession
     private let decoder: JSONDecoder
     private let encoder: JSONEncoder

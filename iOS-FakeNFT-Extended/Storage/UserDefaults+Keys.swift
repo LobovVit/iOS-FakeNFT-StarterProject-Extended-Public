@@ -11,8 +11,7 @@ extension UserDefaults {
     enum Keys {
         static let selectedSortOption = "selectedSortOption"
         static let isOnboardingCompleted = "isOnboardingCompleted"
-        static let userProfileName = "userProfileName"
-        static let userProfileDescription = "userProfileDescription"
+        static let userProfile = "userProfile"
         static let favoriteNFTIDs = "favoriteNFTIDs"
     }
 }

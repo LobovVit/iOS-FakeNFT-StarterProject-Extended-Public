@@ -6,12 +6,10 @@
 //
 
 import SwiftUI
-import PhotosUI
 
 struct EditProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: ProfileViewModel
-    @State private var selectedPhoto: PhotosPickerItem?
 
     var body: some View {
         NavigationView {
@@ -28,7 +26,7 @@ struct EditProfileView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Name"))
                             .font(Fonts.titleBold)
-                        TextField("", text: $viewModel.name)
+                        TextField("", text: $viewModel.profile.name)
                             .font(Fonts.bodyRegular)
                             .padding(12)
                             .background(Color(UIColor.secondarySystemBackground))
@@ -40,7 +38,7 @@ struct EditProfileView: View {
                         Text(LocalizedStringKey("Description"))
                             .font(Fonts.titleBold)
 
-                        MultilineTextField(text: $viewModel.description)
+                        MultilineTextField(text: $viewModel.profile.description)
                             .font(Fonts.bodyRegular)
                             .multilineTextAlignment(.leading)
                             .frame(height: 120)
@@ -50,7 +48,7 @@ struct EditProfileView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Site"))
                             .font(Fonts.titleBold)
-                        TextField("", text: $viewModel.website)
+                        TextField("", text: $viewModel.profile.website)
                             .font(Fonts.bodyRegular)
                             .padding(12)
                             .background(Color(UIColor.secondarySystemBackground))
@@ -79,10 +77,21 @@ struct EditProfileView: View {
     @ViewBuilder
     private var avatarView: some View {
         ZStack {
-            if let data = viewModel.avatarImageData, let image = UIImage(data: data) {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFill()
+            if let urlString = viewModel.profile.avatar,
+               let url = URL(string: urlString) {
+                AsyncImage(url: url) { image in
+                    image
+                        .resizable()
+                        .scaledToFill()
+                } placeholder: {
+                    ZStack {
+                        Image(systemName: "person.crop.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.gray.opacity(0.5))
+                        ProgressView()
+                    }
+                }
             } else {
                 Image(systemName: "person.crop.circle.fill")
                     .resizable()
@@ -109,9 +118,9 @@ struct EditProfileView: View {
 struct EditProfileView_Previews: PreviewProvider {
     static var previews: some View {
         let vm = ProfileViewModel()
-        vm.name = "Joaquin Phoenix"
-        vm.description = "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям."
-        vm.website = "JoaquinPhoenix.com"
+        vm.profile.name = "Joaquin Phoenix"
+        vm.profile.description = "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям."
+        vm.profile.website = "JoaquinPhoenix.com"
         return EditProfileView(viewModel: vm)
     }
 }

@@ -8,24 +8,29 @@
 import Foundation
 
 final class FavoritesStorage {
-    private let defaults = UserDefaults.standard
+    private let profileStorage: ProfileStorage
+
+    init(profileStorage: ProfileStorage = .shared) {
+        self.profileStorage = profileStorage
+    }
 
     var favoriteNFTIDs: [String] {
-        get {
-            defaults.stringArray(forKey: UserDefaults.Keys.favoriteNFTIDs) ?? []
-        }
-        set {
-            defaults.set(newValue, forKey: UserDefaults.Keys.favoriteNFTIDs)
-        }
+        profileStorage.load()?.likes ?? []
     }
 
     func toggleFavorite(id: String) {
-        var current = Set(favoriteNFTIDs)
+        guard var profile = profileStorage.load() else {
+            return
+        }
+
+        var current = Set(profile.likes)
         if current.contains(id) {
             current.remove(id)
         } else {
             current.insert(id)
         }
-        favoriteNFTIDs = Array(current)
+
+        profile.likes = Array(current)
+        profileStorage.save(profile)
     }
 }

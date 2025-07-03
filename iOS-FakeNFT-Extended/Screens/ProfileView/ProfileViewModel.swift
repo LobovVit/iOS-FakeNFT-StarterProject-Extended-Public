@@ -2,7 +2,7 @@
 //  ProfileViewModel.swift
 //  iOS-FakeNFT-Extended
 //
-//  Created by Vitaly Lobov on 27.06.2025.
+//  Created by Vitaly Lobov on 26.06.2025.
 //
 
 import Foundation
@@ -10,30 +10,73 @@ import SwiftUI
 
 @MainActor
 final class ProfileViewModel: ObservableObject {
-    @Published var name: String = ""
-    @Published var description: String = ""
-    @Published var website: String = ""
-    @Published var avatarImageData: Data? = nil
-    @Published var isLoading = false
-    @Published var error: String? = nil
+    @Published var profile: UserProfile = .init(id: "", name: "", description: "", website: "", avatar: nil, nfts: [], likes: [])
 
-    private let storage = ProfileStorage()
+    // Навигационное состояние
+    @Published var isEditing: Bool = false
+    @Published var showWebView: Bool = false
+    @Published var navigateToMyNFT: Bool = false
+    @Published var navigateToAbout: Bool = false
+    @Published var loadingState: LoadingState = .default
 
-    init() {
-        loadProfile()
+    private let profileService: ProfileServiceProtocol
+    private let profileStorage: ProfileStorage
+
+        init(profileService: ProfileServiceProtocol = ProfileService(),
+             profileStorage: ProfileStorage = .shared) {
+            self.profileService = profileService
+            self.profileStorage = profileStorage
+            Task {
+                await loadProfile()
+            }
+        }
+
+    func loadProfile() async {
+        loadingState = .loading
+        do {
+            let profile = try await profileService.fetchProfile()
+            self.profile = profile
+            loadingState = .success
+            profileStorage.save(profile)
+        } catch {
+            loadingState = .failure
+        }
     }
 
-    func loadProfile() {
-        name = storage.name
-        description = storage.description
-        website = storage.website
-        avatarImageData = storage.avatarImageData
+    func saveProfile() async {
+        let updated = profile
+        do {
+            try await profileService.updateProfile(updated)
+        } catch {
+            print("❌ Не удалось сохранить профиль: \(error)")
+        }
     }
 
-    func saveProfile() {
-        storage.name = name
-        storage.description = description
-        storage.website = website
-        storage.avatarImageData = avatarImageData
+    var displayName: String {
+        profile.name.isEmpty ? NSLocalizedString("Name not specified", comment: "") : profile.name
+    }
+
+    var favoritesCount: Int {
+        profile.likes.count
+    }
+
+    var myCount: Int {
+        profile.nfts.count
+    }
+
+    var validWebsiteURL: URL? {
+        if profile.website.lowercased().hasPrefix("http") {
+            return URL(string: profile.website)
+        } else {
+            return URL(string: "https://\(profile.website)")
+        }
+    }
+
+    var hasWebsite: Bool {
+        !profile.website.isEmpty && validWebsiteURL != nil
+    }
+
+    var hasDescription: Bool {
+        !profile.description.isEmpty
     }
 }
