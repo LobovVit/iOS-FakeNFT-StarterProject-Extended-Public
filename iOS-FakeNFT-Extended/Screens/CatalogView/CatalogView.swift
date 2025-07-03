@@ -7,11 +7,13 @@
 
 import SwiftUI
 import Kingfisher
+import StoreKit
 
 struct CatalogView: View {
     @ObservedObject var viewModel: CatalogViewModel
     @State private var showSortDialog = false
     @State private var path = NavigationPath()
+    @AppStorage("hasRequestedReviewCatalog") private var hasRequestedReview = false
 
     var body: some View {
         NavigationStack(path: $path) {
@@ -79,6 +81,14 @@ struct CatalogView: View {
             }
             .task {
                 await viewModel.loadData()
+
+                // Показываем алерт, если ещё не показывали
+                if !hasRequestedReview,
+                   let scene = UIApplication.shared.connectedScenes
+                       .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                    SKStoreReviewController.requestReview(in: scene)
+                    hasRequestedReview = true
+                }
             }
         }
     }
