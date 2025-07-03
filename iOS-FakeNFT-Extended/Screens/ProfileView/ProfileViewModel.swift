@@ -10,7 +10,7 @@ import SwiftUI
 
 @MainActor
 final class ProfileViewModel: ObservableObject {
-    @Published var profile: UserProfile = .init(id: "", name: "", description: "", website: "", avatar: nil, nfts: [],likes: [])
+    @Published var profile: UserProfile = .init(id: "", name: "", description: "", website: "", avatar: nil, nfts: [], likes: [])
 
     // Навигационное состояние
     @Published var isEditing: Bool = false
