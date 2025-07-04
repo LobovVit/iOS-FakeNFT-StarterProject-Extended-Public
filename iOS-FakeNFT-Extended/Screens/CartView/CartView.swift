@@ -102,7 +102,7 @@ struct CartView: View {
             
             Spacer()
             
-            NavigationLink(destination: PaymentView()) {
+            NavigationLink(destination: PaymentView(viewModel: viewModel)) {
                 Text(String(localized: "To payment"))
                     .font(Fonts.bodyBold)
                     .foregroundColor(.whiteDynamicYP)

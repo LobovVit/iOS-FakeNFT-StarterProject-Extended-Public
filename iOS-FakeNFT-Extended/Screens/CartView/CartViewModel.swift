@@ -6,8 +6,10 @@ final class CartViewModel: ObservableObject {
     // MARK: - UI Binding
     
     @Published var items: [CartItem] = []
+    @Published var currencies: [Currency] = CurrencyMock.data
     @Published var selectedSort: CartSortType
     @Published var selectedNft: CartItem? = nil
+    @Published var selectedCurrency: Currency? = nil
     @Published var isShowingRemoveModal: Bool = false
     @Published var loadingState: LoadingState = .default
     
@@ -32,6 +34,11 @@ final class CartViewModel: ObservableObject {
         selectedSort = type
         sortStorage.selectedSort = type
         applySort(type)
+    }
+    
+    func selectCurrency(_ currency: Currency) {
+        guard selectedCurrency?.id != currency.id else { return }
+        selectedCurrency = currency
     }
     
     func tapRemoveNft(_ item: CartItem) {
