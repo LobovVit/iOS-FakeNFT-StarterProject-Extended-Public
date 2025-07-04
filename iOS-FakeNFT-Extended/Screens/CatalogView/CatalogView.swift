@@ -18,14 +18,20 @@ struct CatalogView: View {
     var body: some View {
         NavigationStack(path: $path) {
             ZStack(alignment: .topTrailing) {
+                Color(.whiteDynamicYP)
+                    .ignoresSafeArea()
+
                 if viewModel.isLoading {
                     VStack {
                         Spacer()
                         ProgressView("Загрузка...")
                             .progressViewStyle(CircularProgressViewStyle())
                             .padding()
+                            .frame(maxWidth: .infinity)
+                            .multilineTextAlignment(.center)
                         Spacer()
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                 } else {
                     ScrollView {
                         VStack(alignment: .leading, spacing: 0) {
@@ -54,6 +60,8 @@ struct CatalogView: View {
                         showSortDialog = true
                     }) {
                         Image("SortIcon")
+                            .renderingMode(.template)
+                            .foregroundColor(.blackDynamicYP)
                     }
                     .frame(width: 42, height: 42)
                     .padding(.top, 0)
@@ -82,7 +90,6 @@ struct CatalogView: View {
             .task {
                 await viewModel.loadData()
 
-                // Показываем алерт, если ещё не показывали
                 if !hasRequestedReview,
                    let scene = UIApplication.shared.connectedScenes
                        .first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {

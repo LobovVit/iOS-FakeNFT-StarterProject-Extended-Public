@@ -18,8 +18,9 @@ struct AuthorWebView: View {
                     presentationMode.wrappedValue.dismiss()
                 }) {
                     Image("BackwardIcon")
+                        .renderingMode(.template)
+                        .foregroundColor(.blackDynamicYP)
                         .font(.system(size: 24, weight: .medium))
-                        .foregroundColor(.black)
                         .padding(.top, 9)
                         .padding(.leading, 9)
                         .padding(.bottom, 9)
@@ -30,6 +31,7 @@ struct AuthorWebView: View {
             WebView(url: URL(string: urlString))
                 .edgesIgnoringSafeArea(.bottom)
         }
+        .background(Color(.whiteDynamicYP))
         .navigationBarBackButtonHidden(true)
     }
 }

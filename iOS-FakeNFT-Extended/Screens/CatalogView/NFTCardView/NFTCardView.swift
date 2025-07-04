@@ -77,9 +77,12 @@ private struct NFTInfoView: View {
 
                 Button(action: onCartTap) {
                     Image(isInCart ? "CartActive" : "CartNoActive")
+                        .renderingMode(.template)
                         .resizable()
                         .frame(width: 40, height: 40)
+                        .foregroundColor(.blackDynamicYP)
                 }
+
             }
             .padding(.top, 5)
         }
