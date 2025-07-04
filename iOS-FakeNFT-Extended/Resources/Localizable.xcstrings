@@ -17,6 +17,17 @@
         }
       }
     },
+    "By making a purchase, you agree to the terms of the" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Совершая покупку, вы соглашаетесь с условиями"
+          }
+        }
+      }
+    },
     "By name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -79,6 +90,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Закрыть"
+          }
+        }
+      }
+    },
+    "Pay" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оплатить"
           }
         }
       }
@@ -156,6 +178,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "К оплате"
+          }
+        }
+      }
+    },
+    "User agreement" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользовательского соглашения"
           }
         }
       }
