@@ -52,7 +52,7 @@ struct CollectionDetailView: View {
                         .foregroundColor(.blackDynamicYP)
 
                     HStack(spacing: 4) {
-                        Text("Автор коллекции:")
+                        Text(String(localized: "The author of the collection") + ":")
                             .font(Fonts.mediumRegular)
                             .foregroundColor(.blackDynamicYP)
 

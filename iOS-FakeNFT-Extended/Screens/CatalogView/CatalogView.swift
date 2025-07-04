@@ -24,7 +24,7 @@ struct CatalogView: View {
                 if viewModel.isLoading {
                     VStack {
                         Spacer()
-                        ProgressView("Загрузка...")
+                        ProgressView(String(localized: "Loading") + "...")
                             .progressViewStyle(CircularProgressViewStyle())
                             .padding()
                             .frame(maxWidth: .infinity)
@@ -69,14 +69,14 @@ struct CatalogView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .confirmationDialog("Сортировка", isPresented: $showSortDialog, titleVisibility: .visible) {
-                Button("По названию") {
+            .confirmationDialog(String(localized: "Sorting"), isPresented: $showSortDialog, titleVisibility: .visible) {
+                Button(String(localized: "By name")) {
                     viewModel.sortCollections(by: .byName)
                 }
-                Button("По количеству NFT") {
+                Button(String(localized: "By the number of NFTs")) {
                     viewModel.sortCollections(by: .byCount)
                 }
-                Button("Закрыть", role: .cancel) {}
+                Button("Close", role: .cancel) {}
             }
             .navigationDestination(for: CollectionNavigationRoute.self) { route in
                 switch route {
