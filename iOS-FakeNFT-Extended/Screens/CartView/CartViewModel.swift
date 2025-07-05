@@ -10,7 +10,7 @@ final class CartViewModel: ObservableObject {
     @Published var selectedSort: CartSortType
     @Published var selectedNft: CartItem? = nil
     @Published var selectedCurrency: Currency? = nil
-    @Published var isShowingRemoveModal: Bool = false
+    @Published var isShowingRemoveModal = false
     @Published var loadingState: LoadingState = .default
     
     private let sortStorage = CartSortStorage()
@@ -51,6 +51,12 @@ final class CartViewModel: ObservableObject {
     
     func closeRemoveModal() {
         isShowingRemoveModal = false
+    }
+    
+    func payOrder() async -> Bool {
+        try? await Task.sleep(for: .seconds(1))
+        let success = Bool.random()
+        return success
     }
     
     private func fetchItems() async {

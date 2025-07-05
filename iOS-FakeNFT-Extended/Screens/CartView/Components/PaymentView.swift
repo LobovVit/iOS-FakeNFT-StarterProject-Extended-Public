@@ -8,6 +8,10 @@ struct PaymentView: View {
     }
     
     @ObservedObject var viewModel: CartViewModel
+    @State private var isProcessingPayment = false
+    @State private var isShowingErrorPaymentAlert = false
+    
+    let onSuccess: () -> Void
     
     let columns: [GridItem] = [
         GridItem(.flexible()),
@@ -23,6 +27,18 @@ struct PaymentView: View {
         .navigationTitle(String(localized: "Select payment method"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar(.hidden, for: .tabBar)
+        
+        .alert(
+            String(localized: "Failed to make payment"),
+            isPresented: $isShowingErrorPaymentAlert
+        ) {
+            Button(String(localized: "Cancel"), role: .cancel) {}
+            Button(String(localized: "Repeat")) {
+                Task {
+                    await pay()
+                }
+            }
+        }
     }
     
     private var currenciesList: some View {
@@ -50,7 +66,7 @@ struct PaymentView: View {
         .background(
             Color.lightGreyDynamicYP
                 .cornerRadius(12, corners: [.topLeft, .topRight])
-                .ignoresSafeArea(.container, edges: .bottom)
+                .ignoresSafeArea()
         )
     }
     
@@ -64,7 +80,7 @@ struct PaymentView: View {
                 WebView(url: URL(string: Constants.webViewURL))
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar(.hidden, for: .tabBar)
-                    .ignoresSafeArea(.container, edges: .bottom)
+                    .ignoresSafeArea()
             } label: {
                 Text(String(localized: "User agreement"))
                     .font(Fonts.smallRegular)
@@ -75,7 +91,9 @@ struct PaymentView: View {
     
     private var button: some View {
         Button(action: {
-            // TODO: Действие при оплате
+            Task {
+                await pay()
+            }
         }) {
             Text(String(localized: "Pay"))
                 .font(Fonts.bodyBold)
@@ -85,9 +103,22 @@ struct PaymentView: View {
                 .background(.blackDynamicYP)
                 .cornerRadius(Constants.buttonCornerRadius)
         }
+        .disabled(isProcessingPayment)
+    }
+    
+    private func pay() async {
+        isProcessingPayment = true
+        let success = await viewModel.payOrder()
+        isProcessingPayment = false
+        
+        if success {
+            onSuccess()
+        } else {
+            isShowingErrorPaymentAlert = true
+        }
     }
 }
 
 #Preview {
-    PaymentView(viewModel: CartViewModel())
+    PaymentView(viewModel: CartViewModel(), onSuccess: {})
 }

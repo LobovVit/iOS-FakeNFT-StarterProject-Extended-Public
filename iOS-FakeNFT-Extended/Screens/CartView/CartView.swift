@@ -13,12 +13,13 @@ struct CartView: View {
     // MARK: - Properties
     
     @ObservedObject var viewModel: CartViewModel
+    @State private var path = NavigationPath()
     @State private var isShowingSortDialog = false
     
     // MARK: - Body
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $path) {
             VStack {
                 sorting
                 nftList
@@ -38,6 +39,24 @@ struct CartView: View {
                 }
                 
                 Button(String(localized: "Close"), role: .cancel) {}
+            }
+            
+            .navigationDestination(for: CartRoute.self) { route in
+                switch route {
+                case .payment:
+                    PaymentView(
+                        viewModel: viewModel,
+                        onSuccess: {
+                            path.append(CartRoute.successfulPayment)
+                        }
+                    )
+                case .successfulPayment:
+                    SuccessfulPaymentView(
+                        onReturnToCart: {
+                            path.removeLast(path.count)
+                        }
+                    )
+                }
             }
         }
         .modifier(CustomNavStyleModifier())
@@ -102,7 +121,9 @@ struct CartView: View {
             
             Spacer()
             
-            NavigationLink(destination: PaymentView(viewModel: viewModel)) {
+            Button {
+                path.append(CartRoute.payment)
+            } label: {
                 Text(String(localized: "To payment"))
                     .font(Fonts.bodyBold)
                     .foregroundColor(.whiteDynamicYP)
