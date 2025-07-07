@@ -39,20 +39,20 @@ struct ProfileView: View {
                     
                     VStack(spacing: 0) {
                         NavigationLink(destination: MyNFTView()) {
-                            profileRow(title: "Мои NFT", value: "(\(viewModel.myCount))")
+                            profileRow(title: String(localized: "My NFTs"), value: "(\(viewModel.myCount))")
                         }
                         .task {
                             await viewModel.loadProfile()
                         }
                         
                         NavigationLink(destination: FavoritesNFTView()) {
-                            profileRow(title: "Избранные NFT", value: "(\(viewModel.favoritesCount))")
+                            profileRow(title: String(localized: "Featured NFTs"), value: "(\(viewModel.favoritesCount))")
                         }
                         
                         Button {
                             showWebView = true
                         } label: {
-                            profileRow(title: "О разработчике", value: nil)
+                            profileRow(title: String(localized: "About the developer"), value: nil)
                         }
                     }
                     .padding(.top, 32)
@@ -79,11 +79,11 @@ struct ProfileView: View {
             .refreshable {
                 await viewModel.refreshProfile()
             }
-            .alert("Ошибка", isPresented: Binding<Bool>(
+            .alert(String(localized: "Error"), isPresented: Binding<Bool>(
                 get: { viewModel.errorMessage != nil },
                 set: { _ in viewModel.errorMessage = nil }
             )) {
-                Button("Ок", role: .cancel) { }
+                Button(String(localized: "Ok"), role: .cancel) { }
             } message: {
                 Text(viewModel.errorMessage ?? "")
             }

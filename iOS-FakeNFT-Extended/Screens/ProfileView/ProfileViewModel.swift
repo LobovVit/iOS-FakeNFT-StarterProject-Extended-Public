@@ -63,7 +63,7 @@ final class ProfileViewModel: ObservableObject {
             }
         } catch {
             await MainActor.run {
-                self.errorMessage = "Ошибка сохранения профиля: \(error.localizedDescription)"
+                self.errorMessage = "\(String(localized: "Error")): \(error.localizedDescription)"
             }
         }
     }
@@ -102,7 +102,7 @@ final class ProfileViewModel: ObservableObject {
             self.profile = updated
         } catch {
             await MainActor.run {
-                self.errorMessage = "Ошибка обновления профиля: \(error.localizedDescription)"
+                self.errorMessage = "\(String(localized: "Error")): \(error.localizedDescription)"
             }
         }
     }

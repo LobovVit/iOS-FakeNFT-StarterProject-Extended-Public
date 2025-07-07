@@ -62,11 +62,11 @@ struct MyNFTView: View {
                 }
                 Button(String(localized: "Close"), role: .cancel) {}
             }
-            .alert("Ошибка", isPresented: Binding<Bool>(
+            .alert(String(localized: "Error"), isPresented: Binding<Bool>(
                 get: { viewModel.errorMessage != nil },
                 set: { _ in viewModel.errorMessage = nil }
             )) {
-                Button("Ок", role: .cancel) { }
+                Button(String(localized: "Ok"), role: .cancel) { }
             } message: {
                 Text(viewModel.errorMessage ?? "")
             }

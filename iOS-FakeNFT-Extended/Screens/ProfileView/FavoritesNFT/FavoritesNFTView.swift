@@ -40,7 +40,7 @@ struct FavoritesNFTView: View {
                     }
                 }
             }
-            .navigationTitle(String(localized: "NFeatured NFTs"))
+            .navigationTitle(String(localized: "Featured NFTs"))
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -69,11 +69,11 @@ struct FavoritesNFTView: View {
                 }
                 Button(String(localized: "Close"), role: .cancel) {}
             }
-            .alert("Ошибка", isPresented: Binding<Bool>(
+            .alert(String(localized: "Error"), isPresented: Binding<Bool>(
                 get: { viewModel.errorMessage != nil },
                 set: { _ in viewModel.errorMessage = nil }
             )) {
-                Button("Ок", role: .cancel) { }
+                Button(String(localized: "Ok"), role: .cancel) { }
             } message: {
                 Text(viewModel.errorMessage ?? "")
             }

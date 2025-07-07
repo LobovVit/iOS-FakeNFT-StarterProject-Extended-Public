@@ -42,7 +42,7 @@ final class FavoritesNFTViewModel: ObservableObject {
             try await profileService.updateFavorites(id: id)
         } catch {
             await MainActor.run {
-                self.errorMessage = "Ошибка обновления избранных NFT: \(error.localizedDescription)"
+                self.errorMessage = "\(String(localized: "Error")): \(error.localizedDescription)"
             }
         }
         await loadNFTs()
@@ -78,7 +78,7 @@ final class FavoritesNFTViewModel: ObservableObject {
             sortAndUpdateNFTs()
         } catch {
             await MainActor.run {
-                self.errorMessage = "Ошибка загрузки профиля или избранных NFT: \(error.localizedDescription)"
+                self.errorMessage = "\(String(localized: "Error")): \(error.localizedDescription)"
             }
         }
     }

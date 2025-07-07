@@ -57,7 +57,7 @@ final class MyNFTViewModel: ObservableObject {
                             return try await self.nftService.fetchNFT(by: id)
                         } catch {
                             await MainActor.run {
-                                self.errorMessage = "Failed to load NFT with id \(id): \(error.localizedDescription)"
+                                self.errorMessage = "\(String(localized: "Error")): \(id): \(error.localizedDescription)"
                             }
                             return nil
                         }
@@ -75,7 +75,7 @@ final class MyNFTViewModel: ObservableObject {
             sortAndUpdateNFTs()
         } catch {
             await MainActor.run {
-                self.errorMessage = "Failed to fetch profile: \(error.localizedDescription)"
+                self.errorMessage = "\(String(localized: "Error")): \(error.localizedDescription)"
             }
         }
     }

@@ -79,7 +79,7 @@ struct EditProfileView: View {
                                 dismiss()
                             }
                         }) {
-                            Text("Сохранить")
+                            Text(LocalizedStringKey("Save"))
                                 .font(Fonts.bodyBold)
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)

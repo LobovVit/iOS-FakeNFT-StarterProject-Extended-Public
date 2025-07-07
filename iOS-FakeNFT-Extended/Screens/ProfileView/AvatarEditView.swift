@@ -15,7 +15,7 @@ struct AvatarEditView: View {
     var body: some View {
         NavigationView {
             VStack(spacing: 16) {
-                TextField("Image URL", text: $draftUrl)
+                TextField(String(localized: "Image URL"), text: $draftUrl)
                     .textFieldStyle(.roundedBorder)
                     .onAppear {
                         draftUrl = avatarUrl ?? ""
@@ -36,11 +36,11 @@ struct AvatarEditView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("Edit Avatar")
+            .navigationTitle(String(localized: "Edit Avatar"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Done") {
+                    Button(String(localized: "Done")) {
                         avatarUrl = draftUrl
                         dismiss()
                     }
