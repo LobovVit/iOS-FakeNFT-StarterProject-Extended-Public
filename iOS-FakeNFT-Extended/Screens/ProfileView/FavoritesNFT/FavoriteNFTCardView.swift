@@ -10,7 +10,7 @@ import SwiftUI
 struct FavoriteNFTCardView: View {
     let nft: NFTModel
     let onFavoriteToggle: () -> Void
-
+    
     var body: some View {
         HStack(spacing: 12) {
             ZStack(alignment: .topTrailing) {
@@ -25,7 +25,7 @@ struct FavoriteNFTCardView: View {
                     .frame(width: 80, height: 80)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
-
+                
                 Button(action: {
                     onFavoriteToggle()
                 }) {
@@ -35,18 +35,18 @@ struct FavoriteNFTCardView: View {
                 }
                 .buttonStyle(.plain)
             }
-
+            
             VStack(alignment: .leading, spacing: 4) {
                 Text(nft.name)
                     .font(Fonts.bodyBold)
                     .lineLimit(1)
-
+                
                 RatingView(rating: nft.rating)
-
+                
                 Text("\(String(format: "%.2f", nft.price)) ETH")
                     .font(Fonts.mediumRegular)
             }
-
+            
             Spacer()
         }
         .padding(.vertical, 4)

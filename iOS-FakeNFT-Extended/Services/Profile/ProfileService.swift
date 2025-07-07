@@ -18,7 +18,7 @@ final class ProfileService: ProfileServiceProtocol {
     private let networkClient: NetworkClient
     private let profileStorage: ProfileStorage
     private let favoritesStorage: FavoritesStorage
-
+    
     init(
         networkClient: NetworkClient = DefaultNetworkClient.shared,
         profileStorage: ProfileStorage = .shared,
@@ -28,7 +28,7 @@ final class ProfileService: ProfileServiceProtocol {
         self.profileStorage = profileStorage
         self.favoritesStorage = favoritesStorage
     }
-
+    
     /// Возвращает профиль из локального хранилища или загружает из сети
     func fetchProfile() async throws -> UserProfile {
         if let stored = profileStorage.load() {
@@ -38,19 +38,19 @@ final class ProfileService: ProfileServiceProtocol {
             return fetched
         }
     }
-
+    
     /// Принудительно загружает данные из сети и обновляет локальное хранилище
     func refreshProfile() async throws -> UserProfile {
         let request = BasicRequest<UserProfile>(
             endpoint: ProfileRequestConstants.profileURL,
             httpMethod: .get
         )
-
+        
         let profile: UserProfile = try await networkClient.send(request: request)
         profileStorage.save(profile)
         return profile
     }
-
+    
     /// Обновляет профиль на сервере и сохраняет локально
     func updateProfile(_ profile: UserProfile) async throws {
         let body: [String: String] = [
@@ -60,13 +60,13 @@ final class ProfileService: ProfileServiceProtocol {
             "avatar": profile.avatar ?? "",
             "likes": profile.likes.isEmpty ? "null" : profile.likes.joined(separator: ",")
         ]
-
+        
         let request = BasicRequest<UserProfile>(
             endpoint: ProfileRequestConstants.profileURL,
             httpMethod: .put,
             rawBody: urlEncodedBody(from: body),
         )
-
+        
         let updatedProfile = try await networkClient.send(request: request) as UserProfile
         profileStorage.save(updatedProfile)
     }
@@ -80,13 +80,13 @@ final class ProfileService: ProfileServiceProtocol {
         let body: [String: String] = [
             "likes": profile.likes.isEmpty ? "null" : profile.likes.joined(separator: ",")
         ]
-
+        
         let request = BasicRequest<UserProfile>(
             endpoint: ProfileRequestConstants.profileURL,
             httpMethod: .put,
             rawBody: urlEncodedBody(from: body),
         )
-
+        
         let updatedProfile = try await networkClient.send(request: request) as UserProfile
         profileStorage.save(updatedProfile)
     }

@@ -14,7 +14,7 @@ struct BasicRequest<Response: Decodable>: NetworkRequest, Sendable {
     let rawBody: Data?
     let queryItems: [URLQueryItem]
     let headers: [String: String]
-
+    
     init(
         endpoint: String,
         httpMethod: HttpMethod,

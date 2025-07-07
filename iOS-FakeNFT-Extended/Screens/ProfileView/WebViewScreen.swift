@@ -10,7 +10,7 @@ import SwiftUI
 struct WebViewScreen: View {
     let url: URL
     @Environment(\.dismiss) private var dismiss
-
+    
     var body: some View {
         NavigationView {
             WebView(url: url)

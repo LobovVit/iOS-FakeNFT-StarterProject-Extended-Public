@@ -11,7 +11,7 @@ struct AvatarEditView: View {
     @Binding var avatarUrl: String?
     @Environment(\.dismiss) private var dismiss
     @State private var draftUrl: String = ""
-
+    
     var body: some View {
         NavigationView {
             VStack(spacing: 16) {
@@ -20,7 +20,7 @@ struct AvatarEditView: View {
                     .onAppear {
                         draftUrl = avatarUrl ?? ""
                     }
-
+                
                 if let url = URL(string: draftUrl) {
                     AsyncImage(url: url) { image in
                         image
@@ -32,7 +32,7 @@ struct AvatarEditView: View {
                         ProgressView()
                     }
                 }
-
+                
                 Spacer()
             }
             .padding()

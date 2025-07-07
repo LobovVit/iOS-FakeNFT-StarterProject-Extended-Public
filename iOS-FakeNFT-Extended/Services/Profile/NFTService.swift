@@ -13,11 +13,11 @@ protocol NFTServiceProtocol {
 
 final class NFTService: NFTServiceProtocol {
     private let networkClient: NetworkClient
-
+    
     init(networkClient: NetworkClient = DefaultNetworkClient.shared) {
         self.networkClient = networkClient
     }
-
+    
     func fetchNFT(by id: String) async throws -> NFTModel {
         let request = BasicRequest<NFTModel>(
             endpoint: ProfileRequestConstants.nftBase + "/\(id)",

@@ -50,7 +50,7 @@ final class FavoritesNFTViewModel: ObservableObject {
     
     func loadNFTs() async {
         await MainActor.run { self.isLoading = true }
-
+        
         defer {
             Task { @MainActor in
                 self.isLoading = false

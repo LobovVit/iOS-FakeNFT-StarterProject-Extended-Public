@@ -9,7 +9,7 @@ import SwiftUI
 
 struct NFTCardView: View {
     let nft: NFTModel
-
+    
     var body: some View {
         HStack(spacing: 16) {
             if let url = URL(string: nft.images.first ?? "") {
@@ -21,7 +21,7 @@ struct NFTCardView: View {
                 .frame(width: 108, height: 108)
                 .cornerRadius(12)
             }
-
+            
             VStack(alignment: .leading, spacing: 4) {
                 Text(nft.name)
                     .font(Fonts.bodyBold)
@@ -30,9 +30,9 @@ struct NFTCardView: View {
                     .font(Fonts.tinyMedium)
                     .foregroundColor(.gray)
             }
-
+            
             Spacer()
-
+            
             VStack(alignment: .trailing) {
                 Text(String(localized: "Price"))
                     .font(Fonts.smallRegular)

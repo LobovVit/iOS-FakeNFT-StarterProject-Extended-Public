@@ -18,7 +18,7 @@ struct EditProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: ProfileViewModel
     @State private var isAvatarEditPresented = false
-
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -36,7 +36,7 @@ struct EditProfileView: View {
                     .sheet(isPresented: $isAvatarEditPresented) {
                         AvatarEditView(avatarUrl: $viewModel.profile.avatar)
                     }
-
+                    
                     // MARK: - Имя
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Name"))
@@ -47,18 +47,18 @@ struct EditProfileView: View {
                             .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(10)
                     }
-
+                    
                     // MARK: - Описание
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Description"))
                             .font(Fonts.titleBold)
-
+                        
                         MultilineTextField(text: $viewModel.profile.description)
                             .font(Fonts.bodyRegular)
                             .multilineTextAlignment(.leading)
                             .frame(height: 120)
                     }
-
+                    
                     // MARK: - Сайт
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Site"))
@@ -69,7 +69,7 @@ struct EditProfileView: View {
                             .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(10)
                     }
-
+                    
                     Spacer()
                     // MARK: - Save Button
                     if viewModel.hasProfileChanges {
@@ -110,7 +110,7 @@ struct EditProfileView: View {
             }
         }
     }
-
+    
     @ViewBuilder
     private var avatarView: some View {
         ZStack {
@@ -135,12 +135,12 @@ struct EditProfileView: View {
                     .scaledToFit()
                     .foregroundColor(.gray.opacity(0.5))
             }
-
+            
             Rectangle()
                 .foregroundColor(.black)
                 .opacity(0.3)
                 .clipShape(Circle())
-
+            
             Text(LocalizedStringKey("Change photo"))
                 .font(Fonts.tinyMedium)
                 .foregroundColor(.white)
