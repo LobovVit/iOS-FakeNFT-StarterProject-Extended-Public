@@ -41,6 +41,9 @@ struct ProfileView: View {
                         NavigationLink(destination: MyNFTView()) {
                             profileRow(title: "Мои NFT", value: "(\(viewModel.myCount))")
                         }
+                        .task {
+                            await viewModel.loadProfile()
+                        }
                         
                         NavigationLink(destination: FavoritesNFTView()) {
                             profileRow(title: "Избранные NFT", value: "(\(viewModel.favoritesCount))")

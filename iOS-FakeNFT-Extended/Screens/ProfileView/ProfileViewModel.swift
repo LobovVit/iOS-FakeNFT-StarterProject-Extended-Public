@@ -55,12 +55,15 @@ final class ProfileViewModel: ObservableObject {
     }
     
     func saveProfile() async {
-        let updated = profile
         do {
-            try await profileService.updateProfile(updated)
+            try await profileService.updateProfile(profile)
+            let refreshed = try await profileService.refreshProfile()
+            await MainActor.run {
+                self.profile = refreshed
+            }
         } catch {
             await MainActor.run {
-                self.errorMessage = "Не удалось сохранить профиль: \(error.localizedDescription)"
+                self.errorMessage = "Ошибка сохранения профиля: \(error.localizedDescription)"
             }
         }
     }
