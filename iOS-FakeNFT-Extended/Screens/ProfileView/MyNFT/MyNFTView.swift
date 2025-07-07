@@ -11,7 +11,7 @@ struct MyNFTView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = MyNFTViewModel()
     @State private var showSortDialog = false
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -59,9 +59,17 @@ struct MyNFTView: View {
                 }
                 Button(String(localized: "Close"), role: .cancel) {}
             }
+            .alert("Ошибка", isPresented: Binding<Bool>(
+                get: { viewModel.errorMessage != nil },
+                set: { _ in viewModel.errorMessage = nil }
+            )) {
+                Button("Ок", role: .cancel) { }
+            } message: {
+                Text(viewModel.errorMessage ?? "")
+            }
         }
     }
-
+    
     private func sortTitle(for option: SortStorage.SortOption) -> String {
         switch option {
         case .byPrice: return String(localized: "By price")

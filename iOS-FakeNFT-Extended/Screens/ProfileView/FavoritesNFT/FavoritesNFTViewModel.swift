@@ -9,69 +9,71 @@ import Foundation
 
 @MainActor
 final class FavoritesNFTViewModel: ObservableObject {
+    @Published var errorMessage: String? = nil
     @Published var allNFTs: [NFTModel] = []
     @Published var sortedNFTs: [NFTModel] = []
-
     @Published var selectedSortOption: SortStorage.SortOption {
         didSet {
             sortStorage.selectedSortOption = selectedSortOption
             sortAndUpdateNFTs()
         }
     }
-
+    
     private let sortStorage = SortStorage()
     private let nftService: NFTServiceProtocol
-    private let profileStorage: ProfileStorage
-    private let favoritesStorage: FavoritesStorage
-
+    private let profileService: ProfileServiceProtocol
+    
     init(
         nftService: NFTServiceProtocol = NFTService(),
-        profileStorage: ProfileStorage = .shared,
-        favoritesStorage: FavoritesStorage = .shared
+        profileService: ProfileServiceProtocol = ProfileService(),
     ) {
         self.nftService = nftService
-        self.profileStorage = profileStorage
-        self.favoritesStorage = favoritesStorage
+        self.profileService = profileService
         self.selectedSortOption = sortStorage.selectedSortOption
-
+        
         Task {
             await loadNFTs()
         }
     }
     
     func toggleFavorite(for id: String) async {
-        favoritesStorage.toggleFavorite(id: id)
+        do {
+            try await profileService.updateFavorites(id: id)
+        } catch {
+            await MainActor.run {
+                self.errorMessage = "Ошибка обновления избранных NFT: \(error.localizedDescription)"
+            }
+        }
         await loadNFTs()
     }
-
+    
     func loadNFTs() async {
-        guard let profile = profileStorage.load() else {
-            print("⚠️ Профиль не найден в сторедже")
-            return
-        }
-
         do {
+            let profile = try await profileService.fetchProfile()
+            
             let loadedNFTs = try await withThrowingTaskGroup(of: NFTModel.self) { group in
                 for nftID in profile.likes {
                     group.addTask {
                         try await self.nftService.fetchNFT(by: nftID)
                     }
                 }
-
+                
                 var results: [NFTModel] = []
                 for try await nft in group {
                     results.append(nft)
                 }
                 return results
             }
-
+            
             self.allNFTs = loadedNFTs
             sortAndUpdateNFTs()
         } catch {
-            print("🚨 Ошибка загрузки избранных NFT: \(error)")
+            await MainActor.run {
+                self.errorMessage = "Ошибка загрузки профиля или избранных NFT: \(error.localizedDescription)"
+            }
         }
     }
-
+    
     func sortAndUpdateNFTs() {
         switch selectedSortOption {
         case .byName:

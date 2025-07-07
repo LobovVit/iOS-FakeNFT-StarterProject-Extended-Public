@@ -11,18 +11,22 @@ protocol ProfileServiceProtocol {
     func fetchProfile() async throws -> UserProfile
     func updateProfile(_ profile: UserProfile) async throws
     func refreshProfile() async throws -> UserProfile
+    func updateFavorites(id: String) async throws
 }
 
 final class ProfileService: ProfileServiceProtocol {
     private let networkClient: NetworkClient
     private let profileStorage: ProfileStorage
+    private let favoritesStorage: FavoritesStorage
 
     init(
         networkClient: NetworkClient = DefaultNetworkClient.shared,
-        profileStorage: ProfileStorage = .shared
+        profileStorage: ProfileStorage = .shared,
+        favoritesStorage: FavoritesStorage = .shared
     ) {
         self.networkClient = networkClient
         self.profileStorage = profileStorage
+        self.favoritesStorage = favoritesStorage
     }
 
     /// Возвращает профиль из локального хранилища или загружает из сети
@@ -54,6 +58,26 @@ final class ProfileService: ProfileServiceProtocol {
             "description": profile.description,
             "website": profile.website,
             "avatar": profile.avatar ?? "",
+            "likes": profile.likes.isEmpty ? "null" : profile.likes.joined(separator: ",")
+        ]
+
+        let request = BasicRequest<UserProfile>(
+            endpoint: ProfileRequestConstants.profileURL,
+            httpMethod: .put,
+            rawBody: urlEncodedBody(from: body),
+        )
+
+        let updatedProfile = try await networkClient.send(request: request) as UserProfile
+        profileStorage.save(updatedProfile)
+    }
+    
+    /// Обновляет избранные на сервере и сохраняет локально
+    func updateFavorites(id: String) async throws {
+        favoritesStorage.toggleFavorite(id: id)
+        guard var profile = profileStorage.load() else {
+            return
+        }
+        let body: [String: String] = [
             "likes": profile.likes.isEmpty ? "null" : profile.likes.joined(separator: ",")
         ]
 

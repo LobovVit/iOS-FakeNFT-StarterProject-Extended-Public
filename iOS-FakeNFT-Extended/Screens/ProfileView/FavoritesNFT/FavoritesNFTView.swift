@@ -11,9 +11,9 @@ struct FavoritesNFTView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = FavoritesNFTViewModel()
     @State private var showSortDialog = false
-
+    
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -28,8 +28,8 @@ struct FavoritesNFTView: View {
                             ForEach(viewModel.sortedNFTs) { nft in
                                 FavoriteNFTCardView(nft: nft) {
                                     Task {
-                                            await viewModel.toggleFavorite(for: nft.id)
-                                        }
+                                        await viewModel.toggleFavorite(for: nft.id)
+                                    }
                                 }
                             }
                         }
@@ -66,9 +66,17 @@ struct FavoritesNFTView: View {
                 }
                 Button(String(localized: "Close"), role: .cancel) {}
             }
+            .alert("Ошибка", isPresented: Binding<Bool>(
+                get: { viewModel.errorMessage != nil },
+                set: { _ in viewModel.errorMessage = nil }
+            )) {
+                Button("Ок", role: .cancel) { }
+            } message: {
+                Text(viewModel.errorMessage ?? "")
+            }
         }
     }
-
+    
     private func sortTitle(for option: SortStorage.SortOption) -> String {
         switch option {
         case .byPrice: return String(localized: "By price")

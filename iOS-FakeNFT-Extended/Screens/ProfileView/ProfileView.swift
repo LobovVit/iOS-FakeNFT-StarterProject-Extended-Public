@@ -76,6 +76,14 @@ struct ProfileView: View {
             .refreshable {
                 await viewModel.refreshProfile()
             }
+            .alert("Ошибка", isPresented: Binding<Bool>(
+                get: { viewModel.errorMessage != nil },
+                set: { _ in viewModel.errorMessage = nil }
+            )) {
+                Button("Ок", role: .cancel) { }
+            } message: {
+                Text(viewModel.errorMessage ?? "")
+            }
         }
     }
     
