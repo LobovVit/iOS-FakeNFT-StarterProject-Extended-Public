@@ -22,18 +22,26 @@ final class FavoritesNFTViewModel: ObservableObject {
     private let sortStorage = SortStorage()
     private let nftService: NFTServiceProtocol
     private let profileStorage: ProfileStorage
+    private let favoritesStorage: FavoritesStorage
 
     init(
         nftService: NFTServiceProtocol = NFTService(),
-        profileStorage: ProfileStorage = .shared
+        profileStorage: ProfileStorage = .shared,
+        favoritesStorage: FavoritesStorage = .shared
     ) {
         self.nftService = nftService
         self.profileStorage = profileStorage
+        self.favoritesStorage = favoritesStorage
         self.selectedSortOption = sortStorage.selectedSortOption
 
         Task {
             await loadNFTs()
         }
+    }
+    
+    func toggleFavorite(for id: String) async {
+        favoritesStorage.toggleFavorite(id: id)
+        await loadNFTs()
     }
 
     func loadNFTs() async {

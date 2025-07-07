@@ -26,7 +26,11 @@ struct FavoritesNFTView: View {
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 16) {
                             ForEach(viewModel.sortedNFTs) { nft in
-                                FavoriteNFTCardView(nft: nft)
+                                FavoriteNFTCardView(nft: nft) {
+                                    Task {
+                                            await viewModel.toggleFavorite(for: nft.id)
+                                        }
+                                }
                             }
                         }
                         .padding(.horizontal)

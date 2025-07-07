@@ -10,7 +10,7 @@ import SwiftUI
 struct EditProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: ProfileViewModel
-
+    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -21,7 +21,7 @@ struct EditProfileView: View {
                         .clipShape(Circle())
                         .frame(maxWidth: .infinity)
                         .padding(.top, 24)
-
+                    
                     // MARK: - Имя
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Name"))
@@ -32,18 +32,18 @@ struct EditProfileView: View {
                             .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(10)
                     }
-
+                    
                     // MARK: - Описание
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Description"))
                             .font(Fonts.titleBold)
-
+                        
                         MultilineTextField(text: $viewModel.profile.description)
                             .font(Fonts.bodyRegular)
                             .multilineTextAlignment(.leading)
                             .frame(height: 120)
                     }
-
+                    
                     // MARK: - Сайт
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Site"))
@@ -54,9 +54,29 @@ struct EditProfileView: View {
                             .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(10)
                     }
-
+                    
+                    Spacer()
+                    // MARK: - Save Button
+                    if viewModel.hasProfileChanges {
+                        Button(action: {
+                            Task {
+                                await viewModel.saveProfile()
+                                dismiss()
+                            }
+                        }) {
+                            Text("Сохранить")
+                                .font(Fonts.bodyBold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.accentColor)
+                                .cornerRadius(12)
+                        }
+                        .padding(.top, 12)
+                    }
                     Spacer()
                 }
+                
                 .padding()
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -71,9 +91,12 @@ struct EditProfileView: View {
                     .padding(.top, 32)
                 }
             }
+            .onAppear {
+                viewModel.prepareForEditing()
+            }
         }
     }
-
+    
     @ViewBuilder
     private var avatarView: some View {
         ZStack {
@@ -98,12 +121,12 @@ struct EditProfileView: View {
                     .scaledToFit()
                     .foregroundColor(.gray.opacity(0.5))
             }
-
+            
             Rectangle()
                 .foregroundColor(.black)
                 .opacity(0.3)
                 .clipShape(Circle())
-
+            
             Text(LocalizedStringKey("Change photo"))
                 .font(Fonts.tinyMedium)
                 .foregroundColor(.white)

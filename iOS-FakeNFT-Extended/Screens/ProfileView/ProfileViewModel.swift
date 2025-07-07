@@ -21,6 +21,7 @@ final class ProfileViewModel: ObservableObject {
 
     private let profileService: ProfileServiceProtocol
     private let profileStorage: ProfileStorage
+    private var originalProfile: UserProfile?
 
         init(profileService: ProfileServiceProtocol = ProfileService(),
              profileStorage: ProfileStorage = .shared) {
@@ -30,6 +31,15 @@ final class ProfileViewModel: ObservableObject {
                 await loadProfile()
             }
         }
+
+    var hasProfileChanges: Bool {
+        guard let original = originalProfile else { return false }
+        return original != profile
+    }
+
+    func prepareForEditing() {
+        originalProfile = profile
+    }
 
     func loadProfile() async {
         loadingState = .loading
@@ -78,5 +88,14 @@ final class ProfileViewModel: ObservableObject {
 
     var hasDescription: Bool {
         !profile.description.isEmpty
+    }
+    
+    func refreshProfile() async {
+        do {
+            let updated = try await profileService.refreshProfile()
+            self.profile = updated
+        } catch {
+            print("❌ Ошибка обновления профиля: \(error)")
+        }
     }
 }

@@ -73,6 +73,9 @@ struct ProfileView: View {
                     WebViewScreen(url: url)
                 }
             }
+            .refreshable {
+                await viewModel.refreshProfile()
+            }
         }
     }
     

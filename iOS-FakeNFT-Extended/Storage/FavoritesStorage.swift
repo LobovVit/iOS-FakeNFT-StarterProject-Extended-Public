@@ -9,6 +9,7 @@ import Foundation
 
 final class FavoritesStorage {
     private let profileStorage: ProfileStorage
+    static let shared = FavoritesStorage()
 
     init(profileStorage: ProfileStorage = .shared) {
         self.profileStorage = profileStorage
