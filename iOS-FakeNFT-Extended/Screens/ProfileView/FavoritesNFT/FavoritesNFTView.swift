@@ -17,7 +17,10 @@ struct FavoritesNFTView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if viewModel.sortedNFTs.isEmpty {
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if viewModel.sortedNFTs.isEmpty {
                     Text(String(localized: "You don't have any featured NFTs yet"))
                         .font(Fonts.bodyBold)
                         .multilineTextAlignment(.center)

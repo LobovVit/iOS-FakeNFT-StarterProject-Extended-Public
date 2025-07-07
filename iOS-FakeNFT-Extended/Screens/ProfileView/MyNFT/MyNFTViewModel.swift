@@ -10,6 +10,7 @@ import Foundation
 @MainActor
 final class MyNFTViewModel: ObservableObject {
     @Published var nfts: [NFTModel] = []
+    @Published var isLoading: Bool = false
     @Published var sortedNFTs: [NFTModel] = []
     @Published var errorMessage: String? = nil
     @Published var selectedSortOption: SortStorage.SortOption {
@@ -37,6 +38,14 @@ final class MyNFTViewModel: ObservableObject {
     }
     
     func loadNFTs() async {
+        await MainActor.run { self.isLoading = true }
+
+        defer {
+            Task { @MainActor in
+                self.isLoading = false
+            }
+        }
+        
         do {
             let profile = try await profileService.fetchProfile()
             var loadedNFTs: [NFTModel] = []

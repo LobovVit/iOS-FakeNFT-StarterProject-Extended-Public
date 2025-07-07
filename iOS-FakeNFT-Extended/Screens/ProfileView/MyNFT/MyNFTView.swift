@@ -15,7 +15,10 @@ struct MyNFTView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                if viewModel.sortedNFTs.isEmpty {
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if viewModel.sortedNFTs.isEmpty {
                     Text(String(localized: "You don't have NFT yet"))
                         .font(Fonts.bodyBold)
                         .padding()
