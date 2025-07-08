@@ -13,5 +13,7 @@ extension UserDefaults {
         static let isOnboardingCompleted = "isOnboardingCompleted"
         static let userProfile = "userProfile"
         static let favoriteNFTIDs = "favoriteNFTIDs"
+        static let cartNFTIDs = "cartNFTIDs"
+
     }
 }

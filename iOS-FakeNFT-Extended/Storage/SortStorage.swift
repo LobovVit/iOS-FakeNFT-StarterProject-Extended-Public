@@ -14,6 +14,7 @@ final class SortStorage {
         case byName = "name"
         case byPrice = "price"
         case byRating = "rating"
+        case byCount = "count"
     }
 
     var selectedSortOption: SortOption {
@@ -30,7 +31,6 @@ final class SortStorage {
         }
     }
 }
-
 
 // Пример использования в ViewModel:
 

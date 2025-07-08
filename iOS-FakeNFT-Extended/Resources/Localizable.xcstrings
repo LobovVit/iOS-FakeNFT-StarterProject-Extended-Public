@@ -18,6 +18,9 @@
         }
       }
     },
+    "%@ ETH" : {
+
+    },
     "By name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -30,6 +33,7 @@
       }
     },
     "By price" : {
+    "By the number of NFTs" : {
       "extractionState" : "manual",
       "localizations" : {
         "ru" : {
@@ -47,6 +51,7 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "По рейтингу"
+            "value" : "По количеству NFT"
           }
         }
       }
@@ -95,6 +100,7 @@
         }
       }
     },
+    "Loading" : {
     "Description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -209,6 +215,7 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Цена"
+            "value" : "Загрузка"
           }
         }
       }
@@ -258,11 +265,16 @@
       }
     },
     "You don't have any featured NFTs yet" : {
+    "The author of the collection" : {
       "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Автор коллекции:"
+          }
+        }
+      }
             "value" : "У Вас ещё нет избранных NFT"
           }
         }
