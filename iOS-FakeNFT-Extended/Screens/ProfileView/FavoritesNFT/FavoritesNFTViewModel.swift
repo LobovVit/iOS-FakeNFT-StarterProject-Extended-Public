@@ -91,6 +91,8 @@ final class FavoritesNFTViewModel: ObservableObject {
             sortedNFTs = allNFTs.sorted { $0.price < $1.price }
         case .byRating:
             sortedNFTs = allNFTs.sorted { $0.rating > $1.rating }
+        case .byCount:
+            sortedNFTs = allNFTs.sorted { $0.rating > $1.rating }
         }
     }
 }

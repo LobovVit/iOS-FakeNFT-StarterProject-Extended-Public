@@ -88,6 +88,8 @@ final class MyNFTViewModel: ObservableObject {
             sortedNFTs = nfts.sorted { $0.price < $1.price }
         case .byRating:
             sortedNFTs = nfts.sorted { $0.rating > $1.rating }
+        case .byCount:
+            sortedNFTs = nfts.sorted { $0.rating > $1.rating }
         }
     }
 }

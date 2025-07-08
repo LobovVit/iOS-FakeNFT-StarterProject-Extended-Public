@@ -63,8 +63,10 @@ struct FavoritesNFTView: View {
             }
             .confirmationDialog(String(localized: "Sorting"), isPresented: $showSortDialog, titleVisibility: .visible) {
                 ForEach(SortStorage.SortOption.allCases, id: \.self) { option in
-                    Button(sortTitle(for: option)) {
-                        viewModel.selectedSortOption = option
+                    if option != SortStorage.SortOption.byCount {
+                        Button(sortTitle(for: option)) {
+                            viewModel.selectedSortOption = option
+                        }
                     }
                 }
                 Button(String(localized: "Close"), role: .cancel) {}
@@ -85,6 +87,7 @@ struct FavoritesNFTView: View {
         case .byPrice: return String(localized: "By price")
         case .byRating: return String(localized: "By rating")
         case .byName: return String(localized: "By name")
+        case .byCount: return String(localized: "By count")
         }
     }
 }

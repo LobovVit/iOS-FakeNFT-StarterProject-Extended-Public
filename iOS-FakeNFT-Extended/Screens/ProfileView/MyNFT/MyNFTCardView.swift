@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct NFTCardView: View {
+struct MyNFTCardView: View {
     let nft: NFTModel
     
     var body: some View {
@@ -45,9 +45,9 @@ struct NFTCardView: View {
     }
 }
 
-struct NFTCardView_Previews: PreviewProvider {
+struct MyNFTCardView_Previews: PreviewProvider {
     static var previews: some View {
-        NFTCardView(nft: MockData.nfts.first!)
+        MyNFTCardView(nft: MockData.nfts.first!)
             .previewLayout(.sizeThatFits)
             .padding()
     }
