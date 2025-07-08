@@ -4,12 +4,26 @@
     "%.2f ETH" : {
       "shouldTranslate" : false
     },
+    "%lld NFT" : {
+      "shouldTranslate" : false
+    },
     "Are you sure you want to\nremove this item from your cart? " : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вы уверены, что хотите\nудалить объект из корзины?"
+          }
+        }
+      }
+    },
+    "By making a purchase, you agree to the terms of the" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Совершая покупку, вы соглашаетесь с условиями"
           }
         }
       }
@@ -47,6 +61,17 @@
         }
       }
     },
+    "Cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отмена"
+          }
+        }
+      }
+    },
     "Cart" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -76,6 +101,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Закрыть"
+          }
+        }
+      }
+    },
+    "Failed to make payment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось произвести оплату"
+          }
+        }
+      }
+    },
+    "Pay" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оплатить"
           }
         }
       }
@@ -113,6 +160,17 @@
         }
       }
     },
+    "Repeat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повторить"
+          }
+        }
+      }
+    },
     "Return" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -124,6 +182,28 @@
         }
       }
     },
+    "Return to cart" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуться в корзину"
+          }
+        }
+      }
+    },
+    "Select payment method" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите способ оплаты"
+          }
+        }
+      }
+    },
     "Sorting" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -131,6 +211,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сортировка"
+          }
+        }
+      }
+    },
+    "Success! Payment completed, congratulations on your purchase!" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Успех! Оплата прошла,\nпоздравляем с покупкой!"
+          }
+        }
+      }
+    },
+    "To payment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "К оплате"
+          }
+        }
+      }
+    },
+    "User agreement" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользовательского соглашения"
           }
         }
       }

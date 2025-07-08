@@ -6,13 +6,19 @@ final class CartViewModel: ObservableObject {
     // MARK: - UI Binding
     
     @Published var items: [CartItem] = []
+    @Published var currencies: [Currency] = CurrencyMock.data
     @Published var selectedSort: CartSortType
     @Published var selectedNft: CartItem? = nil
-    @Published var isShowingRemoveModal: Bool = false
+    @Published var selectedCurrency: Currency? = nil
+    @Published var isShowingRemoveModal = false
     @Published var loadingState: LoadingState = .default
     
     private let sortStorage = CartSortStorage()
     private let service: CartServiceProtocol
+    
+    var totalPrice: Double {
+        items.reduce(0) { $0 + $1.price }
+    }
     
     init(service: CartServiceProtocol = CartService()) {
         self.service = service
@@ -30,6 +36,11 @@ final class CartViewModel: ObservableObject {
         applySort(type)
     }
     
+    func selectCurrency(_ currency: Currency) {
+        guard selectedCurrency?.id != currency.id else { return }
+        selectedCurrency = currency
+    }
+    
     func tapRemoveNft(_ item: CartItem) {
         selectedNft = item
     }
@@ -40,6 +51,12 @@ final class CartViewModel: ObservableObject {
     
     func closeRemoveModal() {
         isShowingRemoveModal = false
+    }
+    
+    func payOrder() async -> Bool {
+        try? await Task.sleep(for: .seconds(1))
+        let success = Bool.random()
+        return success
     }
     
     private func fetchItems() async {

@@ -3,36 +3,63 @@ import SwiftUI
 struct CartView: View {
     private enum Constants {
         static let sortIconSize: CGFloat = 42
+        static let buttonWidth: CGFloat = 240
+        static let buttonHeight: CGFloat = 44
+        static let buttonCornerRadius: CGFloat = 16
+        static let priceSectionHeight: CGFloat = 76
+        static let priceSectionRadius: CGFloat = 20
     }
     
     // MARK: - Properties
     
     @ObservedObject var viewModel: CartViewModel
+    @State private var path = NavigationPath()
     @State private var isShowingSortDialog = false
     
     // MARK: - Body
     
     var body: some View {
-        VStack {
-            sorting
-            nftList
-            priceSection
-        }
-        
-        .confirmationDialog(
-            String(localized: "Sorting"),
-            isPresented: $isShowingSortDialog,
-            titleVisibility: .visible
-        ) {
-            ForEach(CartSortType.allCases) { type in
-                Button(LocalizedStringKey(type.rawValue)) {
-                    viewModel.selectSort(type)
-                    isShowingSortDialog = false
-                }
+        NavigationStack(path: $path) {
+            VStack {
+                sorting
+                nftList
+                priceSection
             }
             
-            Button(String(localized: "Close"), role: .cancel) {}
+            .confirmationDialog(
+                String(localized: "Sorting"),
+                isPresented: $isShowingSortDialog,
+                titleVisibility: .visible
+            ) {
+                ForEach(CartSortType.allCases) { type in
+                    Button(LocalizedStringKey(type.rawValue)) {
+                        viewModel.selectSort(type)
+                        isShowingSortDialog = false
+                    }
+                }
+                
+                Button(String(localized: "Close"), role: .cancel) {}
+            }
+            
+            .navigationDestination(for: CartRoute.self) { route in
+                switch route {
+                case .payment:
+                    PaymentView(
+                        viewModel: viewModel,
+                        onSuccess: {
+                            path.append(CartRoute.successfulPayment)
+                        }
+                    )
+                case .successfulPayment:
+                    SuccessfulPaymentView(
+                        onReturnToCart: {
+                            path.removeLast(path.count)
+                        }
+                    )
+                }
+            }
         }
+        .modifier(CustomNavStyleModifier())
     }
     
     // MARK: - Content
@@ -81,8 +108,34 @@ struct CartView: View {
     }
     
     private var priceSection: some View {
-        // TODO: добавить секцию с ценой
-        EmptyView()
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text("\(viewModel.items.count) NFT")
+                    .font(Fonts.mediumRegular)
+                    .foregroundColor(.blackDynamicYP)
+                
+                Text("\(viewModel.totalPrice, specifier: "%.2f") ETH")
+                    .font(Fonts.bodyBold)
+                    .foregroundColor(.greenUniversalYP)
+            }
+            
+            Spacer()
+            
+            Button {
+                path.append(CartRoute.payment)
+            } label: {
+                Text(String(localized: "To payment"))
+                    .font(Fonts.bodyBold)
+                    .foregroundColor(.whiteDynamicYP)
+                    .frame(width: Constants.buttonWidth, height: Constants.buttonHeight)
+                    .background(.blackDynamicYP)
+                    .cornerRadius(Constants.buttonCornerRadius)
+            }
+        }
+        .padding(.horizontal, 16)
+        .frame(height: Constants.priceSectionHeight)
+        .background(.lightGreyDynamicYP)
+        .cornerRadius(Constants.priceSectionRadius, corners: [.topLeft, .topRight])
     }
     
     private func onTapRemove(_ item: CartItem) {
