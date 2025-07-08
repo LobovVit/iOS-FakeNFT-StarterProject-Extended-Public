@@ -11,13 +11,16 @@ struct FavoritesNFTView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = FavoritesNFTViewModel()
     @State private var showSortDialog = false
-
+    
     private let columns = [GridItem(.flexible()), GridItem(.flexible())]
-
+    
     var body: some View {
         NavigationStack {
             VStack {
-                if viewModel.sortedNFTs.isEmpty {
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if viewModel.sortedNFTs.isEmpty {
                     Text(String(localized: "You don't have any featured NFTs yet"))
                         .font(Fonts.bodyBold)
                         .multilineTextAlignment(.center)
@@ -26,14 +29,18 @@ struct FavoritesNFTView: View {
                     ScrollView {
                         LazyVGrid(columns: columns, spacing: 16) {
                             ForEach(viewModel.sortedNFTs) { nft in
-                                FavoriteNFTCardView(nft: nft)
+                                FavoriteNFTCardView(nft: nft) {
+                                    Task {
+                                        await viewModel.toggleFavorite(for: nft.id)
+                                    }
+                                }
                             }
                         }
                         .padding(.horizontal)
                     }
                 }
             }
-            .navigationTitle(String(localized: "NFeatured NFTs"))
+            .navigationTitle(String(localized: "Featured NFTs"))
             .navigationBarBackButtonHidden(true)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -62,9 +69,17 @@ struct FavoritesNFTView: View {
                 }
                 Button(String(localized: "Close"), role: .cancel) {}
             }
+            .alert(String(localized: "Error"), isPresented: Binding<Bool>(
+                get: { viewModel.errorMessage != nil },
+                set: { _ in viewModel.errorMessage = nil }
+            )) {
+                Button(String(localized: "Ok"), role: .cancel) { }
+            } message: {
+                Text(viewModel.errorMessage ?? "")
+            }
         }
     }
-
+    
     private func sortTitle(for option: SortStorage.SortOption) -> String {
         switch option {
         case .byPrice: return String(localized: "By price")

@@ -9,14 +9,14 @@ import SwiftUI
 
 struct SplashView: View {
     @State private var showMain = false
-
+    
     var body: some View {
         ZStack {
             Color(.systemBackground).ignoresSafeArea()
-
+            
             let isDark = UITraitCollection.current.userInterfaceStyle == .dark
             let logoName = isDark ? "logo-dark" : "logo-light"
-
+            
             if let logo = UIImage(named: logoName) {
                 Image(uiImage: logo)
                     .resizable()

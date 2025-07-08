@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UserProfile: Codable, Identifiable, Sendable {
+struct UserProfile: Codable, Identifiable, Sendable, Equatable {
     let id: String
     var name: String
     var description: String

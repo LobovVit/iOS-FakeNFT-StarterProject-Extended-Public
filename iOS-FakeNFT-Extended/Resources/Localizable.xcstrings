@@ -4,6 +4,9 @@
     "" : {
 
     },
+    "%@ ETH" : {
+
+    },
     "About the developer" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -103,6 +106,37 @@
         }
       }
     },
+    "Done" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        }
+      }
+    },
+    "Edit Avatar" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Изменить аватар"
+          }
+        }
+      }
+    },
+    "Error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка"
+          }
+        }
+      }
+    },
     "Featured NFTs" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -110,6 +144,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Избранные NFT"
+          }
+        }
+      }
+    },
+    "Image URL" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "URL-адрес изображения"
           }
         }
       }
@@ -147,8 +191,16 @@
         }
       }
     },
-    "NFeatured NFTs" : {
-
+    "Ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ок"
+          }
+        }
+      }
     },
     "Price" : {
       "extractionState" : "manual",
@@ -168,6 +220,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Профиль"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
           }
         }
       }

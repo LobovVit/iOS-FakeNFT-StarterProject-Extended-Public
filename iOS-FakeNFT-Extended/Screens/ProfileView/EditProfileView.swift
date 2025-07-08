@@ -5,23 +5,38 @@
 //  Created by Vitaly Lobov on 27.06.2025.
 //
 
+//
+//  EditProfileView.swift
+//  iOS-FakeNFT-Extended
+//
+//  Created by Vitaly Lobov on 27.06.2025.
+//
+
 import SwiftUI
 
 struct EditProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var viewModel: ProfileViewModel
-
+    @State private var isAvatarEditPresented = false
+    
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 24) {
                     // MARK: - Avatar
-                    avatarView
-                        .frame(width: 70, height: 70)
-                        .clipShape(Circle())
-                        .frame(maxWidth: .infinity)
-                        .padding(.top, 24)
-
+                    Button(action: {
+                        isAvatarEditPresented = true
+                    }) {
+                        avatarView
+                            .frame(width: 70, height: 70)
+                            .clipShape(Circle())
+                            .frame(maxWidth: .infinity)
+                            .padding(.top, 24)
+                    }
+                    .sheet(isPresented: $isAvatarEditPresented) {
+                        AvatarEditView(avatarUrl: $viewModel.profile.avatar)
+                    }
+                    
                     // MARK: - Имя
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Name"))
@@ -32,18 +47,18 @@ struct EditProfileView: View {
                             .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(10)
                     }
-
+                    
                     // MARK: - Описание
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Description"))
                             .font(Fonts.titleBold)
-
+                        
                         MultilineTextField(text: $viewModel.profile.description)
                             .font(Fonts.bodyRegular)
                             .multilineTextAlignment(.leading)
                             .frame(height: 120)
                     }
-
+                    
                     // MARK: - Сайт
                     VStack(alignment: .leading, spacing: 8) {
                         Text(LocalizedStringKey("Site"))
@@ -54,7 +69,26 @@ struct EditProfileView: View {
                             .background(Color(UIColor.secondarySystemBackground))
                             .cornerRadius(10)
                     }
-
+                    
+                    Spacer()
+                    // MARK: - Save Button
+                    if viewModel.hasProfileChanges {
+                        Button(action: {
+                            Task {
+                                await viewModel.saveProfile()
+                                dismiss()
+                            }
+                        }) {
+                            Text(LocalizedStringKey("Save"))
+                                .font(Fonts.bodyBold)
+                                .foregroundColor(.white)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(Color.accentColor)
+                                .cornerRadius(12)
+                        }
+                        .padding(.top, 12)
+                    }
                     Spacer()
                 }
                 .padding()
@@ -71,9 +105,12 @@ struct EditProfileView: View {
                     .padding(.top, 32)
                 }
             }
+            .onAppear {
+                viewModel.prepareForEditing()
+            }
         }
     }
-
+    
     @ViewBuilder
     private var avatarView: some View {
         ZStack {
@@ -98,12 +135,12 @@ struct EditProfileView: View {
                     .scaledToFit()
                     .foregroundColor(.gray.opacity(0.5))
             }
-
+            
             Rectangle()
                 .foregroundColor(.black)
                 .opacity(0.3)
                 .clipShape(Circle())
-
+            
             Text(LocalizedStringKey("Change photo"))
                 .font(Fonts.tinyMedium)
                 .foregroundColor(.white)
@@ -121,6 +158,7 @@ struct EditProfileView_Previews: PreviewProvider {
         vm.profile.name = "Joaquin Phoenix"
         vm.profile.description = "Дизайнер из Казани, люблю цифровое искусство и бейглы. В моей коллекции уже 100+ NFT, и еще больше — на моём сайте. Открыт к коллаборациям."
         vm.profile.website = "JoaquinPhoenix.com"
+        vm.profile.avatar = "https://i.imgur.com/1QdE3Ue.jpeg"
         return EditProfileView(viewModel: vm)
     }
 }

@@ -10,63 +10,76 @@ import Foundation
 @MainActor
 final class MyNFTViewModel: ObservableObject {
     @Published var nfts: [NFTModel] = []
+    @Published var isLoading: Bool = false
     @Published var sortedNFTs: [NFTModel] = []
-
+    @Published var errorMessage: String? = nil
     @Published var selectedSortOption: SortStorage.SortOption {
         didSet {
             sortStorage.selectedSortOption = selectedSortOption
             sortAndUpdateNFTs()
         }
     }
-
+    
     private let sortStorage = SortStorage()
     private let nftService: NFTServiceProtocol
-    private let profileStorage: ProfileStorage
-
+    private let profileService: ProfileServiceProtocol
+    
     init(
         nftService: NFTServiceProtocol = NFTService(),
-        profileStorage: ProfileStorage = .shared
+        profileService: ProfileServiceProtocol = ProfileService(),
     ) {
         self.nftService = nftService
-        self.profileStorage = profileStorage
+        self.profileService = profileService
         self.selectedSortOption = sortStorage.selectedSortOption
-
+        
         Task {
             await loadNFTs()
         }
     }
-
+    
     func loadNFTs() async {
-        guard let profile = profileStorage.load() else {
-            print("⚠️ Profile not found in storage")
-            return
+        await MainActor.run { self.isLoading = true }
+        
+        defer {
+            Task { @MainActor in
+                self.isLoading = false
+            }
         }
-
-        var loadedNFTs: [NFTModel] = []
-
-        await withTaskGroup(of: NFTModel?.self) { group in
-            for id in profile.nfts {
-                group.addTask {
-                    do {
-                        return try await self.nftService.fetchNFT(by: id)
-                    } catch {
-                        print("❌ Failed to load NFT with id \(id): \(error)")
-                        return nil
+        
+        do {
+            let profile = try await profileService.fetchProfile()
+            var loadedNFTs: [NFTModel] = []
+            
+            await withTaskGroup(of: NFTModel?.self) { group in
+                for id in profile.nfts {
+                    group.addTask {
+                        do {
+                            return try await self.nftService.fetchNFT(by: id)
+                        } catch {
+                            await MainActor.run {
+                                self.errorMessage = "\(String(localized: "Error")): \(id): \(error.localizedDescription)"
+                            }
+                            return nil
+                        }
+                    }
+                }
+                
+                for await result in group {
+                    if let nft = result {
+                        loadedNFTs.append(nft)
                     }
                 }
             }
-
-            for await result in group {
-                if let nft = result {
-                    loadedNFTs.append(nft)
-                }
+            
+            self.nfts = loadedNFTs
+            sortAndUpdateNFTs()
+        } catch {
+            await MainActor.run {
+                self.errorMessage = "\(String(localized: "Error")): \(error.localizedDescription)"
             }
         }
-
-        self.nfts = loadedNFTs
-        sortAndUpdateNFTs()
     }
-
+    
     func sortAndUpdateNFTs() {
         switch selectedSortOption {
         case .byName:

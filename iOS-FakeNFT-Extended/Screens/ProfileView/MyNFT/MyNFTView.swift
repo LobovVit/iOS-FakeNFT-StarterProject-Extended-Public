@@ -11,11 +11,14 @@ struct MyNFTView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = MyNFTViewModel()
     @State private var showSortDialog = false
-
+    
     var body: some View {
         NavigationStack {
             VStack {
-                if viewModel.sortedNFTs.isEmpty {
+                if viewModel.isLoading {
+                    ProgressView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else if viewModel.sortedNFTs.isEmpty {
                     Text(String(localized: "You don't have NFT yet"))
                         .font(Fonts.bodyBold)
                         .padding()
@@ -59,9 +62,17 @@ struct MyNFTView: View {
                 }
                 Button(String(localized: "Close"), role: .cancel) {}
             }
+            .alert(String(localized: "Error"), isPresented: Binding<Bool>(
+                get: { viewModel.errorMessage != nil },
+                set: { _ in viewModel.errorMessage = nil }
+            )) {
+                Button(String(localized: "Ok"), role: .cancel) { }
+            } message: {
+                Text(viewModel.errorMessage ?? "")
+            }
         }
     }
-
+    
     private func sortTitle(for option: SortStorage.SortOption) -> String {
         switch option {
         case .byPrice: return String(localized: "By price")

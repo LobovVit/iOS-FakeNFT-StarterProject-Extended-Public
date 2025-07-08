@@ -9,7 +9,8 @@ import SwiftUI
 
 struct FavoriteNFTCardView: View {
     let nft: NFTModel
-
+    let onFavoriteToggle: () -> Void
+    
     var body: some View {
         HStack(spacing: 12) {
             ZStack(alignment: .topTrailing) {
@@ -24,23 +25,28 @@ struct FavoriteNFTCardView: View {
                     .frame(width: 80, height: 80)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
-
-                Image(systemName: "heart.fill")
-                    .foregroundColor(.red)
-                    .padding(4)
+                
+                Button(action: {
+                    onFavoriteToggle()
+                }) {
+                    Image(systemName: "heart.fill")
+                        .foregroundColor(.red)
+                        .padding(4)
+                }
+                .buttonStyle(.plain)
             }
-
+            
             VStack(alignment: .leading, spacing: 4) {
                 Text(nft.name)
                     .font(Fonts.bodyBold)
                     .lineLimit(1)
-
+                
                 RatingView(rating: nft.rating)
-
+                
                 Text("\(String(format: "%.2f", nft.price)) ETH")
                     .font(Fonts.mediumRegular)
             }
-
+            
             Spacer()
         }
         .padding(.vertical, 4)
@@ -49,6 +55,6 @@ struct FavoriteNFTCardView: View {
 
 struct FavoriteNFTCardView_Previews: PreviewProvider {
     static var previews: some View {
-        FavoriteNFTCardView(nft: MockData.nfts.first!)
+        FavoriteNFTCardView(nft: MockData.nfts.first!,onFavoriteToggle: {})
     }
 }
