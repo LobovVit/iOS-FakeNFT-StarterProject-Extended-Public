@@ -116,7 +116,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Изменить фото"
+            "value" : "Сменить фото"
           }
         }
       }
@@ -301,7 +301,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Автор коллекции:"
+            "value" : "Автор коллекции"
           }
         }
       }
@@ -311,7 +311,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "У вас нет избранных NFT"
+            "value" : "У Вас нет избранных NFT"
           }
         }
       }
@@ -321,7 +321,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "У вас еще нет NFT"
+            "value" : "У Вас еще нет NFT"
           }
         }
       }
