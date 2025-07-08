@@ -13,7 +13,7 @@ struct SuccessfulPaymentView: View {
         VStack {
             Spacer()
             image
-            text
+            title
             Spacer()
             button
         }
@@ -29,7 +29,7 @@ struct SuccessfulPaymentView: View {
             .padding(.bottom, 20)
     }
     
-    private var text: some View {
+    private var title: some View {
         Text(String(localized: "Success! Payment completed, congratulations on your purchase!"))
             .font(Fonts.titleBold)
             .foregroundColor(.blackDynamicYP)
