@@ -29,6 +29,7 @@ struct CatalogView: View {
                             .padding()
                             .frame(maxWidth: .infinity)
                             .multilineTextAlignment(.center)
+                            .tint(.gray)
                         Spacer()
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)

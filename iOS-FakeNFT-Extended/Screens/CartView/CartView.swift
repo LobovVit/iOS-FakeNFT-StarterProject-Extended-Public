@@ -20,12 +20,22 @@ struct CartView: View {
     
     var body: some View {
         NavigationStack(path: $path) {
-            VStack {
-                sorting
-                nftList
-                priceSection
+            Group {
+                if viewModel.loadingState == .loading {
+                    VStack {
+                        Spacer()
+                        ProgressView()
+                            .tint(.gray)
+                        Spacer()
+                    }
+                } else {
+                    VStack {
+                        sorting
+                        nftList
+                        priceSection
+                    }
+                }
             }
-            
             .confirmationDialog(
                 String(localized: "Sorting"),
                 isPresented: $isShowingSortDialog,
@@ -82,29 +92,19 @@ struct CartView: View {
     }
     
     private var nftList: some View {
-        Group {
-            if viewModel.loadingState == .loading {
-                VStack {
-                    Spacer()
-                    ProgressView()
-                    Spacer()
-                }
-            } else {
-                List {
-                    ForEach(viewModel.items) { nft in
-                        CartCell(
-                            item: nft,
-                            onRemove: { onTapRemove(nft) }
-                        )
-                        .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets())
-                        .padding(16)
-                    }
-                }
-                .listStyle(PlainListStyle())
-                .padding(.top, 20)
+        List {
+            ForEach(viewModel.items) { nft in
+                CartCell(
+                    item: nft,
+                    onRemove: { onTapRemove(nft) }
+                )
+                .listRowSeparator(.hidden)
+                .listRowInsets(EdgeInsets())
+                .padding(16)
             }
         }
+        .listStyle(PlainListStyle())
+        .padding(.top, 20)
     }
     
     private var priceSection: some View {

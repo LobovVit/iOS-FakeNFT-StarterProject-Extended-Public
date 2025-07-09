@@ -18,6 +18,7 @@ struct MyNFTView: View {
                 if viewModel.isLoading {
                     ProgressView()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .tint(.gray)
                 } else if viewModel.sortedNFTs.isEmpty {
                     Text(String(localized: "You don't have NFT yet"))
                         .font(Fonts.bodyBold)

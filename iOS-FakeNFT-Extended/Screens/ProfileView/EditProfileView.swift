@@ -127,6 +127,7 @@ struct EditProfileView: View {
                             .scaledToFit()
                             .foregroundColor(.gray.opacity(0.5))
                         ProgressView()
+                            .tint(.gray)
                     }
                 }
             } else {

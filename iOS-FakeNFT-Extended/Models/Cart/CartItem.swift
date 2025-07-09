@@ -1,17 +1,16 @@
 import Foundation
 
-struct CartItem: Identifiable {
-    let id = UUID()
-    let imageURL: String
+struct CartItem: Identifiable, Codable {
     let name: String
-    let rating: Int
+    let id: String
     let price: Double
+    let rating: Int
+    let images: [String]
 }
 
 struct CartItemMock {
     static let data: [CartItem] = [
-        CartItem(imageURL: "https://loremflickr.com/600/600", name: "April", rating: 1, price: 1.78),
-        CartItem(imageURL: "https://loremflickr.com/600/600", name: "Spring", rating: 5, price: 2.10),
-        CartItem(imageURL: "https://loremflickr.com/600/600", name: "Greena", rating: 3, price: 3.08),
+        CartItem(name: "April", id: "1", price: 1.78, rating: 3, images: ["https://loremflickr.com/600/600"]),
+        CartItem(name: "Spring", id: "2", price: 3.08, rating: 1, images: ["https://loremflickr.com/600/600"])
     ]
 }

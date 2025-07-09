@@ -31,6 +31,7 @@ struct CartModalView: View {
                 .scaledToFill()
         } placeholder: {
             ProgressView()
+                .tint(.gray)
         }
         .frame(width: Constants.imageSize, height: Constants.imageSize)
         .clipped()

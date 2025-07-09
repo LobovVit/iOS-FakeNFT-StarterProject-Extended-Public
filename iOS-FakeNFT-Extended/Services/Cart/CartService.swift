@@ -1,11 +1,16 @@
 protocol CartServiceProtocol {
-    func fetchCartItems() async -> [CartItem]
+    func fetchCartItems() async throws -> [CartItem]
 }
 
 final class CartService: CartServiceProtocol {
-    // TODO: заменить моковый вызов
-    func fetchCartItems() async -> [CartItem] {
-        try? await Task.sleep(for: .seconds(1))
-        return CartItemMock.data
+    private let networkClient: NetworkClient
+    
+    init(networkClient: NetworkClient = DefaultNetworkClient.shared) {
+        self.networkClient = networkClient
+    }
+    
+    func fetchCartItems() async throws -> [CartItem] {
+        let request = FetchCartItemsRequest()
+        return try await networkClient.send(request: request)
     }
 }

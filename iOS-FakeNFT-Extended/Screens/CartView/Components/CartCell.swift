@@ -24,12 +24,13 @@ struct CartCell: View {
     // MARK: - Content
     
     private var image: some View {
-        AsyncImage(url: URL(string: item.imageURL)) { image in
+        AsyncImage(url: URL(string: item.images[0])) { image in
             image
                 .resizable()
                 .scaledToFill()
         } placeholder: {
             ProgressView()
+                .tint(.gray)
         }
         .frame(width: Constants.imageSize, height: Constants.imageSize)
         .clipped()

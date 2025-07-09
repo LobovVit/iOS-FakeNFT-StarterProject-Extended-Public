@@ -45,7 +45,7 @@ struct TabBarView: View {
                     .transition(.opacity)
                 
                 CartModalView(
-                    imageURL: cartViewModel.selectedNft?.imageURL,
+                    imageURL: cartViewModel.selectedNft?.images[0],
                     onTapButtonAction: cartViewModel.closeRemoveModal
                 )
                 .transition(.scale.combined(with: .opacity))

@@ -59,11 +59,16 @@ final class CartViewModel: ObservableObject {
         return success
     }
     
-    private func fetchItems() async {
+    func fetchItems() async {
         loadingState = .loading
-        let result = await service.fetchCartItems()
-        self.items = result
-        loadingState = .success
+        do {
+            let result = try await service.fetchCartItems()
+            self.items = result
+            loadingState = .success
+        } catch {
+            loadingState = .failure
+            print("❌ Ошибка при загрузке корзины: \(error)")
+        }
     }
     
     private func applySort(_ type: CartSortType) {

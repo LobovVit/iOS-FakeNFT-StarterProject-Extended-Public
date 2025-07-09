@@ -30,6 +30,7 @@ struct AvatarEditView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 12))
                     } placeholder: {
                         ProgressView()
+                            .tint(.gray)
                     }
                 }
                 
