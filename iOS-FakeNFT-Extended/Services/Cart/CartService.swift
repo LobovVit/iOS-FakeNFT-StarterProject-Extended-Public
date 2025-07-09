@@ -1,5 +1,6 @@
-protocol CartServiceProtocol {
-    func fetchCartItems() async throws -> [CartItem]
+enum CartServiceError: Error {
+    case fetchOrderError
+    case fetchNFTError(id: String)
 }
 
 final class CartService: CartServiceProtocol {
@@ -9,8 +10,34 @@ final class CartService: CartServiceProtocol {
         self.networkClient = networkClient
     }
     
-    func fetchCartItems() async throws -> [CartItem] {
-        let request = FetchCartItemsRequest()
-        return try await networkClient.send(request: request)
+    func fetchOrder() async throws -> Order {
+        let request = FetchOrderRequest()
+        do {
+            return try await networkClient.send(request: request)
+        } catch {
+            throw CartServiceError.fetchOrderError
+        }
+    }
+    
+    func fetchCartItems(by ids: [String]) async throws -> [CartItem] {
+        try await withThrowingTaskGroup(of: CartItem.self) { group in
+            for id in ids {
+                group.addTask {
+                    let request = FetchNFTByIdRequest(id: id)
+                    do {
+                        return try await self.networkClient.send(request: request)
+                    } catch {
+                        throw CartServiceError.fetchNFTError(id: id)
+                    }
+                }
+            }
+            
+            var result: [CartItem] = []
+            for try await item in group {
+                result.append(item)
+            }
+            
+            return result
+        }
     }
 }

@@ -1,9 +1,18 @@
 import Foundation
 
-struct FetchCartItemsRequest: NetworkRequest {
+struct FetchOrderRequest: NetworkRequest {
     var rawBody: Data?
     
     var endpoint: URL? {
-        URL(string: "\(RequestConstants.baseURL)/api/v1/nft")
+        URL(string: "\(RequestConstants.baseURL)\(RequestConstants.orders)")
+    }
+}
+
+struct FetchNFTByIdRequest: NetworkRequest {
+    let id: String
+    var rawBody: Data?
+
+    var endpoint: URL? {
+        URL(string: "\(RequestConstants.baseURL)\(RequestConstants.nft)\(id)")
     }
 }

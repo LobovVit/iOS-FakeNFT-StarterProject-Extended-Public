@@ -62,12 +62,13 @@ final class CartViewModel: ObservableObject {
     func fetchItems() async {
         loadingState = .loading
         do {
-            let result = try await service.fetchCartItems()
-            self.items = result
+            let order = try await service.fetchOrder()
+            let cartItems = try await service.fetchCartItems(by: order.nfts)
+            self.items = cartItems
             loadingState = .success
         } catch {
+            print("Ошибка при загрузке корзины: \(error)")
             loadingState = .failure
-            print("❌ Ошибка при загрузке корзины: \(error)")
         }
     }
     
