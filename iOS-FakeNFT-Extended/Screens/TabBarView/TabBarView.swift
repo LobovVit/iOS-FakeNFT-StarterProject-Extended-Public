@@ -3,25 +3,38 @@ import SwiftUI
 struct TabBarView: View {
     @StateObject var cartViewModel = CartViewModel()
     
+    init(){
+        UITabBar.appearance().unselectedItemTintColor = .blackDynamicYP
+    }
+    
     var body: some View {
-        // TODO: Далее заменить иконки для таба и цвет обводки
         ZStack {
             TabView {
                 ProfileView()
                     .tabItem {
-                        Label(String(localized: "Profile"), systemImage: "person.circle")
+                        TabItemView(
+                            imageName: "ProfileNoActive",
+                            titleKey: "Profile"
+                        )
                     }
                 
                 CatalogView(viewModel: CatalogViewModel())
                     .tabItem {
-                        Label(String(localized: "Catalog"), systemImage: "square.grid.2x2")
+                        TabItemView(
+                            imageName: "CatalogNoActive",
+                            titleKey: "Catalog"
+                        )
                     }
                 
                 CartView(viewModel: cartViewModel)
                     .tabItem {
-                        Label(String(localized: "Cart"), systemImage: "cart")
+                        TabItemView(
+                            imageName: "BasketNoActive",
+                            titleKey: "Cart"
+                        )
                     }
             }
+            .tint(.blueUniversalYP)
             .blur(radius: cartViewModel.isShowingRemoveModal ? 40 : 0)
             .animation(.easeInOut, value: cartViewModel.isShowingRemoveModal)
             
@@ -35,7 +48,7 @@ struct TabBarView: View {
                     imageURL: cartViewModel.selectedNft?.imageURL,
                     onTapButtonAction: cartViewModel.closeRemoveModal
                 )
-                    .transition(.scale.combined(with: .opacity))
+                .transition(.scale.combined(with: .opacity))
             }
         }
         .animation(.easeInOut, value: cartViewModel.isShowingRemoveModal)
