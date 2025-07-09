@@ -80,7 +80,7 @@ struct MyNFTView: View {
         case .byPrice: return String(localized: "By price")
         case .byRating: return String(localized: "By rating")
         case .byName: return String(localized: "By name")
-        case .byCount: return String(localized: "By Count")
+        case .byCount: return String(localized: "By count")
         }
     }
 }
