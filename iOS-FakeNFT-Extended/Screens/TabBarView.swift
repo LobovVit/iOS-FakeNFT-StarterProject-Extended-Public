@@ -12,7 +12,7 @@ struct TabBarView: View {
                         Label(String(localized: "Profile"), systemImage: "person.circle")
                     }
                 
-                CatalogView()
+                CatalogView(viewModel: CatalogViewModel())
                     .tabItem {
                         Label(String(localized: "Catalog"), systemImage: "square.grid.2x2")
                     }
