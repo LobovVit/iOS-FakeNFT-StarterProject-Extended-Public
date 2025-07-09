@@ -8,12 +8,16 @@
 import Foundation
 
 struct CollectionsRequest: NetworkRequest {
+    var rawBody: Data?
+    
     var endpoint: URL? {
         URL(string: "\(RequestConstants.baseURL)/api/v1/collections")
     }
 }
 
 struct NFTsRequest: NetworkRequest {
+    var rawBody: Data?
+    
     var endpoint: URL? {
         URL(string: "\(RequestConstants.baseURL)/api/v1/nft")
     }
