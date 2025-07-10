@@ -1,19 +1,11 @@
 import SwiftUI
 
 struct CartView: View {
-    private enum Constants {
-        static let sortIconSize: CGFloat = 42
-        static let buttonWidth: CGFloat = 240
-        static let buttonHeight: CGFloat = 44
-        static let buttonCornerRadius: CGFloat = 16
-        static let priceSectionHeight: CGFloat = 76
-        static let priceSectionRadius: CGFloat = 20
-    }
     
     // MARK: - Properties
     
     @ObservedObject var viewModel: CartViewModel
-    @State private var path = NavigationPath()
+    @State private var path: [CartRoute] = []
     @State private var isShowingSortDialog = false
     
     // MARK: - Body
@@ -21,21 +13,25 @@ struct CartView: View {
     var body: some View {
         NavigationStack(path: $path) {
             Group {
-                if viewModel.loadingState == .loading {
-                    VStack {
-                        Spacer()
-                        ProgressView()
-                            .tint(.gray)
-                        Spacer()
-                    }
-                } else {
-                    VStack {
+                switch viewModel.loadingState {
+                case .loading:
+                    loadingCartView
+                case .success where viewModel.items.isEmpty:
+                    emptyCartView
+                case .success where !viewModel.items.isEmpty:
+                    VStack(spacing: 0) {
                         sorting
                         nftList
                         priceSection
                     }
+                case .failure:
+                    errorCartView
+                default:
+                    EmptyView()
                 }
             }
+            
+            // Окно сортировки nft
             .confirmationDialog(
                 String(localized: "Sorting"),
                 isPresented: $isShowingSortDialog,
@@ -52,27 +48,42 @@ struct CartView: View {
             }
             
             .navigationDestination(for: CartRoute.self) { route in
-                switch route {
-                case .payment:
-                    PaymentView(
-                        viewModel: viewModel,
-                        onSuccess: {
-                            path.append(CartRoute.successfulPayment)
-                        }
-                    )
-                case .successfulPayment:
-                    SuccessfulPaymentView(
-                        onReturnToCart: {
-                            path.removeLast(path.count)
-                        }
-                    )
-                }
+                cartDestination(for: route)
             }
         }
         .modifier(CustomNavStyleModifier())
     }
     
     // MARK: - Content
+    
+    private var loadingCartView: some View {
+        VStack {
+            Spacer()
+            ProgressView()
+                .tint(.gray)
+            Spacer()
+        }
+    }
+    
+    private var errorCartView: some View {
+        VStack {
+            Spacer()
+            Text(String(localized: "Error"))
+                .font(Fonts.bodyBold)
+                .foregroundColor(.blackDynamicYP)
+            Spacer()
+        }
+    }
+    
+    private var emptyCartView: some View {
+        VStack {
+            Spacer()
+            Text(String(localized: "Cart is empty"))
+                .font(Fonts.bodyBold)
+                .foregroundColor(.blackDynamicYP)
+            Spacer()
+        }
+    }
     
     private var sorting: some View {
         HStack {
@@ -83,11 +94,11 @@ struct CartView: View {
             }) {
                 Image("SortIcon")
                     .resizable()
-                    .frame(width: Constants.sortIconSize, height: Constants.sortIconSize)
+                    .frame(width: CartViewConstants.sortIconSize, height: CartViewConstants.sortIconSize)
                     .padding(.trailing, 9)
             }
         }
-        .frame(height: Constants.sortIconSize)
+        .frame(height: CartViewConstants.sortIconSize)
         .background(Color.whiteDynamicYP)
     }
     
@@ -127,16 +138,39 @@ struct CartView: View {
                 Text(String(localized: "To payment"))
                     .font(Fonts.bodyBold)
                     .foregroundColor(.whiteDynamicYP)
-                    .frame(width: Constants.buttonWidth, height: Constants.buttonHeight)
+                    .frame(width: CartViewConstants.buttonWidth, height: CartViewConstants.buttonHeight)
                     .background(.blackDynamicYP)
-                    .cornerRadius(Constants.buttonCornerRadius)
+                    .cornerRadius(CartViewConstants.buttonCornerRadius)
             }
         }
         .padding(.horizontal, 16)
-        .frame(height: Constants.priceSectionHeight)
+        .frame(height: CartViewConstants.priceSectionHeight)
         .background(.lightGreyDynamicYP)
-        .cornerRadius(Constants.priceSectionRadius, corners: [.topLeft, .topRight])
+        .cornerRadius(CartViewConstants.priceSectionRadius, corners: [.topLeft, .topRight])
     }
+    
+    // MARK: - Navigation Destination
+    
+    @ViewBuilder
+    private func cartDestination(for route: CartRoute) -> some View {
+        switch route {
+        case .payment:
+            PaymentView(
+                viewModel: viewModel,
+                onSuccess: {
+                    path.append(.successfulPayment)
+                }
+            )
+        case .successfulPayment:
+            SuccessfulPaymentView(
+                onReturnToCart: {
+                    path.removeLast(path.count)
+                }
+            )
+        }
+    }
+    
+    // MARK: - Actions
     
     private func onTapRemove(_ item: CartItem) {
         viewModel.tapRemoveNft(item)

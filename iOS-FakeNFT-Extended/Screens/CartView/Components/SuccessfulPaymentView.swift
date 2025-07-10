@@ -1,13 +1,9 @@
 import SwiftUI
 
 struct SuccessfulPaymentView: View {
-    private enum Constants {
-        static let imageSize: CGFloat = 278
-        static let buttonHeight: CGFloat = 60
-        static let buttonCornerRadius: CGFloat = 16
-    }
-    
     let onReturnToCart: () -> Void
+    
+    // MARK: - Body
     
     var body: some View {
         VStack {
@@ -21,11 +17,16 @@ struct SuccessfulPaymentView: View {
         .navigationBarHidden(true)
     }
     
+    // MARK: - Content
+    
     private var image: some View {
         Image("SuccessfulNft")
             .resizable()
             .scaledToFit()
-            .frame(width: Constants.imageSize, height: Constants.imageSize)
+            .frame(
+                width: SuccessfulPaymentViewConstants.imageSize,
+                height: SuccessfulPaymentViewConstants.imageSize
+            )
             .padding(.bottom, 20)
     }
     
@@ -44,9 +45,9 @@ struct SuccessfulPaymentView: View {
         .font(Fonts.bodyBold)
         .foregroundColor(.whiteDynamicYP)
         .frame(maxWidth: .infinity)
-        .frame(height: Constants.buttonHeight)
+        .frame(height: SuccessfulPaymentViewConstants.buttonHeight)
         .background(.blackDynamicYP)
-        .cornerRadius(Constants.buttonCornerRadius)
+        .cornerRadius(SuccessfulPaymentViewConstants.buttonCornerRadius)
         .padding(16)
     }
     

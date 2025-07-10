@@ -23,7 +23,9 @@ final class CartViewModel: ObservableObject {
     init(service: CartServiceProtocol = CartService()) {
         self.service = service
         self.selectedSort = sortStorage.selectedSort
-        
+    }
+    
+    func reloadData() {
         Task {
             await fetchItems()
             applySort(selectedSort)

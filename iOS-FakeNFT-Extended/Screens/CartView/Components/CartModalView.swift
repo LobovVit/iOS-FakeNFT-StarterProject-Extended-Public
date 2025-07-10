@@ -2,12 +2,6 @@ import SwiftUI
 import Kingfisher
 
 struct CartModalView: View {
-    private enum Constants {
-        static let imageSize: CGFloat = 108
-        static let imageCornerRadius: CGFloat = 12
-        static let bodyWidth: CGFloat = 262
-    }
-    
     let imageURL: String?
     let onTapButtonAction: () -> Void
     
@@ -19,7 +13,7 @@ struct CartModalView: View {
             modalTitle
             modalButtons
         }
-        .frame(maxWidth: Constants.bodyWidth)
+        .frame(maxWidth: CartModalViewConstants.bodyWidth)
     }
     
     // MARK: - Content
@@ -33,9 +27,9 @@ struct CartModalView: View {
             ProgressView()
                 .tint(.gray)
         }
-        .frame(width: Constants.imageSize, height: Constants.imageSize)
+        .frame(width: CartModalViewConstants.imageSize, height: CartModalViewConstants.imageSize)
         .clipped()
-        .cornerRadius(Constants.imageCornerRadius)
+        .cornerRadius(CartModalViewConstants.imageCornerRadius)
     }
     
     private var modalTitle: some View {

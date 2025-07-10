@@ -1,11 +1,8 @@
 import SwiftUI
 
 struct PaymentView: View {
-    private enum Constants {
-        static let buttonHeight: CGFloat = 60
-        static let buttonCornerRadius: CGFloat = 16
-        static let webViewURL: String = "https://practicum.yandex.ru/"
-    }
+    
+    // MARK: - Properties
     
     @ObservedObject var viewModel: CartViewModel
     @State private var isProcessingPayment = false
@@ -17,6 +14,8 @@ struct PaymentView: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
+    // MARK: - Body
     
     var body: some View {
         VStack {
@@ -40,6 +39,8 @@ struct PaymentView: View {
             }
         }
     }
+    
+    // MARK: - Content
     
     private var currenciesList: some View {
         ScrollView {
@@ -77,7 +78,7 @@ struct PaymentView: View {
                 .foregroundColor(.blackDynamicYP)
             
             NavigationLink {
-                WebView(url: URL(string: Constants.webViewURL))
+                WebView(url: URL(string: PaymentViewConstants.webViewURL))
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar(.hidden, for: .tabBar)
                     .ignoresSafeArea()
@@ -99,12 +100,14 @@ struct PaymentView: View {
                 .font(Fonts.bodyBold)
                 .foregroundColor(.whiteDynamicYP)
                 .frame(maxWidth: .infinity)
-                .frame(height: Constants.buttonHeight)
+                .frame(height: PaymentViewConstants.buttonHeight)
                 .background(.blackDynamicYP)
-                .cornerRadius(Constants.buttonCornerRadius)
+                .cornerRadius(PaymentViewConstants.buttonCornerRadius)
         }
         .disabled(isProcessingPayment)
     }
+    
+    // MARK: - Actions
     
     private func pay() async {
         isProcessingPayment = true

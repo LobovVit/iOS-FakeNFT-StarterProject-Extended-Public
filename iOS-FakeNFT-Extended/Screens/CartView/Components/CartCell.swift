@@ -1,12 +1,6 @@
 import SwiftUI
-import Kingfisher
 
 struct CartCell: View {
-    private enum Constants {
-        static let imageSize: CGFloat = 108
-        static let imageCornerRadius: CGFloat = 12
-    }
-    
     let item: CartItem
     let onRemove: () -> Void
     
@@ -32,9 +26,9 @@ struct CartCell: View {
             ProgressView()
                 .tint(.gray)
         }
-        .frame(width: Constants.imageSize, height: Constants.imageSize)
+        .frame(width: CartCellConstants.imageSize, height: CartCellConstants.imageSize)
         .clipped()
-        .cornerRadius(Constants.imageCornerRadius)
+        .cornerRadius(CartCellConstants.imageCornerRadius)
     }
     
     private var infoSection: some View {

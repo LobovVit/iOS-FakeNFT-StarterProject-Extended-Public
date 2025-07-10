@@ -130,6 +130,17 @@
         }
       }
     },
+    "Cart is empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Корзина пуста"
+          }
+        }
+      }
+    },
     "Catalog" : {
       "extractionState" : "manual",
       "localizations" : {
