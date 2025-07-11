@@ -1,9 +1,12 @@
 enum CartServiceError: Error {
     case fetchOrderError
     case fetchNFTError(id: String)
+    case updateOrderError
 }
 
 final class CartService: CartServiceProtocol {
+    static let shared = CartService()
+    
     private let networkClient: NetworkClient
     
     init(networkClient: NetworkClient = DefaultNetworkClient.shared) {
@@ -38,6 +41,15 @@ final class CartService: CartServiceProtocol {
             }
             
             return result
+        }
+    }
+    
+    func updateOrder(nftIds: [String]) async throws {
+        let request = UpdateOrderRequest(nftIds: nftIds)
+        do {
+            _ = try await networkClient.send(request: request)
+        } catch {
+            throw CartServiceError.updateOrderError
         }
     }
 }

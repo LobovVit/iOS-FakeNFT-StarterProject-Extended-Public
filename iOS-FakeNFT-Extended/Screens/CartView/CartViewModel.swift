@@ -20,7 +20,7 @@ final class CartViewModel: ObservableObject {
         items.reduce(0) { $0 + $1.price }
     }
     
-    init(service: CartServiceProtocol = CartService()) {
+    init(service: CartServiceProtocol = CartService.shared) {
         self.service = service
         self.selectedSort = sortStorage.selectedSort
     }
