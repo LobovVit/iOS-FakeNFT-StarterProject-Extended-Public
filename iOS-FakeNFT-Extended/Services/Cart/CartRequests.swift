@@ -30,3 +30,11 @@ struct UpdateOrderRequest: NetworkRequest {
     var httpMethod: HttpMethod { .put }
     var dto: Encodable? { nil }
 }
+
+struct FetchCurrenciesRequest: NetworkRequest {
+    var rawBody: Data?
+    
+    var endpoint: URL? {
+        URL(string: "\(RequestConstants.baseURL)\(RequestConstants.currencies)")
+    }
+}

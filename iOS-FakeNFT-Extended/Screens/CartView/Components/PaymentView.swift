@@ -18,10 +18,16 @@ struct PaymentView: View {
     // MARK: - Body
     
     var body: some View {
-        VStack {
-            currenciesList
-            Spacer()
-            purchaseBlock
+        Group {
+            if viewModel.loadingState == .loading {
+                loadingPaymentView
+            } else {
+                VStack {
+                    currenciesList
+                    Spacer()
+                    purchaseBlock
+                }
+            }
         }
         .navigationTitle(String(localized: "Select payment method"))
         .navigationBarTitleDisplayMode(.inline)
@@ -41,6 +47,15 @@ struct PaymentView: View {
     }
     
     // MARK: - Content
+    
+    private var loadingPaymentView: some View {
+        VStack {
+            Spacer()
+            ProgressView()
+                .tint(.gray)
+            Spacer()
+        }
+    }
     
     private var currenciesList: some View {
         ScrollView {

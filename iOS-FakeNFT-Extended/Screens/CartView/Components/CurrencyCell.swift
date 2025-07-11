@@ -25,7 +25,7 @@ struct CurrencyCell: View {
     // MARK: - Content
     
     private var image: some View {
-        AsyncImage(url: URL(string: currency.imageURL)) { image in
+        AsyncImage(url: URL(string: currency.image)) { image in
             image
                 .resizable()
                 .scaledToFill()

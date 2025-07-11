@@ -6,7 +6,7 @@ final class CartViewModel: ObservableObject {
     // MARK: - UI Binding
     
     @Published var items: [CartItem] = []
-    @Published var currencies: [Currency] = CurrencyMock.data
+    @Published var currencies: [Currency] = []
     @Published var selectedSort: CartSortType
     @Published var selectedNft: CartItem? = nil
     @Published var selectedCurrency: Currency? = nil
@@ -24,12 +24,28 @@ final class CartViewModel: ObservableObject {
     init(service: CartServiceProtocol = CartService.shared) {
         self.service = service
         self.selectedSort = sortStorage.selectedSort
+        loadCurrenciesIfNeeded()
     }
     
     func reloadData() {
         Task {
             await fetchItems()
             applySort(selectedSort)
+        }
+    }
+    
+    func loadCurrenciesIfNeeded() {
+        if currencies.isEmpty {
+            loadingState = .loading
+            Task {
+                do {
+                    self.currencies = try await service.fetchCurrencies()
+                    loadingState = .success
+                } catch {
+                    print("Ошибка загрузки валют: \(error)")
+                    loadingState = .failure
+                }
+            }
         }
     }
     

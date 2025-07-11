@@ -2,6 +2,7 @@ enum CartServiceError: Error {
     case fetchOrderError
     case fetchNFTError(id: String)
     case updateOrderError
+    case fetchCurrenciesError
 }
 
 final class CartService: CartServiceProtocol {
@@ -41,6 +42,15 @@ final class CartService: CartServiceProtocol {
             }
             
             return result
+        }
+    }
+    
+    func fetchCurrencies() async throws -> [Currency] {
+        let request = FetchCurrenciesRequest()
+        do {
+            return try await networkClient.send(request: request)
+        } catch {
+            throw CartServiceError.fetchCurrenciesError
         }
     }
     
