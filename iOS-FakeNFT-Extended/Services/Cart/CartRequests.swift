@@ -38,3 +38,29 @@ struct FetchCurrenciesRequest: NetworkRequest {
         URL(string: "\(RequestConstants.baseURL)\(RequestConstants.currencies)")
     }
 }
+
+struct PayOrderRequest: NetworkRequest {
+    let currencyId: String
+    var rawBody: Data?
+    
+    var endpoint: URL? {
+        URL(string: "\(RequestConstants.baseURL)\(RequestConstants.payment)\(currencyId)")
+    }
+}
+
+struct ClearCartRequest: NetworkRequest {
+    var rawBody: Data? {
+        let bodyString = RequestConstants.nftsNull
+        return bodyString.data(using: .utf8)
+    }
+    
+    var endpoint: URL? {
+        URL(string: "\(RequestConstants.baseURL)\(RequestConstants.orders)\(RequestConstants.orderId)")
+    }
+    
+    var httpMethod: HttpMethod { .put }
+    
+    var headers: [String : String]? {
+        ["Content-Type": "application/x-www-form-urlencoded"]
+    }
+}

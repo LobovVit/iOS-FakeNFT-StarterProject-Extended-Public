@@ -6,10 +6,11 @@ final class CartViewModel: ObservableObject {
     // MARK: - UI Binding
     
     @Published var items: [CartItem] = []
+    @Published var orderId: String = ""
     @Published var currencies: [Currency] = []
     @Published var selectedSort: CartSortType
     @Published var selectedNft: CartItem? = nil
-    @Published var selectedCurrency: Currency? = nil
+    @Published var selectedCurrencyId: String = ""
     @Published var isShowingRemoveModal = false
     @Published var loadingState: LoadingState = .default
     
@@ -27,23 +28,18 @@ final class CartViewModel: ObservableObject {
         loadCurrenciesIfNeeded()
     }
     
-    func reloadData() {
-        Task {
-            await fetchItems()
-            applySort(selectedSort)
-        }
+    func reloadData() async {
+        await fetchItems()
+        applySort(selectedSort)
     }
     
     func loadCurrenciesIfNeeded() {
         if currencies.isEmpty {
-            loadingState = .loading
             Task {
                 do {
                     self.currencies = try await service.fetchCurrencies()
-                    loadingState = .success
                 } catch {
                     print("Ошибка загрузки валют: \(error)")
-                    loadingState = .failure
                 }
             }
         }
@@ -56,8 +52,8 @@ final class CartViewModel: ObservableObject {
     }
     
     func selectCurrency(_ currency: Currency) {
-        guard selectedCurrency?.id != currency.id else { return }
-        selectedCurrency = currency
+        guard selectedCurrencyId != currency.id else { return }
+        selectedCurrencyId = currency.id
     }
     
     func selectNft(_ item: CartItem) {
@@ -73,9 +69,29 @@ final class CartViewModel: ObservableObject {
     }
     
     func payOrder() async -> Bool {
-        try? await Task.sleep(for: .seconds(1))
-        let success = Bool.random()
-        return success
+        guard !selectedCurrencyId.isEmpty else {
+            print("Ошибка: не выбран способ оплаты")
+            return false
+        }
+        
+        do {
+            let success = try await service.payOrder(currencyId: selectedCurrencyId)
+            
+            if success {
+                // Очистить корзину на сервере
+                try await service.clearCart()
+                
+                // Очистить локальные данные корзины
+                cartStorage.cartNFTIDs = []
+                items = []
+                selectedCurrencyId = ""
+            }
+            
+            return success
+        } catch {
+            print("Ошибка при оплате заказа или очистке корзины: \(error)")
+            return false
+        }
     }
     
     func fetchItems() async {
@@ -83,6 +99,7 @@ final class CartViewModel: ObservableObject {
         do {
             let order = try await service.fetchOrder()
             let cartItems = try await service.fetchCartItems(by: order.nfts)
+            self.orderId = order.id
             self.items = cartItems
             loadingState = .success
         } catch {
@@ -99,7 +116,7 @@ final class CartViewModel: ObservableObject {
             do {
                 try await updateCartOnServer()
                 closeRemoveModal()
-                reloadData()
+                await reloadData()
             } catch {
                 print("Ошибка при обновлении корзины на сервере: \(error)")
             }

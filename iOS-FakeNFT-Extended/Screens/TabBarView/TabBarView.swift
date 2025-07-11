@@ -38,7 +38,9 @@ struct TabBarView: View {
         .animation(.easeInOut, value: cartViewModel.isShowingRemoveModal)
         .onChange(of: selectedTab) { _, newValue in
             if newValue == .cart {
-                cartViewModel.reloadData()
+                Task {
+                    await cartViewModel.reloadData()
+                }
             }
         }
     }

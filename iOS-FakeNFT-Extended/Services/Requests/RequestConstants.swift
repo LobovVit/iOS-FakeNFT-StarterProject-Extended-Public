@@ -4,6 +4,8 @@ enum RequestConstants {
     static let orderId = "1"
     static let orders = "/api/v1/orders/"
     static let currencies = "/api/v1/currencies"
+    static let payment = "/api/v1/orders/1/payment/"
     static let nft = "/api/v1/nft/"
     static let nftsKey = "nfts"
+    static let nftsNull = "nfts=null"
 }

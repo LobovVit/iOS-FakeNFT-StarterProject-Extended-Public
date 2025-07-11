@@ -18,16 +18,10 @@ struct PaymentView: View {
     // MARK: - Body
     
     var body: some View {
-        Group {
-            if viewModel.loadingState == .loading {
-                loadingPaymentView
-            } else {
-                VStack {
-                    currenciesList
-                    Spacer()
-                    purchaseBlock
-                }
-            }
+        VStack {
+            currenciesList
+            Spacer()
+            purchaseBlock
         }
         .navigationTitle(String(localized: "Select payment method"))
         .navigationBarTitleDisplayMode(.inline)
@@ -48,22 +42,13 @@ struct PaymentView: View {
     
     // MARK: - Content
     
-    private var loadingPaymentView: some View {
-        VStack {
-            Spacer()
-            ProgressView()
-                .tint(.gray)
-            Spacer()
-        }
-    }
-    
     private var currenciesList: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 7) {
                 ForEach(viewModel.currencies) { currency in
                     CurrencyCell(
                         currency: currency,
-                        isSelected: viewModel.selectedCurrency?.id == currency.id
+                        isSelected: viewModel.selectedCurrencyId == currency.id
                     )
                     .onTapGesture {viewModel.selectCurrency(currency)}
                 }
@@ -106,7 +91,9 @@ struct PaymentView: View {
     }
     
     private var button: some View {
-        Button(action: {
+        let isDisabled = isProcessingPayment || viewModel.selectedCurrencyId.isEmpty
+        
+        return Button(action: {
             Task {
                 await pay()
             }
@@ -118,8 +105,9 @@ struct PaymentView: View {
                 .frame(height: PaymentViewConstants.buttonHeight)
                 .background(.blackDynamicYP)
                 .cornerRadius(PaymentViewConstants.buttonCornerRadius)
+                .opacity(isDisabled ? 0.6 : 1)
         }
-        .disabled(isProcessingPayment)
+        .disabled(isDisabled)
     }
     
     // MARK: - Actions

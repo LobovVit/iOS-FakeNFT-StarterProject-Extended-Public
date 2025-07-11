@@ -3,6 +3,8 @@ enum CartServiceError: Error {
     case fetchNFTError(id: String)
     case updateOrderError
     case fetchCurrenciesError
+    case PayOrderError
+    case clearCartError
 }
 
 final class CartService: CartServiceProtocol {
@@ -60,6 +62,25 @@ final class CartService: CartServiceProtocol {
             _ = try await networkClient.send(request: request)
         } catch {
             throw CartServiceError.updateOrderError
+        }
+    }
+    
+    func payOrder(currencyId: String) async throws -> Bool {
+        let request = PayOrderRequest(currencyId: currencyId)
+        do {
+            let response: PaymentResponse = try await networkClient.send(request: request)
+            return response.success
+        } catch {
+            throw CartServiceError.PayOrderError
+        }
+    }
+    
+    func clearCart() async throws {
+        let request = ClearCartRequest()
+        do {
+            _ = try await networkClient.send(request: request)
+        } catch {
+            throw CartServiceError.clearCartError
         }
     }
 }
