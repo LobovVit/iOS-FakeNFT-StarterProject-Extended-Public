@@ -11,7 +11,7 @@ final class CollectionDetailViewModel: ObservableObject {
     @Published var displayedNFTs: [NFTItem]
     
     private let favoritesStorage = FavoritesStorage()
-    private let cartStorage = CartStorage()
+    private let cartStorage = CartStorage.shared
     private let cartService = CartService.shared
     
     init(nfts: [NFTItem]) {

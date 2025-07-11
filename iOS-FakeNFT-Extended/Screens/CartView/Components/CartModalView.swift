@@ -3,7 +3,8 @@ import Kingfisher
 
 struct CartModalView: View {
     let imageURL: String?
-    let onTapButtonAction: () -> Void
+    let onTapRemoveAction: () -> Void
+    let onTapReturnAction: () -> Void
     
     // MARK: - Body
     
@@ -46,15 +47,14 @@ struct CartModalView: View {
                 title: String(localized: "Remove"),
                 titleColor: .redUniversalYP
             ) {
-                onTapButtonAction()
-                // TODO: добавить логику удаления nft
+                onTapRemoveAction()
             }
             
             CartModalActionButton(
                 title: String(localized: "Return"),
                 titleColor: .whiteDynamicYP
             ) {
-                onTapButtonAction()
+                onTapReturnAction()
             }
         }
     }
@@ -63,6 +63,7 @@ struct CartModalView: View {
 #Preview {
     CartModalView(
         imageURL: "https://loremflickr.com/600/600",
-        onTapButtonAction: {}
+        onTapRemoveAction: {},
+        onTapReturnAction: {}
     )
 }

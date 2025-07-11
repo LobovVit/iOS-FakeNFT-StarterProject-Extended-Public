@@ -173,7 +173,7 @@ struct CartView: View {
     // MARK: - Actions
     
     private func onTapRemove(_ item: CartItem) {
-        viewModel.tapRemoveNft(item)
+        viewModel.selectNft(item)
         viewModel.openRemoveModal()
     }
 }

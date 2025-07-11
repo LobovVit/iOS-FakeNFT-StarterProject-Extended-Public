@@ -14,6 +14,7 @@ final class CartViewModel: ObservableObject {
     @Published var loadingState: LoadingState = .default
     
     private let sortStorage = CartSortStorage()
+    private let cartStorage = CartStorage.shared
     private let service: CartServiceProtocol
     
     var totalPrice: Double {
@@ -43,7 +44,7 @@ final class CartViewModel: ObservableObject {
         selectedCurrency = currency
     }
     
-    func tapRemoveNft(_ item: CartItem) {
+    func selectNft(_ item: CartItem) {
         selectedNft = item
     }
     
@@ -72,6 +73,26 @@ final class CartViewModel: ObservableObject {
             print("Ошибка при загрузке корзины: \(error)")
             loadingState = .failure
         }
+    }
+    
+    func removeNft() {
+        guard let selectedNft else { return }
+        cartStorage.toggleCart(id: selectedNft.id)
+        
+        Task {
+            do {
+                try await updateCartOnServer()
+                closeRemoveModal()
+                reloadData()
+            } catch {
+                print("Ошибка при обновлении корзины на сервере: \(error)")
+            }
+        }
+    }
+    
+    private func updateCartOnServer() async throws {
+        let updatedIds = cartStorage.cartNFTIDs
+        try await service.updateOrder(nftIds: updatedIds)
     }
     
     private func applySort(_ type: CartSortType) {
