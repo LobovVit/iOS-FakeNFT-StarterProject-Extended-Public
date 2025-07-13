@@ -4,11 +4,6 @@ struct CurrencyCell: View {
     let currency: Currency
     let isSelected: Bool
     
-    private enum Constants {
-        static let imageSize: CGFloat = 36
-        static let imageCornerRadius: CGFloat = 6
-    }
-    
     // MARK: - Body
     
     var body: some View {
@@ -30,16 +25,17 @@ struct CurrencyCell: View {
     // MARK: - Content
     
     private var image: some View {
-        AsyncImage(url: URL(string: currency.imageURL)) { image in
+        AsyncImage(url: URL(string: currency.image)) { image in
             image
                 .resizable()
                 .scaledToFill()
         } placeholder: {
             ProgressView()
+                .tint(.gray)
         }
-        .frame(width: Constants.imageSize, height: Constants.imageSize)
+        .frame(width: CurrencyCellConstants.imageSize, height: CurrencyCellConstants.imageSize)
         .clipped()
-        .cornerRadius(Constants.imageCornerRadius)
+        .cornerRadius(CurrencyCellConstants.imageCornerRadius)
     }
     
     private var text: some View {

@@ -1,11 +1,8 @@
 import SwiftUI
 
 struct PaymentView: View {
-    private enum Constants {
-        static let buttonHeight: CGFloat = 60
-        static let buttonCornerRadius: CGFloat = 16
-        static let webViewURL: String = "https://practicum.yandex.ru/"
-    }
+    
+    // MARK: - Properties
     
     @ObservedObject var viewModel: CartViewModel
     @State private var isProcessingPayment = false
@@ -17,6 +14,8 @@ struct PaymentView: View {
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
+    
+    // MARK: - Body
     
     var body: some View {
         VStack {
@@ -41,13 +40,15 @@ struct PaymentView: View {
         }
     }
     
+    // MARK: - Content
+    
     private var currenciesList: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 7) {
                 ForEach(viewModel.currencies) { currency in
                     CurrencyCell(
                         currency: currency,
-                        isSelected: viewModel.selectedCurrency?.id == currency.id
+                        isSelected: viewModel.selectedCurrencyId == currency.id
                     )
                     .onTapGesture {viewModel.selectCurrency(currency)}
                 }
@@ -77,7 +78,7 @@ struct PaymentView: View {
                 .foregroundColor(.blackDynamicYP)
             
             NavigationLink {
-                WebView(url: URL(string: Constants.webViewURL))
+                WebView(url: URL(string: PaymentViewConstants.webViewURL))
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar(.hidden, for: .tabBar)
                     .ignoresSafeArea()
@@ -90,7 +91,9 @@ struct PaymentView: View {
     }
     
     private var button: some View {
-        Button(action: {
+        let isDisabled = isProcessingPayment || viewModel.selectedCurrencyId.isEmpty
+        
+        return Button(action: {
             Task {
                 await pay()
             }
@@ -99,12 +102,15 @@ struct PaymentView: View {
                 .font(Fonts.bodyBold)
                 .foregroundColor(.whiteDynamicYP)
                 .frame(maxWidth: .infinity)
-                .frame(height: Constants.buttonHeight)
+                .frame(height: PaymentViewConstants.buttonHeight)
                 .background(.blackDynamicYP)
-                .cornerRadius(Constants.buttonCornerRadius)
+                .cornerRadius(PaymentViewConstants.buttonCornerRadius)
+                .opacity(isDisabled ? 0.6 : 1)
         }
-        .disabled(isProcessingPayment)
+        .disabled(isDisabled)
     }
+    
+    // MARK: - Actions
     
     private func pay() async {
         isProcessingPayment = true

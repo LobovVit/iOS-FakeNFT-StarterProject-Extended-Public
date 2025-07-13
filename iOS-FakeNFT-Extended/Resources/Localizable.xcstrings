@@ -1,11 +1,38 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+      "shouldTranslate" : false
+    },
     "%.2f ETH" : {
+      "shouldTranslate" : false
+    },
+    "%@ (%lld)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ (%2$lld)"
+          }
+        }
+      },
+      "shouldTranslate" : false
+    },
+    "%@ ETH" : {
       "shouldTranslate" : false
     },
     "%lld NFT" : {
       "shouldTranslate" : false
+    },
+    "About the developer" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "О разработчике"
+          }
+        }
+      }
     },
     "Are you sure you want to\nremove this item from your cart? " : {
       "localizations" : {
@@ -13,6 +40,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Вы уверены, что хотите\nудалить объект из корзины?"
+          }
+        }
+      }
+    },
+    "By count" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По количеству"
           }
         }
       }
@@ -61,6 +98,16 @@
         }
       }
     },
+    "By the number of NFTs" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "По количеству NFT"
+          }
+        }
+      }
+    },
     "Cancel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -83,6 +130,17 @@
         }
       }
     },
+    "Cart is empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Корзина пуста"
+          }
+        }
+      }
+    },
     "Catalog" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -90,6 +148,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Каталог"
+          }
+        }
+      }
+    },
+    "Change photo" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сменить фото"
           }
         }
       }
@@ -105,6 +173,46 @@
         }
       }
     },
+    "Description" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Описание"
+          }
+        }
+      }
+    },
+    "Done" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Готово"
+          }
+        }
+      }
+    },
+    "Edit Avatar" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Редактировать аватар"
+          }
+        }
+      }
+    },
+    "Error" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ошибка"
+          }
+        }
+      }
+    },
     "Failed to make payment" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -112,6 +220,76 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Не удалось произвести оплату"
+          }
+        }
+      }
+    },
+    "Featured NFTs" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Избранные NFT"
+          }
+        }
+      }
+    },
+    "Image URL" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ссылка на изображение"
+          }
+        }
+      }
+    },
+    "Loading" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Загрузка"
+          }
+        }
+      }
+    },
+    "My NFTs" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Мои NFT"
+          }
+        }
+      }
+    },
+    "Name" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Наименование"
+          }
+        }
+      }
+    },
+    "Name not specified" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Наименование не определено"
+          }
+        }
+      }
+    },
+    "Ok" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ок"
           }
         }
       }
@@ -193,6 +371,16 @@
         }
       }
     },
+    "Save" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сохранить"
+          }
+        }
+      }
+    },
     "Select payment method" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -200,6 +388,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Выберите способ оплаты"
+          }
+        }
+      }
+    },
+    "Site" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Сайт"
           }
         }
       }
@@ -226,6 +424,16 @@
         }
       }
     },
+    "The author of the collection" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Автор коллекции"
+          }
+        }
+      }
+    },
     "To payment" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -247,6 +455,29 @@
           }
         }
       }
+    },
+    "You don't have any featured NFTs yet" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У Вас нет избранных NFT"
+          }
+        }
+      }
+    },
+    "You don't have NFT yet" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "У Вас еще нет NFT"
+          }
+        }
+      }
+    },
+    "от %@" : {
+      "shouldTranslate" : false
     }
   },
   "version" : "1.0"

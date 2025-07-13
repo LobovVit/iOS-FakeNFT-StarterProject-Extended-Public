@@ -14,6 +14,7 @@ final class SortStorage {
         case byName = "name"
         case byPrice = "price"
         case byRating = "rating"
+        case byCount = "count"
     }
 
     var selectedSortOption: SortOption {
@@ -30,20 +31,3 @@ final class SortStorage {
         }
     }
 }
-
-
-// Пример использования в ViewModel:
-
-//class CatalogViewModel: ObservableObject {
-//    private let sortStorage = SortStorage()
-//
-//    @Published var currentSort: SortStorage.SortOption {
-//        didSet {
-//            sortStorage.selectedSortOption = currentSort
-//        }
-//    }
-//
-//    init() {
-//        self.currentSort = sortStorage.selectedSortOption
-//    }
-//}

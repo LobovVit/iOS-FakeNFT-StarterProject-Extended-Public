@@ -12,8 +12,9 @@ extension UserDefaults {
         static let selectedSortOption = "selectedSortOption"
         static let selectedCartSortType = "selectedCartSortType"
         static let isOnboardingCompleted = "isOnboardingCompleted"
-        static let userProfileName = "userProfileName"
-        static let userProfileDescription = "userProfileDescription"
+        static let userProfile = "userProfile"
         static let favoriteNFTIDs = "favoriteNFTIDs"
+        static let cartNFTIDs = "cartNFTIDs"
+
     }
 }
