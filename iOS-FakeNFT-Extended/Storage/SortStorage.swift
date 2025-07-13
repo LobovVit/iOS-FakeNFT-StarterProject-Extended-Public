@@ -31,19 +31,3 @@ final class SortStorage {
         }
     }
 }
-
-// Пример использования в ViewModel:
-
-//class CatalogViewModel: ObservableObject {
-//    private let sortStorage = SortStorage()
-//
-//    @Published var currentSort: SortStorage.SortOption {
-//        didSet {
-//            sortStorage.selectedSortOption = currentSort
-//        }
-//    }
-//
-//    init() {
-//        self.currentSort = sortStorage.selectedSortOption
-//    }
-//}

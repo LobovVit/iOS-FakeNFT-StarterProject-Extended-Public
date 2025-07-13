@@ -8,6 +8,7 @@
 import SwiftUI
 
 final class CartStorage {
+    static let shared = CartStorage()
     private let defaults = UserDefaults.standard
 
     var cartNFTIDs: [String] {

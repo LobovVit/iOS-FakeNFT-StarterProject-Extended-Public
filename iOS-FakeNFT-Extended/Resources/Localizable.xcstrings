@@ -2,7 +2,10 @@
   "sourceLanguage" : "en",
   "strings" : {
     "" : {
-
+      "shouldTranslate" : false
+    },
+    "%.2f ETH" : {
+      "shouldTranslate" : false
     },
     "%@ (%lld)" : {
       "localizations" : {
@@ -12,10 +15,14 @@
             "value" : "%1$@ (%2$lld)"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "%@ ETH" : {
-
+      "shouldTranslate" : false
+    },
+    "%lld NFT" : {
+      "shouldTranslate" : false
     },
     "About the developer" : {
       "localizations" : {
@@ -23,6 +30,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "О разработчике"
+          }
+        }
+      }
+    },
+    "Are you sure you want to\nremove this item from your cart? " : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вы уверены, что хотите\nудалить объект из корзины?"
           }
         }
       }
@@ -37,12 +54,13 @@
         }
       }
     },
-    "By Count" : {
+    "By making a purchase, you agree to the terms of the" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "По количеству"
+            "value" : "Совершая покупку, вы соглашаетесь с условиями"
           }
         }
       }
@@ -59,6 +77,7 @@
       }
     },
     "By price" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -69,22 +88,33 @@
       }
     },
     "By rating" : {
-      "localizations" : {
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "По рейтину"
-          }
-        }
-      }
-    },
-    "By the number of NFTs" : {
       "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "По рейтингу"
+          }
+        }
+      }
+    },
+    "By the number of NFTs" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "По количеству NFT"
+          }
+        }
+      }
+    },
+    "Cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Отмена"
           }
         }
       }
@@ -96,6 +126,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Корзина"
+          }
+        }
+      }
+    },
+    "Cart is empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Корзина пуста"
           }
         }
       }
@@ -172,6 +213,17 @@
         }
       }
     },
+    "Failed to make payment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Не удалось произвести оплату"
+          }
+        }
+      }
+    },
     "Featured NFTs" : {
       "localizations" : {
         "ru" : {
@@ -193,7 +245,6 @@
       }
     },
     "Loading" : {
-      "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -243,7 +294,19 @@
         }
       }
     },
+    "Pay" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Оплатить"
+          }
+        }
+      }
+    },
     "Price" : {
+      "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
@@ -264,12 +327,67 @@
         }
       }
     },
+    "Remove" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Удалить"
+          }
+        }
+      }
+    },
+    "Repeat" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Повторить"
+          }
+        }
+      }
+    },
+    "Return" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуться"
+          }
+        }
+      }
+    },
+    "Return to cart" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Вернуться в корзину"
+          }
+        }
+      }
+    },
     "Save" : {
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Сохранить"
+          }
+        }
+      }
+    },
+    "Select payment method" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Выберите способ оплаты"
           }
         }
       }
@@ -295,13 +413,45 @@
         }
       }
     },
-    "The author of the collection" : {
+    "Success! Payment completed, congratulations on your purchase!" : {
       "extractionState" : "manual",
       "localizations" : {
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "Успех! Оплата прошла,\nпоздравляем с покупкой!"
+          }
+        }
+      }
+    },
+    "The author of the collection" : {
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "Автор коллекции"
+          }
+        }
+      }
+    },
+    "To payment" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "К оплате"
+          }
+        }
+      }
+    },
+    "User agreement" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пользовательского соглашения"
           }
         }
       }
@@ -327,7 +477,7 @@
       }
     },
     "от %@" : {
-
+      "shouldTranslate" : false
     }
   },
   "version" : "1.0"

@@ -20,6 +20,7 @@ struct FavoritesNFTView: View {
                 if viewModel.isLoading {
                     ProgressView()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .tint(.gray)
                 } else if viewModel.sortedNFTs.isEmpty {
                     Text(String(localized: "You don't have any featured NFTs yet"))
                         .font(Fonts.bodyBold)

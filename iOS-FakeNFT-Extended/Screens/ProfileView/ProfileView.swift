@@ -119,6 +119,7 @@ struct ProfileView: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                         ProgressView()
+                            .tint(.gray)
                     }
                 }
             } else {
